@@ -12,8 +12,9 @@ from PyPDF2 import PdfFileReader
 
 
 class PDF(PdfFileReader):
-#    def __init__(self):
-#        super(PDF, self).__init__()
+
+    def getPageSizeAtIndex(self, index):
+        pass
 
     def getText(self):
         #return list of pages text string
@@ -30,12 +31,29 @@ class PDF(PdfFileReader):
         dimension=[]
 
         for x in range(self.getNumPages()):
-            dimension.append((self.getPage(i).mediaBox[2],self.getPage(i).mediaBox[3]))
-            i += 1
+            rect=self.getPage(i).mediaBox
+
+            #dimension.append((rect.[2], rect.[3]))
+            dimension.append((rect[2], rect[3]))
+            #dimension.append((rect.width, rect[3]))
+            i=i+1
         return dimension
 
+
     def pageOrientation(self):
-        pass
+        i=0
+        dimension=[]
+
+        for x in range(self.getNumPages()):
+            rect=self.getPage(i).mediaBox
+            if rect[2]>=rect[3]:
+                dimension.append("l")
+            elif rect[2]<rect[3]:
+                dimension.append("p")
+            else:
+                dimension.append("?")
+            i=i+1
+        return dimension
 
     def contains_text(self, list,string):
         results=[]
@@ -103,19 +121,32 @@ class PDF(PdfFileReader):
 #tup1=("text","Machine shop")
 #tup2=('page', 'size')
 
-tup1=("dfs","sdf")
+#tup1=("dfs","sdf")
 #tup2=("","")
 
-condition="and"
-pdf = PDF(open("docs/doc2.pdf", "rb"))
+#condition="and"
+
+pdf = PDF(open("docs/doc3.pdf", "rb"))
+
+#text=pdf.getPagesize()
+#text=pdf.pageOrientation()
+#print text
+
+rect=pdf.getPage(6).mediaBox.getHeight()
+print rect
+
+
+#text=pdf.getPage(6).mediabox
+#print text
+
 
 #text= pdf.contains_text(pdf.getText(),"Machine")
 
-#text=pdf.getPage(6).mediaBox[2]
 
 
-abba= pdf.getPagesize()
-print abba
+
+#abba= pdf.getPagesize()
+#print abba
 
 #abba=pdf.getPagesize()
 #print abba

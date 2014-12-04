@@ -49,7 +49,7 @@ page.mergePage(new_pdf.getPage(0))
 output.addPage(page)
 
 # finally, write "output" to a real file
-outputStream = file("output/out9.pdf", "wb")
+outputStream = file("output/out11.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
 
