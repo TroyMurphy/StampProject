@@ -39,6 +39,19 @@ class PDF(PdfFileReader):
             i=i+1
         return dimension
 
+    def trimPagesize(self):
+        i=0
+        #getPage(2).mediaBox[0]
+        dimension=[]
+
+        for x in range(self.getNumPages()):
+            rect=self.getPage(i).trimBox
+
+            #dimension.append((rect.[2], rect.[3]))
+            dimension.append((rect[2], rect[3]))
+            #dimension.append((rect.width, rect[3]))
+            i=i+1
+        return dimension
 
     def pageOrientation(self):
         i=0
@@ -126,14 +139,14 @@ class PDF(PdfFileReader):
 
 #condition="and"
 
-pdf = PDF(open("docs/doc3.pdf", "rb"))
+pdf = PDF(open("docs/doc2.pdf", "rb"))
 
-#text=pdf.getPagesize()
+text=pdf.trimPagesize()
 #text=pdf.pageOrientation()
-#print text
+print text
 
-rect=pdf.getPage(6).mediaBox.getHeight()
-print rect
+#rect=pdf.getPage(6).mediaBox.getHeight()
+#print rect
 
 
 #text=pdf.getPage(6).mediabox

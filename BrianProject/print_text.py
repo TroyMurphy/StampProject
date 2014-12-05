@@ -33,23 +33,36 @@ packet.seek(0)
 new_pdf = PdfFileReader(packet)
 # read your existing PDF
 existing_pdf = PdfFileReader(file("docs/doc3.pdf", "rb"))
+#existing_pdf = PdfFileReader(file("output/out14.pdf", "rb"))
+
 output = PdfFileWriter()
 # add the "watermark" (which is the new pdf) on the existing page
 
-page = existing_pdf.getPage(0)
-page.mergePage(new_pdf.getPage(0))
-output.addPage(page)
 
-page = existing_pdf.getPage(1)
-page.mergePage(new_pdf.getPage(0))
-output.addPage(page)
 
-page = existing_pdf.getPage(5)
-page.mergePage(new_pdf.getPage(0))
-output.addPage(page)
+i=0
+#getPage(2).mediaBox[0]
+
+
+for x in range(existing_pdf.getNumPages()):
+    page = existing_pdf.getPage(i)
+#    page.mergePage(new_pdf.getPage(0))
+    output.addPage(page)
+    i+=1
+
+
+
+
+# page = existing_pdf.getPage(1)
+# page.mergePage(new_pdf.getPage(0))
+# output.addPage(page)
+#
+# page = existing_pdf.getPage(5)
+# page.mergePage(new_pdf.getPage(0))
+# output.addPage(page)
 
 # finally, write "output" to a real file
-outputStream = file("output/out11.pdf", "wb")
+outputStream = file("output/out16.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
 
