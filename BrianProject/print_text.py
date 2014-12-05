@@ -2,6 +2,7 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 import StringIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, legal, elevenSeventeen, landscape,portrait
+from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, red
 
 import time
 from datetime import date
@@ -19,7 +20,7 @@ font=15
 offset=0.25*font
 top_offset=150
 
-can.setFillColorRGB(1,0,0)
+can.setFillColorRGB(1,0,0,alpha=0.25)
 #canvas.setStrokeColor(red)
 can.setFont("Helvetica-Bold", font)
 
@@ -40,29 +41,29 @@ output = PdfFileWriter()
 
 
 
-i=0
-#getPage(2).mediaBox[0]
-
-
-for x in range(existing_pdf.getNumPages()):
-    page = existing_pdf.getPage(i)
-#    page.mergePage(new_pdf.getPage(0))
-    output.addPage(page)
-    i+=1
-
-
-
-
-# page = existing_pdf.getPage(1)
-# page.mergePage(new_pdf.getPage(0))
-# output.addPage(page)
+# i=0
+# #getPage(2).mediaBox[0]
 #
-# page = existing_pdf.getPage(5)
-# page.mergePage(new_pdf.getPage(0))
-# output.addPage(page)
+#
+# for x in range(existing_pdf.getNumPages()):
+#     page = existing_pdf.getPage(i)
+# #    page.mergePage(new_pdf.getPage(0))
+#     output.addPage(page)
+#     i+=1
+
+
+
+
+page = existing_pdf.getPage(0)
+page.mergePage(new_pdf.getPage(0))
+output.addPage(page)
+
+page = existing_pdf.getPage(1)
+page.mergePage(new_pdf.getPage(0))
+output.addPage(page)
 
 # finally, write "output" to a real file
-outputStream = file("output/out16.pdf", "wb")
+outputStream = file("output/out17.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
 

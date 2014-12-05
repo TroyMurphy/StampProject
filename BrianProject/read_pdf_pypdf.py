@@ -31,20 +31,6 @@ class PDF(PdfFileReader):
         dimension=[]
 
         for x in range(self.getNumPages()):
-            rect=self.getPage(i).mediaBox
-
-            #dimension.append((rect.[2], rect.[3]))
-            dimension.append((rect[2], rect[3]))
-            #dimension.append((rect.width, rect[3]))
-            i=i+1
-        return dimension
-
-    def trimPagesize(self):
-        i=0
-        #getPage(2).mediaBox[0]
-        dimension=[]
-
-        for x in range(self.getNumPages()):
             rect=self.getPage(i).trimBox
 
             #dimension.append((rect.[2], rect.[3]))
@@ -58,7 +44,7 @@ class PDF(PdfFileReader):
         dimension=[]
 
         for x in range(self.getNumPages()):
-            rect=self.getPage(i).mediaBox
+            rect=self.getPage(i).trimBox
             if rect[2]>=rect[3]:
                 dimension.append("l")
             elif rect[2]<rect[3]:
@@ -68,8 +54,9 @@ class PDF(PdfFileReader):
             i=i+1
         return dimension
 
-    def contains_text(self, list,string):
+    def contains_text(self, list, string):
         results=[]
+
         for x in list:
             if string.upper() in x.upper():
                 results.append(1)
@@ -78,6 +65,21 @@ class PDF(PdfFileReader):
                 results.append(0)
     #            print"false"
         return results
+
+    # def containsTextReturnList(self, string):
+    #     results=[]
+    #     i=1
+    #     j=0
+    #     text=self.getText()
+    #     for x in text():
+    #         if string.upper() in text[j].upper():
+    #             results.append(i)
+    #             i+=1
+    #             j+=1
+    # #            print"True"
+    #         else:
+    #             pass
+    #     return results
 
     def and_filter(self,list1,list2):
         filtered=[]
@@ -139,9 +141,11 @@ class PDF(PdfFileReader):
 
 #condition="and"
 
-pdf = PDF(open("docs/doc2.pdf", "rb"))
+pdf = PDF(open("docs/doc3.pdf", "rb"))
 
-text=pdf.trimPagesize()
+
+#text=pdf.getPagesize()
+text=pdf.containsTextReturnList("Machine Shop")
 #text=pdf.pageOrientation()
 print text
 
@@ -172,4 +176,17 @@ print text
 #text= pdf.what_to_stamp(tup1,tup2,condition)
 #print text
 
-
+#A 8.5 11
+#B 11 17
+#C 17 22
+#D 22 34
+#C1 24 36
+#E 34 44
+#F 28 40
+#
+#A0 841 1189
+#A1 594 841
+#A2 420 594
+#
+#
+#
