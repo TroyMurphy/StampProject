@@ -26,25 +26,34 @@
       <file leaf-file-name="print_text.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/print_text.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="6" column="11" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1275">
+            <state line="6" column="11" selection-start="283" selection-end="283" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="1275">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="29" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.0" vertical-offset="1016" max-vertical-offset="3349">
+            <state line="174" column="10" selection-start="4360" selection-end="4360" vertical-scroll-proportion="0.31160897" vertical-offset="2805" max-vertical-offset="3808">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pdf.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="generic.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/PyPDF2/generic.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="422" column="33" selection-start="14662" selection-end="14662" vertical-scroll-proportion="-5.3076925" vertical-offset="6900" max-vertical-offset="20604">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pdf.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PyPDF2/pdf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1281" column="0" selection-start="49990" selection-end="49990" vertical-scroll-proportion="0.33286908" vertical-offset="21470" max-vertical-offset="46699">
+            <state line="2348" column="21" selection-start="98578" selection-end="98578" vertical-scroll-proportion="0.0" vertical-offset="39702" max-vertical-offset="46699">
               <folding />
             </state>
           </provider>
@@ -67,13 +76,14 @@
         <option value="$PROJECT_DIR$/test.py" />
         <option value="F:/apps/Portable Python 2.7.6.1/App/Lib/site-packages/PyPDF2/generic.py" />
         <option value="$PROJECT_DIR$/print_text.py" />
+        <option value="$PROJECT_DIR$/PyPDF2/pdf.py" />
         <option value="$PROJECT_DIR$/read_pdf_pypdf.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="40" />
-    <option name="y" value="166" />
+    <option name="x" value="88" />
+    <option name="y" value="46" />
     <option name="width" value="1704" />
     <option name="height" value="850" />
   </component>
@@ -175,54 +185,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Portable Python 2.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="test3" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="External Libraries" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ExternalLibrariesNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="&lt; Portable Python 2.7 &gt;" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.NamedLibraryElementNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="site-packages" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyPDF2" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -516,7 +478,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="40" y="166" width="1704" height="850" extended-state="0" />
+    <frame x="88" y="46" width="1704" height="850" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -527,7 +489,7 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32402235" sideWeight="0.596139" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886076" sideWeight="0.50050455" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38978493" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.30510753" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -797,25 +759,9 @@
         <state line="63" column="0" selection-start="2246" selection-end="2246" vertical-scroll-proportion="0.0" vertical-offset="832" max-vertical-offset="46699" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/PyPDF2/generic.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="866" column="17" selection-start="31579" selection-end="31579" vertical-scroll-proportion="0.60555553" vertical-offset="14259" max-vertical-offset="20604">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://F:/apps/Portable Python 2.7.6.1/App/Lib/site-packages/PyPDF2/generic.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="849" column="55" selection-start="31050" selection-end="31057" vertical-scroll-proportion="-6.923077" vertical-offset="14117" max-vertical-offset="20604">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="29" selection-start="1794" selection-end="1794" vertical-scroll-proportion="0.0" vertical-offset="1016" max-vertical-offset="3349">
-          <folding />
-        </state>
+        <state line="849" column="55" selection-start="31050" selection-end="31057" vertical-scroll-proportion="-6.923077" vertical-offset="14117" max-vertical-offset="20604" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
@@ -827,7 +773,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/PyPDF2/pdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1281" column="0" selection-start="49990" selection-end="49990" vertical-scroll-proportion="0.33286908" vertical-offset="21470" max-vertical-offset="46699">
+        <state line="2348" column="21" selection-start="98578" selection-end="98578" vertical-scroll-proportion="0.0" vertical-offset="39702" max-vertical-offset="46699">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/PyPDF2/generic.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="422" column="33" selection-start="14662" selection-end="14662" vertical-scroll-proportion="-5.3076925" vertical-offset="6900" max-vertical-offset="20604">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="174" column="10" selection-start="4360" selection-end="4360" vertical-scroll-proportion="0.31160897" vertical-offset="2805" max-vertical-offset="3808">
           <folding />
         </state>
       </provider>

@@ -25,6 +25,44 @@ class PDF(PdfFileReader):
             i += 1
         return content
 
+    def containsTextReturnList(self):
+        results=[]
+
+        j=0
+
+        string="Machine Shop"
+        text=self.getText()
+
+        for x in range(self.getNumPages()):
+            #print x
+            #print "Page Number"+ str(j+1)
+            if string.upper() in text[j].upper():
+                #print j+1
+                results.append(j+1)
+                j+=1
+            else:
+                j+=1
+        return results
+
+            # if string.upper() in text[j].upper():
+            #     results.append(i)
+            #     print "True Page "+ i
+            #     i+=1
+            #     j+=1
+            # else:
+            #     print "False Page 6"
+
+        # for x in enumerate(text):
+        #     if string.upper() in text[j].upper():
+        #         results.append(i)
+        #         i+=1
+        #         j+=1
+        #         print "True"
+        #     else:
+        #         print "False"
+        #         pass
+        # return results
+
     def getPagesize(self):
         i=0
         #getPage(2).mediaBox[0]
@@ -66,20 +104,7 @@ class PDF(PdfFileReader):
     #            print"false"
         return results
 
-    # def containsTextReturnList(self, string):
-    #     results=[]
-    #     i=1
-    #     j=0
-    #     text=self.getText()
-    #     for x in text():
-    #         if string.upper() in text[j].upper():
-    #             results.append(i)
-    #             i+=1
-    #             j+=1
-    # #            print"True"
-    #         else:
-    #             pass
-    #     return results
+
 
     def and_filter(self,list1,list2):
         filtered=[]
@@ -145,9 +170,11 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 
 
 #text=pdf.getPagesize()
-text=pdf.containsTextReturnList("Machine Shop")
+text=pdf.containsTextReturnList()
 #text=pdf.pageOrientation()
 print text
+#text=pdf.getText()
+
 
 #rect=pdf.getPage(6).mediaBox.getHeight()
 #print rect
