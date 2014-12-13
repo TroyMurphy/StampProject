@@ -139,14 +139,28 @@ class PDF(PdfFileReader):
         rect=self.getPage(page-1).trimBox
         return min(rect[2],rect[3])/72
 
-    def scalePageLandscapeHeight(self,page):
-        pass
-    def scalePageLandscapeWidth(self,page):
-        pass
-    def scalePagePortraitHeight(self,page):
-        pass
-    def scalePagePortraitWidth(self,page):
-        pass
+
+
+class scaledPage():
+
+    def __init__(self,scalePageSize):
+
+    def scalePageLandscapeHeight(self,key):
+        global sizes
+        return min(sizes[key])
+
+    def scalePageLandscapeWidth(self,key):
+        global sizes
+        return max(sizes[key])
+
+
+    def scalePagePortraitHeight(self,key):
+        global sizes
+        return max(sizes[key])
+
+    def scalePagePortraitWidth(self,key):
+        global sizes
+        return min(sizes[key])
 
     def smartScale(self,page):
         pass
@@ -172,6 +186,10 @@ sizes={"A":(8.5,11),
 
 pdf = PDF(open("docs/doc3.pdf", "rb"))
 
+text =scaledPage()
+text.
+
+print text
 
 #text=pdf.getPagesize()
 #text=pdf.containsTextReturnList("Machine Shop")
@@ -180,13 +198,13 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 
 
 
-crit1=pdf.findSamePageSizes("A")
-#crit1=pdf.noFilter()
-crit2=pdf.containsTextReturnList("Machine Shop")
-
-filter=pageFilters(crit1,crit2)
-
-print filter.andFilter()
+# crit1=pdf.findSamePageSizes("A")
+# #crit1=pdf.noFilter()
+# crit2=pdf.containsTextReturnList("Machine Shop")
+#
+# filter=pageFilters(crit1,crit2)
+#
+# print filter.andFilter()
 
 
 #print text
