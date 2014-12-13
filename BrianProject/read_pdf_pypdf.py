@@ -10,7 +10,7 @@ from PyPDF2 import PdfFileReader
 
 #Brian Changed Pypdf2 generic __repr__
 
-class pageFilters():
+class PageFilters():
     def __init__(self,list1,list2):
         self.list1=list1
         self.list2=list2
@@ -44,9 +44,41 @@ class pageFilters():
         newlist=sorted(list(set(list1+list2)))
         return newlist
 
+class ScaledPage():
+
+    def __init__(self,key):
+        global sizes
+        self.key=key
+        minval=round(min(sizes[key]),3)
+        maxval=round(max(sizes[key]),3)
+        self.scalePageMin=round(min(sizes[key]),3)
+        self.scalePageMax=max(sizes[key])
+        self.scalePageLandscapeHeight=minval
+        self.scalePageLandscapeWidth=maxval
+        self.scalePagePortraitHeight=maxval
+        self.scalePagePortraitWidth=minval
+
+    def getKey(self):
+        return self.key
+
+    def scalePageLandscapeHeight(self):
+        return self.scalePageLandscapeHeight
+
+    def scalePageLandscapeWidth(self):
+        return self.scalePageLandscapeWidth
+
+    def scalePagePortraitHeight(self):
+        return self.scalePagePortraitHeight
+
+    def scalePagePortraitWidth(self):
+        return self.scalePagePortraitHeight
+
+    def smartScale(self,page):
+        pass
 
 
-class PDF(PdfFileReader):
+
+class PDF(PdfFileReader,ScaledPage):
 
 
     def getText(self):
@@ -79,8 +111,6 @@ class PDF(PdfFileReader):
     def findSamePageSizes(self,pageSize):
 
         global sizes
-
-
         results=[]
         j=0
         #tolerance that pagesize is allowed to be
@@ -94,14 +124,22 @@ class PDF(PdfFileReader):
                 pass
         return results
 
-        #     #print "Page Number"+ str(j+1)
-        #     if string.upper() in text[j].upper():
-        #         #print j+1
-        #         results.append(j+1)
-        #         j+=1
-        #     else:
-        #         j+=1
-        # return results
+
+    def samePageSize(self,pageSize):
+
+        global sizes
+        global key
+        tolerance=0.5
+        j=0
+        rect=self.getPage(pageSize).trimBox
+        if abs(min(rect[2:])/72-sizes[key][0])<=tolerance and abs(max(rect[2:])/72-sizes[key][1])<=tolerance:
+            print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
+            return True
+        else:
+            print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
+            return False
+
+
 
     def isLandscape(self,page):
         rect=self.getPage(page-1).trimBox
@@ -139,31 +177,9 @@ class PDF(PdfFileReader):
         rect=self.getPage(page-1).trimBox
         return min(rect[2],rect[3])/72
 
-
-
-class scaledPage():
-
-    def __init__(self,scalePageSize):
-
-    def scalePageLandscapeHeight(self,key):
+    def scalePage(self,page):
+        global key
         global sizes
-        return min(sizes[key])
-
-    def scalePageLandscapeWidth(self,key):
-        global sizes
-        return max(sizes[key])
-
-
-    def scalePagePortraitHeight(self,key):
-        global sizes
-        return max(sizes[key])
-
-    def scalePagePortraitWidth(self,key):
-        global sizes
-        return min(sizes[key])
-
-    def smartScale(self,page):
-        pass
 
 
 
@@ -175,36 +191,54 @@ sizes={"A":(8.5,11),
    "F":(28,40)
    }
 
+key="A"
 
-#tup1=("text","Machine shop")
-#tup2=('page', 'size')
+pdf = PDF(open("docs/test.pdf", "rb"))
 
-#tup1=("dfs","sdf")
-#tup2=("","")
+print pdf.samePageSize(0)
 
-#condition="and"
+# crit1=pdf.findSamePageSizes("A")
+# #crit1=pdf.noFilter()
+# crit2=pdf.containsTextReturnList("Machine Shop")
+#
+# filter=PageFilters(crit1,crit2)
+# list=filter.orFilter()
 
-pdf = PDF(open("docs/doc3.pdf", "rb"))
 
-text =scaledPage()
-text.
 
-print text
+
+
+
+
+
+
+# pdf = PDF(open("docs/doc3.pdf", "rb"))
+
+
+# text =ScaledPage("A")
+#
+# test=text.scalePageMin
+#
+# print test
 
 #text=pdf.getPagesize()
 #text=pdf.containsTextReturnList("Machine Shop")
 #text=pdf.pageOrientation()
 #text=pdf.currentPageLandscapeHeight(2)
 
+#START TEST
 
-
+# pdf = PDF(open("docs/doc3.pdf", "rb"))
+#
 # crit1=pdf.findSamePageSizes("A")
 # #crit1=pdf.noFilter()
 # crit2=pdf.containsTextReturnList("Machine Shop")
 #
-# filter=pageFilters(crit1,crit2)
+# filter=PageFilters(crit1,crit2)
 #
 # print filter.andFilter()
+
+#END TEST
 
 
 #print text
