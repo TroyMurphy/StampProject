@@ -37,21 +37,6 @@ existing_pdf = PdfFileReader(file("docs/doc3.pdf", "rb"))
 #existing_pdf = PdfFileReader(file("output/out14.pdf", "rb"))
 
 output = PdfFileWriter()
-# add the "watermark" (which is the new pdf) on the existing page
-
-
-
-# i=0
-# #getPage(2).mediaBox[0]
-#
-#
-# for x in range(existing_pdf.getNumPages()):
-#     page = existing_pdf.getPage(i)
-# #    page.mergePage(new_pdf.getPage(0))
-#     output.addPage(page)
-#     i+=1
-
-
 
 
 page = existing_pdf.getPage(0)

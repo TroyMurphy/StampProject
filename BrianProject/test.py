@@ -1,43 +1,23 @@
-from Tkinter import *
-import Tkinter as ttk 
-from ttk import *
+crit1=[1,8,10,4,3,2,3,4,5]
+crit2=[3,5,6,8,9]
 
-root = Tk()
-root.title("Age Selector")
+def andFilter(self,list1,list2):
+    results=[]
+    j=0
+    for x in list1:
+        if x in list2:
+            #print x
+            results.append(list1[j])
+            j+=1
+        else:
+            j+=1
+    mylist=list(set(results))
 
-mainframe = Frame(root)                                 
-mainframe.grid(column=0,row=0, sticky=(N,W,E,S) )
-mainframe.columnconfigure(0, weight = 1)
-mainframe.rowconfigure(0, weight = 1)
-mainframe.pack(pady = 10, padx = 10)
+    return sorted(mylist)
 
-var = StringVar(root)
+def orFilter(self,list1,list2):
+    newlist=sorted(list(set(list1+list2)))
+    return newlist
 
-# Use dictionary to map names to ages.
-choices = {
-    'Bob': '35',
-    'Garry': '45',
-    'John': '32',
-    'Hank': '64',
-    'Tyrone': '21',
-}
-
-option = OptionMenu(mainframe, var, *choices)
-var.set('Bob')
-
-option.grid(row = 1, column =1)
-
-Label(mainframe, text="Age").grid(row = 2, column = 1)
-
-age = StringVar()
-# Bind age instead of var
-age_ent = Entry(mainframe, text=age, width = 15).grid(column = 2, row = 2)
-
-# change_age is called on var change.
-def change_age(*args):
-    age_ = choices[var.get()]
-    age.set(age_)
-# trace the change of var
-var.trace('w', change_age)
-
-root.mainloop()
+print orFilter(crit1,crit2)
+#print andFilter(crit1,crit2)
