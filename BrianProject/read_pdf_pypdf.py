@@ -13,8 +13,6 @@ from PyPDF2 import PdfFileReader
 
 class PDF(PdfFileReader):
 
-    def getPageSizeAtIndex(self, index):
-        pass
 
     def getText(self):
         #return list of pages text string
@@ -25,16 +23,11 @@ class PDF(PdfFileReader):
             i += 1
         return content
 
-    def containsTextReturnList(self):
+    def containsTextReturnList(self, string):
         results=[]
-
         j=0
-
-        string="Machine Shop"
         text=self.getText()
-
         for x in range(self.getNumPages()):
-            #print x
             #print "Page Number"+ str(j+1)
             if string.upper() in text[j].upper():
                 #print j+1
@@ -44,67 +37,51 @@ class PDF(PdfFileReader):
                 j+=1
         return results
 
-            # if string.upper() in text[j].upper():
-            #     results.append(i)
-            #     print "True Page "+ i
-            #     i+=1
-            #     j+=1
-            # else:
-            #     print "False Page 6"
+    def isLandscape(self,page):
+        rect=self.getPage(page-1).trimBox
+        if rect[2]>rect[3]:
+            return True
+        elif rect[2]<rect[3]:
+            return False
+        else:
+            pass
 
-        # for x in enumerate(text):
-        #     if string.upper() in text[j].upper():
-        #         results.append(i)
-        #         i+=1
-        #         j+=1
-        #         print "True"
-        #     else:
-        #         print "False"
-        #         pass
-        # return results
+    def isPortrait(self,page):
+        rect=self.getPage(page-1).trimBox
+        if rect[2]<rect[3]:
+            return True
+        elif rect[2]>rect[3]:
+            return False
+        else:
+            pass
 
-    def getPagesize(self):
-        i=0
-        #getPage(2).mediaBox[0]
-        dimension=[]
+    def currentPageLandscapeHeight(self,page):
+        rect=self.getPage(page-1).trimBox
+        return min(rect[2],rect[3])/72
 
-        for x in range(self.getNumPages()):
-            rect=self.getPage(i).trimBox
+    def currentPageLandscapeWidth(self,page):
+        rect=self.getPage(page-1).trimBox
+        return max(rect[2],rect[3])/72
 
-            #dimension.append((rect.[2], rect.[3]))
-            dimension.append((rect[2], rect[3]))
-            #dimension.append((rect.width, rect[3]))
-            i=i+1
-        return dimension
+    def currentPagePortraitHeight(self,page):
+        rect=self.getPage(page-1).trimBox
+        return max(rect[2],rect[3])/72
 
-    def pageOrientation(self):
-        i=0
-        dimension=[]
+    def currentPagePortraitWidth(self,page):
+        rect=self.getPage(page-1).trimBox
+        return min(rect[2],rect[3])/72
 
-        for x in range(self.getNumPages()):
-            rect=self.getPage(i).trimBox
-            if rect[2]>=rect[3]:
-                dimension.append("l")
-            elif rect[2]<rect[3]:
-                dimension.append("p")
-            else:
-                dimension.append("?")
-            i=i+1
-        return dimension
+    def scalePageLandscapeHeight(self,page):
+        pass
+    def scalePageLandscapeWidth(self,page):
+        pass
+    def scalePagePortraitHeight(self,page):
+        pass
+    def scalePagePortraitWidth(self,page):
+        pass
 
-    def contains_text(self, list, string):
-        results=[]
-
-        for x in list:
-            if string.upper() in x.upper():
-                results.append(1)
-    #            print"True"
-            else:
-                results.append(0)
-    #            print"false"
-        return results
-
-
+    def smartScale(self,page):
+        pass
 
     def and_filter(self,list1,list2):
         filtered=[]
@@ -124,36 +101,6 @@ class PDF(PdfFileReader):
                 i += 1
         return filtered
 
-    def criteria(self,tuple):
-    #return list of each critera for text or pagesize
-        if not (tuple[0] or tuple[1]):
-            list1=[1]*self.getNumPages()
-            return list1
-        #    print "exit1"
-        if tuple[0]=="text":
-            results=[]
-            for x in self.getText():
-                if tuple[1].upper() in x.upper():
-                    results.append(1)
-        #            print"True"
-                else:
-                    results.append(0)
-        #            print"false"
-            return results
-        if tuple[0]=="page":
-            #write code to return pagesize
-
-            pass
-
-        else:
-            list1=[1]*self.getNumPages()
-            return list1
-
-    def what_to_stamp(self,crit1,crit2,condition):
-
-        pass
-        #If crit1 or input1 is null
-
 
     def pages_to_stamp(self, crit1, crit2,condition):
         pass
@@ -170,8 +117,11 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 
 
 #text=pdf.getPagesize()
-text=pdf.containsTextReturnList()
+#text=pdf.containsTextReturnList("Machine Shop")
 #text=pdf.pageOrientation()
+#text=pdf.currentPageLandscapeHeight(2)
+
+text=pdf.isLandscape(6)
 print text
 #text=pdf.getText()
 
@@ -184,24 +134,15 @@ print text
 #print text
 
 
-#text= pdf.contains_text(pdf.getText(),"Machine")
+pageSize={"A":(8.5,11),
+           "B":(11,17),
+           "C":(17,22),
+           "D":(22,34),
+           "E":(34,44),
+           "F":(28,40)
+           }
 
-
-
-
-#abba= pdf.getPagesize()
-#print abba
-
-#abba=pdf.getPagesize()
-#print abba
-#print len(abba)
-
-
-#getLowerLeft_x
-
-
-#text= pdf.what_to_stamp(tup1,tup2,condition)
-#print text
+print pageSize["A"]
 
 #A 8.5 11
 #B 11 17
