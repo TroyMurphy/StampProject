@@ -10,9 +10,9 @@ from PyPDF2 import PdfFileReader
 
 #Brian Changed Pypdf2 generic __repr__
 
-class pageFilters(list1,list2):
-    def __init__(self):
-        self.list1=list
+class pageFilters():
+    def __init__(self,list1,list2):
+        self.list1=list1
         self.list2=list2
 
     def getlist1(self):
@@ -72,15 +72,14 @@ class PDF(PdfFileReader):
                 j+=1
         return results
 
-    def isPageSize(self,pageSize):
+    def noFilter(self):
+        result=[]
+        return result
 
-        sizes={"A":(8.5,11),
-           "B":(11,17),
-           "C":(17,22),
-           "D":(22,34),
-           "E":(34,44),
-           "F":(28,40)
-           }
+    def findSamePageSizes(self,pageSize):
+
+        global sizes
+
 
         results=[]
         j=0
@@ -154,8 +153,14 @@ class PDF(PdfFileReader):
 
 
 
-        def pages_to_stamp(self, crit1, crit2,condition):
-            pass
+sizes={"A":(8.5,11),
+   "B":(11,17),
+   "C":(17,22),
+   "D":(22,34),
+   "E":(34,44),
+   "F":(28,40)
+   }
+
 
 #tup1=("text","Machine shop")
 #tup2=('page', 'size')
@@ -173,12 +178,16 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 #text=pdf.pageOrientation()
 #text=pdf.currentPageLandscapeHeight(2)
 
-crit1=pdf.isPageSize("A")
+
+
+crit1=pdf.findSamePageSizes("A")
+#crit1=pdf.noFilter()
 crit2=pdf.containsTextReturnList("Machine Shop")
 
-pages=pdf.orFilter(crit1,crit2)
+filter=pageFilters(crit1,crit2)
 
-print pages
+print filter.andFilter()
+
 
 #print text
 #text=pdf.getText()
