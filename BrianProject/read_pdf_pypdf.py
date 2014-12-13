@@ -10,6 +10,41 @@ from PyPDF2 import PdfFileReader
 
 #Brian Changed Pypdf2 generic __repr__
 
+class pageFilters(list1,list2):
+    def __init__(self):
+        self.list1=list
+        self.list2=list2
+
+    def getlist1(self):
+        return self.list1
+
+    def getlist2(self):
+        return self.list2
+
+    def andFilter(self):
+        list1=self.getlist1()
+        list2=self.getlist2()
+        results=[]
+        j=0
+        for x in list1:
+            if x in list2:
+                #print x
+                results.append(list1[j])
+                j+=1
+            else:
+                j+=1
+        mylist=list(set(results))
+
+        return sorted(mylist)
+
+    def orFilter(self):
+        list1=self.getlist1()
+        list2=self.getlist2()
+
+        newlist=sorted(list(set(list1+list2)))
+        return newlist
+
+
 
 class PDF(PdfFileReader):
 
@@ -117,23 +152,7 @@ class PDF(PdfFileReader):
     def smartScale(self,page):
         pass
 
-    def andFilter(self,list1,list2):
-        results=[]
-        j=0
-        for x in list1:
-            if x in list2:
-                #print x
-                results.append(list1[j])
-                j+=1
-            else:
-                j+=1
-        mylist=list(set(results))
 
-        return sorted(mylist)
-
-    def orFilter(self,list1,list2):
-        newlist=sorted(list(set(list1+list2)))
-        return newlist
 
         def pages_to_stamp(self, crit1, crit2,condition):
             pass
