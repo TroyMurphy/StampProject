@@ -19,5 +19,7 @@ class Copy(object):
         self.offsets = initial_offsets
     
     def serialize(self):
+        #implement jsoning to a copy
         pass
+    
     
