@@ -39,11 +39,14 @@ existing_pdf = PdfFileReader(file("docs/doc3.pdf", "rb"))
 output = PdfFileWriter()
 
 
+
 page = existing_pdf.getPage(0)
+page =page.scaleBy(1.25)
 page.mergePage(new_pdf.getPage(0))
 output.addPage(page)
 
 page = existing_pdf.getPage(1)
+page=page.scaleBy(1.25)
 page.mergePage(new_pdf.getPage(0))
 output.addPage(page)
 

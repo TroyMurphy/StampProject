@@ -1,25 +1,35 @@
+#Imports
+
+#Constants
+#VARIABLE = constant
+
 def main():
-    """
-    This is the main function.
-    The key is to put the least amount of code here as possible.
+    ###REPEAT FOR EACH COPY#####
     
-    Gather just enough information to create the Copy instance and run self.stamp()
-    self.stamp will be the most complex function since it should handle stamping the image and then
-    outputting the pdf to a file location.
+        # Import the PDF as a PDF object
+        master_pdf = PDF(open(filestream, 'rb'))
+        
+        # Get pages from first criteria
+        
+        # Get pages from second criteria
+    
+        # Get a list of page indexes that meet the criteria with the filter condition
+         
+        # Create copies of matched pages into filteredPDF
+        
+        # Scale if requested
+        
+        # Create reportlab copy based on filtered PDF
+        
+        # merge
+        
+        # store
+        
+    #combine all copies and print
     
     
-    """
-    #Get necessary inputs
-    #This is what could use tkinter. 
-    pass
-
-    #Create instance of PDF using input data
     
-    #Create copy instances using filters
-    
-    #Have each copy run self.stamp
-
-
-
+  
 if __name__ == "__main__":
     main()
+    
