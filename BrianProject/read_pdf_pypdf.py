@@ -1,10 +1,13 @@
 #http://stackoverflow.com/questions/21113773/pdfminer-iterating-through-pages-and-converting-them-to-text
-from PyPDF2 import PdfFileReader
-#from pyPdf import PdfFileReader
-#from PyPDF2.pdf import PageObject
-#from PyPDF2.generic import RectangleObject
-#PDF = PdfFileReader(file("docs/doc3.pdf", 'rb'))
-#PDF = PageObject(PdfFileReader)
+from PyPDF2 import PdfFileReader, PdfFileWriter
+from decimal import *
+import StringIO
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, legal, elevenSeventeen, landscape,portrait
+from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, red
+
+
+
 
 #PDF = PageObject(PdfFileReader, file("docs/doc3.pdf", 'rb'))
 
@@ -44,19 +47,21 @@ class PageFilters():
         newlist=sorted(list(set(list1+list2)))
         return newlist
 
-class ScaledPage():
+class OutPutDocument(PdfFileWriter):
 
-    def __init__(self,key):
-        global sizes
-        self.key=key
-        minval=round(min(sizes[key]),3)
-        maxval=round(max(sizes[key]),3)
-        self.scalePageMin=round(min(sizes[key]),3)
-        self.scalePageMax=max(sizes[key])
-        self.scalePageLandscapeHeight=minval
-        self.scalePageLandscapeWidth=maxval
-        self.scalePagePortraitHeight=maxval
-        self.scalePagePortraitWidth=minval
+    # def __init__(self,key):
+    #     global sizes
+    #     self.key=key
+    #     minval=round(min(sizes[key]),3)
+    #     maxval=round(max(sizes[key]),3)
+    #     self.scalePageMin=round(min(sizes[key]),3)
+    #     self.scalePageMax=max(sizes[key])
+    #     self.scalePageLandscapeHeight=minval
+    #     self.scalePageLandscapeWidth=maxval
+    #     self.scalePagePortraitHeight=maxval
+    #     self.scalePagePortraitWidth=minval
+
+
 
     def getKey(self):
         return self.key
@@ -78,8 +83,7 @@ class ScaledPage():
 
 
 
-class PDF(PdfFileReader,ScaledPage):
-
+class PDF(PdfFileReader):
 
     def getText(self):
         #return list of pages text string
@@ -124,6 +128,18 @@ class PDF(PdfFileReader,ScaledPage):
                 pass
         return results
 
+    def scaleListOfPagesToCertainSize(self,listOfPages):
+        scaledPages=[]
+
+        for x in listOfPages:
+
+            page=self.getPage(x-1)
+            scale=self.findScalingFactorForPageIndex(x)
+            #print scale
+            page.scaleBy(scale)
+            scaledPages.append(page)
+        return scaledPages
+
 
     def samePageSize(self,pageSize):
 
@@ -133,12 +149,11 @@ class PDF(PdfFileReader,ScaledPage):
         j=0
         rect=self.getPage(pageSize).trimBox
         if abs(min(rect[2:])/72-sizes[key][0])<=tolerance and abs(max(rect[2:])/72-sizes[key][1])<=tolerance:
-            print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
+            #print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
             return True
         else:
-            print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
+            #print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
             return False
-
 
 
     def isLandscape(self,page):
@@ -177,9 +192,71 @@ class PDF(PdfFileReader,ScaledPage):
         rect=self.getPage(page-1).trimBox
         return min(rect[2],rect[3])/72
 
-    def scalePage(self,page):
+    def findScalingFactorForPageIndex(self,page):
         global key
         global sizes
+        global scaledPageMax
+        global scaledPageMin
+
+        if abs(scaledPageMax/self.currentPageLandscapeWidth(page)-1)>abs(scaledPageMin/self.currentPageLandscapeHeight(page)-1):
+        #    print self.currentPageLandscapeWidth(page)
+        #    print scaledPageMax
+
+            scaleFactor=float(scaledPageMax)/float(self.currentPageLandscapeWidth(page))
+
+        else:
+            print self.currentPageLandscapeWidth(page)
+            print scaledPageMax
+            scaleFactor=float(scaledPageMin)/float(self.currentPageLandscapeHeight(page))
+        #print scaleFactor
+        return scaleFactor
+
+    def stampPages(self,listOfPageObjects,filepath):
+        output = PdfFileWriter()
+
+        j=0
+        stampedPages=[]
+        for page in listOfPageObjects:
+            packet = StringIO.StringIO()
+
+            existingPdfPage=page
+            dimensionCurrentPdfPage=(existingPdfPage.trimBox[2]*72,existingPdfPage.trimBox[3]*72)
+
+            can = canvas.Canvas(packet, dimensionCurrentPdfPage)
+
+            font=15
+            offset=0.25*font
+            top_offset=150
+
+            can.setFillColorRGB(1,0,0,alpha=0.25)
+            #canvas.setStrokeColor(red)
+            can.setFont("Helvetica-Bold", font)
+
+            can.drawString(50, top_offset, "ISSUED FOR CONSTRUCTION")
+            can.drawString(50,top_offset-font-offset, "BY_____________________")
+            can.drawString(50,top_offset-2*font-2*offset, "HOLA")
+            can.save()
+
+            new_pdf = PdfFileReader(packet)
+
+            existingPdfPage.mergePage(new_pdf.getPage(0))
+            output.addPage(existingPdfPage)
+        outputStream = file(filepath, "wb")
+        output.write(outputStream)
+        outputStream.close()
+
+
+
+    # def createOutputOfPages(self,pageObject,outputFilePath):
+    #     #Last step after all copies have been made to create final file from all pages in global output variable
+    #
+    #     global output
+    #     for x in pageObject:
+    #         output.addPage(x)
+    #     outputStream = file(outputFilePath, "wb")
+    #     output.write(outputStream)
+    #     outputStream.close()
+
 
 
 
@@ -193,9 +270,31 @@ sizes={"A":(8.5,11),
 
 key="A"
 
-pdf = PDF(open("docs/test.pdf", "rb"))
+scaledPageMax=sizes[key][1]
+scaledPageMin=sizes[key][0]
 
-print pdf.samePageSize(0)
+
+
+pdf = PDF(open("docs/doc3.pdf", "rb"))
+
+
+# test=pdf.findScalingFactorForPageIndex(3)
+#
+# print test
+# print type(test)
+crit1=pdf.findSamePageSizes("A")
+#crit1=pdf.noFilter()
+crit2=pdf.containsTextReturnList("MACHINE SHOP")
+
+filter=PageFilters(crit1,crit2)
+list=filter.orFilter()
+
+outputPages=pdf.scaleListOfPagesToCertainSize(list)
+
+output=pdf.stampPages(outputPages,"output/output2.pdf")
+
+# #END
+
 
 # crit1=pdf.findSamePageSizes("A")
 # #crit1=pdf.noFilter()

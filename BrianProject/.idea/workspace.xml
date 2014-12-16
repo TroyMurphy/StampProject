@@ -22,48 +22,63 @@
     <favorites_list name="test3" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="print_text.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/print_text.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="38" column="3" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="901">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pagesizes.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/reportlab/lib/pagesizes.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="27" column="9" selection-start="742" selection-end="742" vertical-scroll-proportion="0.0" vertical-offset="264" max-vertical-offset="1020">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="191" column="4" selection-start="4935" selection-end="4935" vertical-scroll-proportion="0.2942899" vertical-offset="2485" max-vertical-offset="4267">
-              <folding>
-                <element signature="e#681#1005#0" expanded="false" />
-                <element signature="e#2357#2690#0" expanded="false" />
-                <element signature="e#3859#4030#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="150" column="12" selection-start="3898" selection-end="3898" vertical-scroll-proportion="0.0" vertical-offset="1845" max-vertical-offset="3213">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <splitter split-orientation="horizontal" split-proportion="0.40606937">
+      <split-first>
+        <leaf>
+          <file leaf-file-name="print_text.py" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/print_text.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="53" column="0" selection-start="1253" selection-end="1346" vertical-scroll-proportion="1.0233393" vertical-offset="331" max-vertical-offset="1071">
+                  <folding>
+                    <element signature="e#0#47#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="278" column="0" selection-start="7610" selection-end="7610" vertical-scroll-proportion="0.0" vertical-offset="4243" max-vertical-offset="6511">
+                  <folding>
+                    <element signature="e#106#153#0" expanded="true" />
+                    <marker date="1418682646941" expanded="true" signature="2169:7392" placeholder="..." />
+                    <marker date="1418682646941" expanded="true" signature="5937:7000" placeholder="..." />
+                    <marker date="1418682646941" expanded="true" signature="7064:7392" placeholder="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="test.py" pinned="false" current="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/test.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="8" column="25" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1088">
+                  <folding>
+                    <element signature="e#0#47#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-first>
+      <split-second>
+        <leaf>
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="279" column="0" selection-start="7611" selection-end="7611" vertical-scroll-proportion="0.26177025" vertical-offset="4604" max-vertical-offset="6511">
+                  <folding>
+                    <element signature="e#106#153#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+        </leaf>
+      </split-second>
+    </splitter>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -79,17 +94,17 @@
         <option value="I:/apps/Portable Python 2.7.6.1/App/Lib/site-packages/PyPDF2/pdf.py" />
         <option value="F:/apps/Portable Python 2.7.6.1/App/Lib/site-packages/PyPDF2/generic.py" />
         <option value="$PROJECT_DIR$/PyPDF2/pdf.py" />
-        <option value="$PROJECT_DIR$/print_text.py" />
         <option value="$PROJECT_DIR$/test.py" />
+        <option value="$PROJECT_DIR$/print_text.py" />
         <option value="$PROJECT_DIR$/read_pdf_pypdf.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="282" />
+    <option name="y" value="156" />
+    <option name="width" value="1607" />
+    <option name="height" value="886" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -528,28 +543,28 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="282" y="156" width="1607" height="886" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16822916" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13010685" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32402235" sideWeight="0.596139" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886076" sideWeight="0.50050455" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25368422" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23589744" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953104" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953104" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -574,7 +589,9 @@
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="23" selection-start="436" selection-end="436" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -589,9 +606,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="40" column="29" selection-start="1058" selection-end="1058" vertical-scroll-proportion="0.0" vertical-offset="204" max-vertical-offset="3791">
           <folding>
-            <element signature="e#681#1005#0" expanded="false" />
-            <element signature="e#2357#2690#0" expanded="false" />
-            <element signature="e#3859#4030#0" expanded="false" />
+            <element signature="e#106#153#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -599,7 +614,9 @@
     <entry file="file://$PROJECT_DIR$/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="21" column="0" selection-start="404" selection-end="404" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="476">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -621,7 +638,9 @@
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -668,7 +687,9 @@
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -690,7 +711,9 @@
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -712,7 +735,9 @@
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
-          <folding />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -823,27 +848,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/reportlab/lib/pagesizes.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="27" column="9" selection-start="742" selection-end="742" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/print_text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="3" selection-start="1042" selection-end="1042" vertical-scroll-proportion="0.0" vertical-offset="102" max-vertical-offset="901">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="150" column="12" selection-start="3898" selection-end="3898" vertical-scroll-proportion="0.0" vertical-offset="2406" max-vertical-offset="3213">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPDF2/pdf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1330" column="22" selection-start="52290" selection-end="52296" vertical-scroll-proportion="0.3328767" vertical-offset="22299" max-vertical-offset="46699">
@@ -851,13 +855,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/reportlab/lib/pagesizes.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="9" selection-start="742" selection-end="742" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1020">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="8" column="25" selection-start="330" selection-end="330" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1088">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/print_text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="53" column="0" selection-start="1253" selection-end="1346" vertical-scroll-proportion="1.0233393" vertical-offset="331" max-vertical-offset="1071">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="191" column="4" selection-start="4935" selection-end="4935" vertical-scroll-proportion="0.2942899" vertical-offset="2485" max-vertical-offset="4267">
+        <state line="279" column="0" selection-start="7611" selection-end="7611" vertical-scroll-proportion="0.26177025" vertical-offset="4604" max-vertical-offset="6511">
           <folding>
-            <element signature="e#681#1005#0" expanded="false" />
-            <element signature="e#2357#2690#0" expanded="false" />
-            <element signature="e#3859#4030#0" expanded="false" />
+            <element signature="e#106#153#0" expanded="true" />
           </folding>
         </state>
       </provider>

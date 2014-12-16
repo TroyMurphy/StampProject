@@ -30,7 +30,7 @@ can.drawString(50,top_offset-2*font-2*offset, str(today))
 can.save()
 
 #move to the beginning of the StringIO buffer
-packet.seek(0)
+
 new_pdf = PdfFileReader(packet)
 # read your existing PDF
 existing_pdf = PdfFileReader(file("docs/doc3.pdf", "rb"))
@@ -40,15 +40,18 @@ output = PdfFileWriter()
 
 
 page = existing_pdf.getPage(0)
-page.mergePage(new_pdf.getPage(0))
+page.scaleBy(2)
 output.addPage(page)
 
 page = existing_pdf.getPage(1)
 page.mergePage(new_pdf.getPage(0))
 output.addPage(page)
 
+
+
+
 # finally, write "output" to a real file
-outputStream = file("output/out17.pdf", "wb")
+outputStream = file("output/out24.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
 
