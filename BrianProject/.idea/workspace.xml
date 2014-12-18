@@ -25,13 +25,11 @@
     <splitter split-orientation="horizontal" split-proportion="0.5245009">
       <split-first>
         <leaf>
-          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="207" column="13" selection-start="5812" selection-end="5855" vertical-scroll-proportion="0.21993671" vertical-offset="3380" max-vertical-offset="7395">
-                  <folding>
-                    <element signature="e#106#153#0" expanded="true" />
-                  </folding>
+                <state line="245" column="0" selection-start="7078" selection-end="7078" vertical-scroll-proportion="0.57294834" vertical-offset="3686" max-vertical-offset="7786">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -39,7 +37,7 @@
           <file leaf-file-name="pdf.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/PyPDF2/pdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="2083" column="51" selection-start="86781" selection-end="86781" vertical-scroll-proportion="0.0" vertical-offset="34935" max-vertical-offset="46699">
+                <state line="2083" column="51" selection-start="86781" selection-end="86781" vertical-scroll-proportion="0.0" vertical-offset="35411" max-vertical-offset="46767">
                   <folding />
                 </state>
               </provider>
@@ -48,7 +46,7 @@
           <file leaf-file-name="test2.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="4" column="8" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="170">
+                <state line="4" column="8" selection-start="123" selection-end="123" vertical-scroll-proportion="0.0" vertical-offset="68" max-vertical-offset="170">
                   <folding />
                 </state>
               </provider>
@@ -57,10 +55,8 @@
           <file leaf-file-name="test3.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test3.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="20" column="32" selection-start="645" selection-end="645" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-                  <folding>
-                    <element signature="e#0#47#0" expanded="true" />
-                  </folding>
+                <state line="20" column="32" selection-start="645" selection-end="645" vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="476">
+                  <folding />
                 </state>
               </provider>
             </entry>
@@ -72,16 +68,16 @@
           <file leaf-file-name="print_text.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/print_text.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="36" column="43" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="952">
+                <state line="28" column="30" selection-start="760" selection-end="760" vertical-scroll-proportion="0.0" vertical-offset="28" max-vertical-offset="952">
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="321" column="1" selection-start="9098" selection-end="9098" vertical-scroll-proportion="0.22468354" vertical-offset="5213" max-vertical-offset="7293">
+                <state line="354" column="17" selection-start="10185" selection-end="10185" vertical-scroll-proportion="0.5911854" vertical-offset="5527" max-vertical-offset="7786">
                   <folding />
                 </state>
               </provider>
@@ -161,6 +157,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -247,7 +244,6 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -537,17 +533,17 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32402235" sideWeight="0.596139" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2886076" sideWeight="0.50050455" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2663158" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2663158" sideWeight="0.40386102" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32953104" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -823,9 +819,7 @@
     <entry file="file://$PROJECT_DIR$/test3.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="20" column="32" selection-start="645" selection-end="645" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -838,14 +832,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="43" selection-start="1005" selection-end="1005" vertical-scroll-proportion="0.0" vertical-offset="26" max-vertical-offset="952">
+        <state line="28" column="30" selection-start="760" selection-end="760" vertical-scroll-proportion="0.0" vertical-offset="28" max-vertical-offset="952">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="321" column="1" selection-start="9098" selection-end="9098" vertical-scroll-proportion="0.22468354" vertical-offset="5213" max-vertical-offset="7293">
+        <state line="245" column="0" selection-start="7078" selection-end="7078" vertical-scroll-proportion="0.57294834" vertical-offset="3686" max-vertical-offset="7786">
           <folding />
         </state>
       </provider>

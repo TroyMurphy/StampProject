@@ -201,32 +201,59 @@ class PDF(PdfFileReader):
         height=self.mediaBox[3]
         return height
 
-    def createTitlePage(self,title,description):
-            global output
-            packet = StringIO.StringIO()
-            can = canvas.Canvas(packet, pagesize="letter")
-            #titlePage=PDF(open("blank_page.pdf", "rb"))
-            titleStampPage=self.getPage(0)
-            font=25
-            offset=0.25*font
-            top_offset=0
+    # def createTitlePage(self,title,description):
+    #         global output
+    #         packet = StringIO.StringIO()
+    #         can = canvas.Canvas(packet, pagesize="letter")
+    #         #titlePage=PDF(open("blank_page.pdf", "rb"))
+    #         titleStampPage=self.getPage(0)
+    #         font=25
+    #         offset=0.25*font
+    #         top_offset=0
+    #
+    #         can.setFillColorRGB(1,0,0,alpha=0.75)
+    #         #canvas.setStrokeColor(red)
+    #         can.setFont("Helvetica-Bold", font)
+    #
+    #         can.drawString(40,200, title)
+    #         can.drawString(40,150, description)
+    #         #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
+    #         can.save()
+    #         packet.seek(0)
+    #         new_pdf = PdfFileReader(packet)
+    #
+    #         titleStampPage.mergePage(new_pdf.getPage(0))
+    #         output.addPage(titleStampPage)
 
-            can.setFillColorRGB(1,0,0,alpha=0.75)
-            #canvas.setStrokeColor(red)
-            can.setFont("Helvetica-Bold", font)
 
-            can.drawString(40,200, title)
-            can.drawString(40,150, description)
-            #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
-            can.save()
-            packet.seek(0)
-            new_pdf = PdfFileReader(packet)
+    def createCoverPage(self,title,description):
+        global output
+        packet = StringIO.StringIO()
+        # create a new PDF with Reportlab
+        can = canvas.Canvas(packet, pagesize=letter)
+        existing_pdf=self.getPage(0)
+        font=15
+        offset=0.25*font
+        top_offset=700
 
-            titleStampPage.mergePage(new_pdf.getPage(0))
-            output.addPage(titleStampPage)
+        can.setFillColorRGB(1,0,0,alpha=1)
+        #canvas.setStrokeColor(red)
+        can.setFont("Helvetica-Bold", font)
+
+        can.drawString(50, top_offset, title)
+        can.drawString(50,top_offset-font-offset, description)
+        can.save()
+
+        #move to the beginning of the StringIO buffer
+
+        new_pdf = PdfFileReader(packet)
+        # read your existing PDF
+        #existing_pdf = PdfFileReader(file("docs/doc3.pdf", "rb"))
+        #existing_pdf = PdfFileReader(file("output/out14.pdf", "rb"))
 
 
-
+        existing_pdf.mergePage(new_pdf.getPage(0))
+        output.addPage(existing_pdf)
 
     def stampPages(self,listOfPageObjects):
     #def stampPages(self,listOfPageObjects,filepath):
@@ -316,9 +343,11 @@ scaledPageMin=sizes[key][0]
 
 #
 pdf = PDF(open("docs/doc3.pdf", "rb"))
+copyCover=PDF(open("blank_page.pdf", "rb"))
+
 #GLOBAL VARIABLE
 output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d29.pdf"
+OUTPUT_FILE_PATH="output/d32.pdf"
 #
 #
 crit1=pdf.findSamePageSizes("B")
@@ -335,7 +364,7 @@ outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
 #titlePage=PDF(open("blank_page.pdf", "rb"))
 #titlePage.createTitlePage("test","test2")
 
-
+coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
 outputPdf=pdf.stampPages(outputPages)
 
 
