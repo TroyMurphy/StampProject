@@ -112,16 +112,26 @@ class PDF(PdfFileReader):
     def scaleListOfPagesToCertainSize(self,listOfPages,dictkey):
         #returns a list with each entry being a page object
 
-        scaledPages=[]
+        if dictkey=="None":
 
-        for x in listOfPages:
+            #print "Dict key is none"
+            scaledPages=[]
 
-            page=self.getPage(x-1)
-            scale=self.findScalingFactorForPageIndex(x,dictkey)
-            #print scale
-            page.scaleBy(scale)
-            scaledPages.append(page)
-        return scaledPages
+            for x in listOfPages:
+                page=self.getPage(x-1)
+                scaledPages.append(page)
+            return scaledPages
+        else:
+            scaledPages=[]
+
+            for x in listOfPages:
+
+                page=self.getPage(x-1)
+                scale=self.findScalingFactorForPageIndex(x,dictkey)
+                #print scale
+                page.scaleBy(scale)
+                scaledPages.append(page)
+            return scaledPages
 
     def findScalingFactorForPageIndex(self,page,newdictkey):
         global key
@@ -191,11 +201,40 @@ class PDF(PdfFileReader):
         height=self.mediaBox[3]
         return height
 
-    def stampPages(self,listOfPageObjects,filepath):
-        output = PdfFileWriter()
+    def createTitlePage(self,title,description):
+            global output
+            packet = StringIO.StringIO()
+            can = canvas.Canvas(packet, pagesize="letter")
+            #titlePage=PDF(open("blank_page.pdf", "rb"))
+            titleStampPage=self.getPage(0)
+            font=25
+            offset=0.25*font
+            top_offset=0
 
+            can.setFillColorRGB(1,0,0,alpha=0.75)
+            #canvas.setStrokeColor(red)
+            can.setFont("Helvetica-Bold", font)
+
+            can.drawString(40,200, title)
+            can.drawString(40,150, description)
+            #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
+            can.save()
+            packet.seek(0)
+            new_pdf = PdfFileReader(packet)
+
+            titleStampPage.mergePage(new_pdf.getPage(0))
+            output.addPage(titleStampPage)
+
+
+
+
+    def stampPages(self,listOfPageObjects):
+    #def stampPages(self,listOfPageObjects,filepath):
+        #output = PdfFileWriter()
+        global output
         j=0
         stampedPages=[]
+
         for page in listOfPageObjects:
             packet = StringIO.StringIO()
 
@@ -219,6 +258,9 @@ class PDF(PdfFileReader):
             packet.seek(0)
             new_pdf = PdfFileReader(packet)
 
+            existingPdfPage.mergePage(new_pdf.getPage(0))
+            output.addPage(existingPdfPage)
+
             if '/Rotate' in page:
                 #print True
                 rotationAngle=page['/Rotate']
@@ -237,9 +279,9 @@ class PDF(PdfFileReader):
                 existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=90,tx=translatePageDown,ty=translatePageDown)
                 output.addPage(existingPdfPage)
 
-        outputStream = file(filepath, "wb")
-        output.write(outputStream)
-        outputStream.close()
+        # outputStream = file(filepath, "wb")
+        # output.write(outputStream)
+        # outputStream.close()
 
 
 
@@ -256,13 +298,15 @@ class PDF(PdfFileReader):
 
 
 
-sizes={"A":(8.5,11),
-   "B":(11,17),
-   "C":(17,22),
-   "D":(22,34),
-   "E":(34,44),
-   "F":(28,40)
-   }
+sizes={
+        "None":(0,0),
+        "A":(8.5,11),
+        "B":(11,17),
+        "C":(17,22),
+        "D":(22,34),
+        "E":(34,44),
+        "F":(28,40)
+        }
 
 key="A"
 
@@ -272,18 +316,32 @@ scaledPageMin=sizes[key][0]
 
 #
 pdf = PDF(open("docs/doc3.pdf", "rb"))
+#GLOBAL VARIABLE
+output = PdfFileWriter()
+OUTPUT_FILE_PATH="output/d29.pdf"
 #
 #
-crit1=pdf.findSamePageSizes("A")
+crit1=pdf.findSamePageSizes("B")
 #crit1=pdf.noFilter()
 crit2=pdf.containsTextReturnList("BECKET")
 
 filter=PageFilters(crit1,crit2)
-list=filter.orFilter()
+list=filter.andFilter()
 
-outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
 
-output=pdf.stampPages(outputPages,"output/d19.pdf")
+#pdf.createTitlePage("Machine Shop","Contains MS and page 8.5")
+outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
+
+#titlePage=PDF(open("blank_page.pdf", "rb"))
+#titlePage.createTitlePage("test","test2")
+
+
+outputPdf=pdf.stampPages(outputPages)
+
+
+outputStream = file(OUTPUT_FILE_PATH, "wb")
+output.write(outputStream)
+outputStream.close()
 
 #output=pdf.stampPages([pdf.getPage(2)],"output/d14.pdf")
 
