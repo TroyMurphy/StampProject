@@ -5,6 +5,7 @@ import StringIO
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, legal, elevenSeventeen, landscape,portrait
 from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, red
+from math import sqrt
 
 
 
@@ -199,10 +200,7 @@ class PDF(PdfFileReader):
             packet = StringIO.StringIO()
 
             existingPdfPage=page
-            pageLength=existingPdfPage.trimBox[2]
-            pageHeight=existingPdfPage.trimBox[3]
-            print pageLength/72
-            print float(pageHeight)/float(72)
+
             dimensionCurrentPdfPage=(existingPdfPage.trimBox[2]*72,existingPdfPage.trimBox[3]*72)
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 
@@ -214,29 +212,30 @@ class PDF(PdfFileReader):
             #canvas.setStrokeColor(red)
             can.setFont("Helvetica-Bold", font)
 
-            can.drawString(0, top_offset, "ISSUED FOR CONSTRUCTION")
-            can.drawString(0,top_offset-font-offset, "BY_____________________")
-            can.drawString(0,top_offset-2*font-2*offset, "HOLA")
+            can.drawString(30, 30, "ISSUED FOR CONSTRUCTION")
+            #can.drawString(0,top_offset-font-offset, "BY_____________________")
+            #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
             can.save()
             packet.seek(0)
             new_pdf = PdfFileReader(packet)
 
-            # if '/Rotate' in page:
-            #     #print True
-            #     rotationAngle=page['/Rotate']
-            # else:
-            #     #print False
-            #     rotationAngle=0
-            #
-            # if rotationAngle==0:
-            #     existingPdfPage.mergePage(new_pdf.getPage(0))
-            #     output.addPage(existingPdfPage)
-            # elif rotationAngle !=0:
-            #     existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=90,tx=50,ty=50)
-            #     output.addPage(existingPdfPage)
+            if '/Rotate' in page:
+                #print True
+                rotationAngle=page['/Rotate']
+            else:
+                #print False
+                rotationAngle=0
 
-            existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=0,tx=0,ty=0)
-            output.addPage(existingPdfPage)
+            if rotationAngle==0:
+                existingPdfPage.mergePage(new_pdf.getPage(0))
+                output.addPage(existingPdfPage)
+            elif rotationAngle !=0:
+                pageHeight=existingPdfPage.trimBox[3]
+                translatePageDown=(float(pageHeight)/72)*25.4*sqrt(2)
+
+
+                existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=90,tx=translatePageDown,ty=translatePageDown)
+                output.addPage(existingPdfPage)
 
         outputStream = file(filepath, "wb")
         output.write(outputStream)
@@ -284,7 +283,7 @@ crit1=pdf.findSamePageSizes("A")
 #
 # outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
 
-#output=pdf.stampPages([pdf.getPage(9)],"output/d4.pdf")
+output=pdf.stampPages([pdf.getPage(2)],"output/d14.pdf")
 
 #END
 
