@@ -86,8 +86,8 @@ class PDF(PdfFileReader):
         tolerance=0.1
         for x in range(self.getNumPages()):
             rect=self.getPage(x).trimBox
-            tester=float(rect[3])/72
-            print tester
+            #tester=float(rect[3])/72
+            #print tester
             if abs(min(rect[2:])/72-sizes[pageSize][0])<=tolerance and abs(max(rect[2:])/72-sizes[pageSize][1])<=tolerance:
                 results.append(x+1)
             else:
@@ -137,8 +137,8 @@ class PDF(PdfFileReader):
             scaleFactor=float(scaledPageMax)/float(self.currentPageLandscapeWidth(page))
 
         else:
-            print self.currentPageLandscapeWidth(page)
-            print scaledPageMax
+            #print self.currentPageLandscapeWidth(page)
+            #print scaledPageMax
             scaleFactor=float(scaledPageMin)/float(self.currentPageLandscapeHeight(page))
         #print scaleFactor
         return scaleFactor
@@ -204,11 +204,11 @@ class PDF(PdfFileReader):
             dimensionCurrentPdfPage=(existingPdfPage.trimBox[2]*72,existingPdfPage.trimBox[3]*72)
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 
-            font=15
+            font=25
             offset=0.25*font
             top_offset=0
 
-            can.setFillColorRGB(1,0,0,alpha=0.25)
+            can.setFillColorRGB(1,0,0,alpha=0.75)
             #canvas.setStrokeColor(red)
             can.setFont("Helvetica-Bold", font)
 
@@ -275,15 +275,17 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 #
 #
 crit1=pdf.findSamePageSizes("A")
-# #crit1=pdf.noFilter()
-# crit2=pdf.containsTextReturnList("MACHINE SHOP")
-#
-# filter=PageFilters(crit1,crit2)
-# list=filter.orFilter()
-#
-# outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
+#crit1=pdf.noFilter()
+crit2=pdf.containsTextReturnList("BECKET")
 
-output=pdf.stampPages([pdf.getPage(2)],"output/d14.pdf")
+filter=PageFilters(crit1,crit2)
+list=filter.orFilter()
+
+outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
+
+output=pdf.stampPages(outputPages,"output/d19.pdf")
+
+#output=pdf.stampPages([pdf.getPage(2)],"output/d14.pdf")
 
 #END
 

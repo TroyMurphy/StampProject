@@ -37,7 +37,7 @@
           <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="214" column="33" selection-start="5983" selection-end="5983" vertical-scroll-proportion="0.50151974" vertical-offset="3308" max-vertical-offset="6375">
+                <state line="210" column="48" selection-start="5863" selection-end="5863" vertical-scroll-proportion="0.090189874" vertical-offset="3513" max-vertical-offset="6409">
                   <folding>
                     <element signature="e#106#153#0" expanded="true" />
                   </folding>
@@ -81,7 +81,7 @@
           <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="285" column="50" selection-start="7933" selection-end="7933" vertical-scroll-proportion="0.4574468" vertical-offset="4442" max-vertical-offset="6273">
+                <state line="285" column="45" selection-start="7914" selection-end="7914" vertical-scroll-proportion="0.4574468" vertical-offset="4442" max-vertical-offset="6307">
                   <folding />
                 </state>
               </provider>
@@ -843,7 +843,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="285" column="50" selection-start="7933" selection-end="7933" vertical-scroll-proportion="0.4574468" vertical-offset="4442" max-vertical-offset="6273">
+        <state line="285" column="45" selection-start="7914" selection-end="7914" vertical-scroll-proportion="0.4574468" vertical-offset="4442" max-vertical-offset="6307">
           <folding />
         </state>
       </provider>
