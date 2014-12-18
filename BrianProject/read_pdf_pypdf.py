@@ -8,7 +8,6 @@ from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, 
 
 
 
-
 #PDF = PageObject(PdfFileReader, file("docs/doc3.pdf", 'rb'))
 
 #Brian Changed Pypdf2 generic __repr__
@@ -47,41 +46,6 @@ class PageFilters():
         newlist=sorted(list(set(list1+list2)))
         return newlist
 
-class OutPutDocument(PdfFileWriter):
-
-    # def __init__(self,key):
-    #     global sizes
-    #     self.key=key
-    #     minval=round(min(sizes[key]),3)
-    #     maxval=round(max(sizes[key]),3)
-    #     self.scalePageMin=round(min(sizes[key]),3)
-    #     self.scalePageMax=max(sizes[key])
-    #     self.scalePageLandscapeHeight=minval
-    #     self.scalePageLandscapeWidth=maxval
-    #     self.scalePagePortraitHeight=maxval
-    #     self.scalePagePortraitWidth=minval
-
-
-
-    def getKey(self):
-        return self.key
-
-    def scalePageLandscapeHeight(self):
-        return self.scalePageLandscapeHeight
-
-    def scalePageLandscapeWidth(self):
-        return self.scalePageLandscapeWidth
-
-    def scalePagePortraitHeight(self):
-        return self.scalePagePortraitHeight
-
-    def scalePagePortraitWidth(self):
-        return self.scalePagePortraitHeight
-
-    def smartScale(self,page):
-        pass
-
-
 
 class PDF(PdfFileReader):
 
@@ -118,42 +82,68 @@ class PDF(PdfFileReader):
         results=[]
         j=0
         #tolerance that pagesize is allowed to be
-        tolerance=0.5
+        tolerance=0.1
         for x in range(self.getNumPages()):
             rect=self.getPage(x).trimBox
-            #print str(min(rect[2:])/72)," ", max(rect[2:])/72
+            tester=float(rect[3])/72
+            print tester
             if abs(min(rect[2:])/72-sizes[pageSize][0])<=tolerance and abs(max(rect[2:])/72-sizes[pageSize][1])<=tolerance:
                 results.append(x+1)
             else:
                 pass
         return results
 
-    def scaleListOfPagesToCertainSize(self,listOfPages):
+    # def samePageSize(self,pageSize):
+    #
+    #     global sizes
+    #     global key
+    #     tolerance=0.5
+    #     j=0
+    #     rect=self.getPage(pageSize).trimBox
+    #
+    #     if abs(min(rect[2:])/72-sizes[key][0])<=tolerance and abs(max(rect[2:])/72-sizes[key][1])<=tolerance:
+    #         #print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
+    #         return True
+    #     else:
+    #         #print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
+    #         return False
+
+    def scaleListOfPagesToCertainSize(self,listOfPages,dictkey):
+        #returns a list with each entry being a page object
+
         scaledPages=[]
 
         for x in listOfPages:
 
             page=self.getPage(x-1)
-            scale=self.findScalingFactorForPageIndex(x)
+            scale=self.findScalingFactorForPageIndex(x,dictkey)
             #print scale
             page.scaleBy(scale)
             scaledPages.append(page)
         return scaledPages
 
-
-    def samePageSize(self,pageSize):
-
-        global sizes
+    def findScalingFactorForPageIndex(self,page,newdictkey):
         global key
-        tolerance=0.5
-        j=0
-        rect=self.getPage(pageSize).trimBox
-        if abs(min(rect[2:])/72-sizes[key][0])<=tolerance and abs(max(rect[2:])/72-sizes[key][1])<=tolerance:
-            #print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
-            return True
+        key=newdictkey
+        global sizes
+        global scaledPageMax
+        global scaledPageMin
+
+        if abs(scaledPageMax/self.currentPageLandscapeWidth(page)-1)>abs(scaledPageMin/self.currentPageLandscapeHeight(page)-1):
+        #    print self.currentPageLandscapeWidth(page)
+        #    print scaledPageMax
+
+            scaleFactor=float(scaledPageMax)/float(self.currentPageLandscapeWidth(page))
+
         else:
-            #print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
-            return False
+            print self.currentPageLandscapeWidth(page)
+            print scaledPageMax
+            scaleFactor=float(scaledPageMin)/float(self.currentPageLandscapeHeight(page))
+        #print scaleFactor
+        return scaleFactor
+
+
+
 
 
     def isLandscape(self,page):
@@ -192,24 +182,13 @@ class PDF(PdfFileReader):
         rect=self.getPage(page-1).trimBox
         return min(rect[2],rect[3])/72
 
-    def findScalingFactorForPageIndex(self,page):
-        global key
-        global sizes
-        global scaledPageMax
-        global scaledPageMin
+    def getPageRotationFromPageObject(self):
+        rotation=self['/Rotate']
+        return rotation
 
-        if abs(scaledPageMax/self.currentPageLandscapeWidth(page)-1)>abs(scaledPageMin/self.currentPageLandscapeHeight(page)-1):
-        #    print self.currentPageLandscapeWidth(page)
-        #    print scaledPageMax
-
-            scaleFactor=float(scaledPageMax)/float(self.currentPageLandscapeWidth(page))
-
-        else:
-            print self.currentPageLandscapeWidth(page)
-            print scaledPageMax
-            scaleFactor=float(scaledPageMin)/float(self.currentPageLandscapeHeight(page))
-        #print scaleFactor
-        return scaleFactor
+    def getPageObjectHeight(self):
+        height=self.mediaBox[3]
+        return height
 
     def stampPages(self,listOfPageObjects,filepath):
         output = PdfFileWriter()
@@ -220,27 +199,45 @@ class PDF(PdfFileReader):
             packet = StringIO.StringIO()
 
             existingPdfPage=page
+            pageLength=existingPdfPage.trimBox[2]
+            pageHeight=existingPdfPage.trimBox[3]
+            print pageLength/72
+            print float(pageHeight)/float(72)
             dimensionCurrentPdfPage=(existingPdfPage.trimBox[2]*72,existingPdfPage.trimBox[3]*72)
-
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 
             font=15
             offset=0.25*font
-            top_offset=150
+            top_offset=0
 
             can.setFillColorRGB(1,0,0,alpha=0.25)
             #canvas.setStrokeColor(red)
             can.setFont("Helvetica-Bold", font)
 
-            can.drawString(50, top_offset, "ISSUED FOR CONSTRUCTION")
-            can.drawString(50,top_offset-font-offset, "BY_____________________")
-            can.drawString(50,top_offset-2*font-2*offset, "HOLA")
+            can.drawString(0, top_offset, "ISSUED FOR CONSTRUCTION")
+            can.drawString(0,top_offset-font-offset, "BY_____________________")
+            can.drawString(0,top_offset-2*font-2*offset, "HOLA")
             can.save()
-
+            packet.seek(0)
             new_pdf = PdfFileReader(packet)
 
-            existingPdfPage.mergePage(new_pdf.getPage(0))
+            # if '/Rotate' in page:
+            #     #print True
+            #     rotationAngle=page['/Rotate']
+            # else:
+            #     #print False
+            #     rotationAngle=0
+            #
+            # if rotationAngle==0:
+            #     existingPdfPage.mergePage(new_pdf.getPage(0))
+            #     output.addPage(existingPdfPage)
+            # elif rotationAngle !=0:
+            #     existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=90,tx=50,ty=50)
+            #     output.addPage(existingPdfPage)
+
+            existingPdfPage.mergeRotatedTranslatedPage(new_pdf.getPage(0),rotation=0,tx=0,ty=0)
             output.addPage(existingPdfPage)
+
         outputStream = file(filepath, "wb")
         output.write(outputStream)
         outputStream.close()
@@ -274,26 +271,22 @@ scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
 
 
-
-pdf = PDF(open("docs/doc3.pdf", "rb"))
-
-
-# test=pdf.findScalingFactorForPageIndex(3)
 #
-# print test
-# print type(test)
+pdf = PDF(open("docs/doc3.pdf", "rb"))
+#
+#
 crit1=pdf.findSamePageSizes("A")
-#crit1=pdf.noFilter()
-crit2=pdf.containsTextReturnList("MACHINE SHOP")
+# #crit1=pdf.noFilter()
+# crit2=pdf.containsTextReturnList("MACHINE SHOP")
+#
+# filter=PageFilters(crit1,crit2)
+# list=filter.orFilter()
+#
+# outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
 
-filter=PageFilters(crit1,crit2)
-list=filter.orFilter()
+#output=pdf.stampPages([pdf.getPage(9)],"output/d4.pdf")
 
-outputPages=pdf.scaleListOfPagesToCertainSize(list)
-
-output=pdf.stampPages(outputPages,"output/output2.pdf")
-
-# #END
+#END
 
 
 # crit1=pdf.findSamePageSizes("A")
