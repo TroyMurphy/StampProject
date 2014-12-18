@@ -77,6 +77,15 @@ class PDF(PdfFileReader):
         result=[]
         return result
 
+    def returnListOfAllPages(self):
+        numpages=self.getNumPages()
+        list=[]
+        x=1
+        for page in range(numpages):
+            list.append(x)
+            x+=1
+        return list
+
     def findSamePageSizes(self,pageSize):
 
         global sizes
@@ -323,8 +332,15 @@ class PDF(PdfFileReader):
     #     outputStream.close()
 
 
+#Select PDF that will be Stamped
+pdf = PDF(open("docs/doc3.pdf", "rb"))
 
+#Blank Cover Page that will be used
+copyCover=PDF(open("blank_page.pdf", "rb"))
 
+#GLOBAL VARIABLE
+output = PdfFileWriter()
+OUTPUT_FILE_PATH="output/d33.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -334,126 +350,46 @@ sizes={
         "E":(34,44),
         "F":(28,40)
         }
-
 key="A"
-
 scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
-
-
-#
-pdf = PDF(open("docs/doc3.pdf", "rb"))
-copyCover=PDF(open("blank_page.pdf", "rb"))
-
-#GLOBAL VARIABLE
-output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d32.pdf"
 #
 #
+
+#############################################
+#STEP 1) List criteria to search for
+#############################################
+
 crit1=pdf.findSamePageSizes("B")
 #crit1=pdf.noFilter()
 crit2=pdf.containsTextReturnList("BECKET")
 
+#############################################
+#STEP 2) Filter the two criteria from above with either and or, or all pages
+#############################################
+
 filter=PageFilters(crit1,crit2)
 list=filter.andFilter()
+#list=filter.orFilter()
 
+#If no filters required use as a list of all pages
+#listOfAllPages=pdf.returnListOfAllPages()
 
-#pdf.createTitlePage("Machine Shop","Contains MS and page 8.5")
+#############################################
+#STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
+#############################################
 outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
 
-#titlePage=PDF(open("blank_page.pdf", "rb"))
-#titlePage.createTitlePage("test","test2")
-
+#############################################
+#STEP 4) Create a copy cover page with title and description
+#############################################
 coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
 outputPdf=pdf.stampPages(outputPages)
 
 
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#DO NOT COPY BELOW LINE
+
 outputStream = file(OUTPUT_FILE_PATH, "wb")
 output.write(outputStream)
 outputStream.close()
-
-#output=pdf.stampPages([pdf.getPage(2)],"output/d14.pdf")
-
-#END
-
-
-# crit1=pdf.findSamePageSizes("A")
-# #crit1=pdf.noFilter()
-# crit2=pdf.containsTextReturnList("Machine Shop")
-#
-# filter=PageFilters(crit1,crit2)
-# list=filter.orFilter()
-
-
-
-
-
-
-
-
-
-# pdf = PDF(open("docs/doc3.pdf", "rb"))
-
-
-# text =ScaledPage("A")
-#
-# test=text.scalePageMin
-#
-# print test
-
-#text=pdf.getPagesize()
-#text=pdf.containsTextReturnList("Machine Shop")
-#text=pdf.pageOrientation()
-#text=pdf.currentPageLandscapeHeight(2)
-
-#START TEST
-
-# pdf = PDF(open("docs/doc3.pdf", "rb"))
-#
-# crit1=pdf.findSamePageSizes("A")
-# #crit1=pdf.noFilter()
-# crit2=pdf.containsTextReturnList("Machine Shop")
-#
-# filter=PageFilters(crit1,crit2)
-#
-# print filter.andFilter()
-
-#END TEST
-
-
-#print text
-#text=pdf.getText()
-
-
-#rect=pdf.getPage(6).mediaBox.getHeight()
-#print rect
-
-
-#text=pdf.getPage(6).mediabox
-#print text
-
-
-pageSize={"A":(8.5,11),
-           "B":(11,17),
-           "C":(17,22),
-           "D":(22,34),
-           "E":(34,44),
-           "F":(28,40)
-           }
-
-#print pageSize["A"]
-
-#A 8.5 11
-#B 11 17
-#C 17 22
-#D 22 34
-#C1 24 36
-#E 34 44
-#F 28 40
-#
-#A0 841 1189
-#A1 594 841
-#A2 420 594
-#
-#
-#

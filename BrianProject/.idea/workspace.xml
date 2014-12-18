@@ -22,14 +22,18 @@
     <favorites_list name="test3" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.5245009">
+    <splitter split-orientation="horizontal" split-proportion="0.3768905">
       <split-first>
         <leaf>
-          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="245" column="0" selection-start="7078" selection-end="7078" vertical-scroll-proportion="0.57294834" vertical-offset="3686" max-vertical-offset="7786">
-                  <folding />
+                <state line="83" column="35" selection-start="2098" selection-end="2098" vertical-scroll-proportion="0.73708206" vertical-offset="824" max-vertical-offset="6715">
+                  <folding>
+                    <marker date="1418912045378" expanded="true" signature="1278:9910" placeholder="..." />
+                    <marker date="1418912045378" expanded="true" signature="1998:2163" placeholder="..." />
+                    <marker date="1418912045378" expanded="true" signature="7680:9910" placeholder="..." />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -74,10 +78,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="354" column="17" selection-start="10185" selection-end="10185" vertical-scroll-proportion="0.5911854" vertical-offset="5527" max-vertical-offset="7786">
+                <state line="395" column="0" selection-start="11627" selection-end="11627" vertical-scroll-proportion="0.84798807" vertical-offset="6044" max-vertical-offset="6715">
                   <folding />
                 </state>
               </provider>
@@ -839,7 +843,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="245" column="0" selection-start="7078" selection-end="7078" vertical-scroll-proportion="0.57294834" vertical-offset="3686" max-vertical-offset="7786">
+        <state line="395" column="0" selection-start="11627" selection-end="11627" vertical-scroll-proportion="0.84798807" vertical-offset="6044" max-vertical-offset="6715">
           <folding />
         </state>
       </provider>
