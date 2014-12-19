@@ -265,7 +265,7 @@ class PDF(PdfFileReader):
         output.addPage(existing_pdf)
 
     #def stampPages(self,listOfPageObjects,xPercentOffset=0.2,yPercentOffset=0.2):
-    def stampPages(self,listOfPageObjects,xPercentOffset=0.2,yPercentOffset=0.2,stamps,offset=30):
+    def stampPages(self,listOfPageObjects,stamps,xPercentOffset=0.2,yPercentOffset=0.2,offset=30):
     #def stampPages(self,listOfPageObjects,filepath):
         #output = PdfFileWriter()
         global output
@@ -289,7 +289,7 @@ class PDF(PdfFileReader):
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 
             font=25
-            offset=0.25*font
+            #offset=0.25*font
             top_offset=0
 
             #Dimensions in
@@ -301,18 +301,18 @@ class PDF(PdfFileReader):
 
             for i in reversed(stamps):
 
-                color=i(0)
-                alpha=i(1)
-                fontType=i(2)
-                fontSize=i(3)
-                stampText=i(4)
+                color=i[0]
+                alpha=i[1]
+                fontType=i[2]
+                fontSize=i[3]
+                stampText=i[4]
                 can.setFillColor(color,alpha=alpha)
                 can.setFont(fontType, fontSize)
 
                 #Dimensions in points
                 can.drawString(xcordStampPos, ycordStampPos, stampText)
 
-                ycordStampPos=
+                ycordStampPos=ycordStampPos+fontSize/72+offset
 
 
 
@@ -362,7 +362,7 @@ class PDF(PdfFileReader):
 stamps=[
     (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
     (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
-    (red,0.25,"Helvetica-Bold",25,"Date"),
+    (red,0.25,"Helvetica-Bold",25,"Date")
 
 
     ]
@@ -372,7 +372,7 @@ copyCover=PDF(open("blank_page.pdf", "rb"))
 
 #GLOBAL VARIABLE
 output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d46.pdf"
+OUTPUT_FILE_PATH="output/d49.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -392,7 +392,8 @@ scaledPageMin=sizes[key][0]
 #############################################
 
 #Select PDF that will be Stamped
-pdf = PDF(open("docs/doc3.pdf", "rb"))
+#pdf = PDF(open("docs/doc3.pdf", "rb"))
+pdf = PDF(open("blank_page.pdf", "rb"))
 
 #############################################
 #STEP 1) List criteria to search for
@@ -422,7 +423,7 @@ outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
 #STEP 4) Create a copy cover page with title and description
 #############################################
 coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
-outputPdf=pdf.stampPages(outputPages,xPercentOffset=0.3,yPercentOffset=0.5)
+outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.3,yPercentOffset=0.5)
 
 
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
