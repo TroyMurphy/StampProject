@@ -6,6 +6,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter, legal, elevenSeventeen, landscape,portrait
 from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, red
 from math import sqrt
+from datetime import date
 
 
 
@@ -359,20 +360,14 @@ class PDF(PdfFileReader):
 
 #This is where all stamp information goes
 #   (color,alpha,fontType,fontSize,stampText)
-stamps=[
-    (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
-    (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
-    (red,0.25,"Helvetica-Bold",25,"Date")
 
-
-    ]
 
 #Blank Cover Page that will be used
 copyCover=PDF(open("blank_page.pdf", "rb"))
 
 #GLOBAL VARIABLE
 output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d49.pdf"
+OUTPUT_FILE_PATH="output/d50.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -385,6 +380,7 @@ sizes={
 key="A"
 scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
+today=date.today()
 #
 
 #############################################
@@ -393,7 +389,7 @@ scaledPageMin=sizes[key][0]
 
 #Select PDF that will be Stamped
 #pdf = PDF(open("docs/doc3.pdf", "rb"))
-pdf = PDF(open("blank_page.pdf", "rb"))
+pdf = PDF(open("docs/doc3.pdf", "rb"))
 
 #############################################
 #STEP 1) List criteria to search for
@@ -423,7 +419,14 @@ outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
 #STEP 4) Create a copy cover page with title and description
 #############################################
 coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
-outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.3,yPercentOffset=0.5)
+
+stamps=[
+    (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
+    (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
+    (red,0.25,"Helvetica-Bold",25,"Date"+str(today))
+    ]
+
+outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.3,yPercentOffset=0.5,offset=30)
 
 
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

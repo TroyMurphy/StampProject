@@ -28,8 +28,19 @@
           <file leaf-file-name="read_pdf_pypdf.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="295" column="47" selection-start="8743" selection-end="8743" vertical-scroll-proportion="-98.38461" vertical-offset="2355" max-vertical-offset="6936">
+                <state line="207" column="21" selection-start="5877" selection-end="5879" vertical-scroll-proportion="-7.730769" vertical-offset="3216" max-vertical-offset="6936">
                   <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="print_text.py" pinned="false" current="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/print_text.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state line="9" column="0" selection-start="311" selection-end="329" vertical-scroll-proportion="0.24324325" vertical-offset="0" max-vertical-offset="1071">
+                  <folding>
+                    <element signature="e#0#47#0" expanded="true" />
+                  </folding>
                 </state>
               </provider>
             </entry>
@@ -43,10 +54,10 @@
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="test2.py" pinned="false" current="false" current-in-tab="true">
+          <file leaf-file-name="test2.py" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/test2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="307" column="29" selection-start="8968" selection-end="8968" vertical-scroll-proportion="0.50248754" vertical-offset="4916" max-vertical-offset="7480">
+                <state line="425" column="39" selection-start="12608" selection-end="12612" vertical-scroll-proportion="-11.423077" vertical-offset="6928" max-vertical-offset="7531">
                   <folding>
                     <element signature="e#106#153#0" expanded="true" />
                   </folding>
@@ -70,7 +81,7 @@
           <file leaf-file-name="test2.py" pinned="false" current="true" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/test2.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state line="392" column="0" selection-start="11414" selection-end="11414" vertical-scroll-proportion="0.5135135" vertical-offset="6341" max-vertical-offset="7480">
+                <state line="428" column="90" selection-start="12723" selection-end="12723" vertical-scroll-proportion="0.85055643" vertical-offset="6741" max-vertical-offset="7531">
                   <folding>
                     <element signature="e#106#153#0" expanded="true" />
                   </folding>
@@ -593,7 +604,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833" />
+        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="833">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
@@ -638,7 +653,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833" />
+        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
@@ -658,7 +677,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833" />
+        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
@@ -678,7 +701,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/print_text.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833" />
+        <state line="11" column="16" selection-start="264" selection-end="264" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="833">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
@@ -796,21 +823,9 @@
         <state line="1226" column="19" selection-start="49997" selection-end="50008" vertical-scroll-proportion="0.0" vertical-offset="20842" max-vertical-offset="31331" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/print_text.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="30" selection-start="760" selection-end="760" vertical-scroll-proportion="0.0" vertical-offset="128" max-vertical-offset="952" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/PyPDF2/pdf.py">
       <provider selected="true" editor-type-id="text-editor">
         <state line="2083" column="51" selection-start="86781" selection-end="86781" vertical-scroll-proportion="0.0" vertical-offset="34935" max-vertical-offset="46699">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="348" column="28" selection-start="10602" selection-end="10602" vertical-scroll-proportion="0.0" vertical-offset="5313" max-vertical-offset="6936">
           <folding />
         </state>
       </provider>
@@ -822,9 +837,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/read_pdf_pypdf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="348" column="28" selection-start="10602" selection-end="10602" vertical-scroll-proportion="0.0" vertical-offset="5313" max-vertical-offset="6936">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/print_text.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="311" selection-end="329" vertical-scroll-proportion="0.24324325" vertical-offset="0" max-vertical-offset="1071">
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test2.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="392" column="0" selection-start="11414" selection-end="11414" vertical-scroll-proportion="0.5135135" vertical-offset="6341" max-vertical-offset="7480">
+        <state line="428" column="90" selection-start="12723" selection-end="12723" vertical-scroll-proportion="0.85055643" vertical-offset="6741" max-vertical-offset="7531">
           <folding>
             <element signature="e#106#153#0" expanded="true" />
           </folding>
