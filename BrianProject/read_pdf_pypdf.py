@@ -92,11 +92,14 @@ class PDF(PdfFileReader):
         results=[]
         j=0
         #tolerance that pagesize is allowed to be
-        tolerance=0.1
+        tolerance=0.5
         for x in range(self.getNumPages()):
             rect=self.getPage(x).trimBox
             #tester=float(rect[3])/72
             #print tester
+            #print "Page Dimension"+str(round(min(rect[2:])/72,3))+" "+str(max(rect[2:])/72)
+            #print "Scale Sheet Dimension"+str(round(sizes[pageSize][0],3))+" "+str(sizes[pageSize][1])
+            #print "******"
             if abs(min(rect[2:])/72-sizes[pageSize][0])<=tolerance and abs(max(rect[2:])/72-sizes[pageSize][1])<=tolerance:
                 results.append(x+1)
             else:
@@ -264,7 +267,7 @@ class PDF(PdfFileReader):
         existing_pdf.mergePage(new_pdf.getPage(0))
         output.addPage(existing_pdf)
 
-    def stampPages(self,listOfPageObjects):
+    def stampPages(self,listOfPageObjects,xPercentOffset=0.2,yPercentOffset=0.2):
     #def stampPages(self,listOfPageObjects,filepath):
         #output = PdfFileWriter()
         global output
@@ -275,27 +278,33 @@ class PDF(PdfFileReader):
             packet = StringIO.StringIO()
 
             existingPdfPage=page
+            widthInches=existingPdfPage.trimBox[2]/72
+            heightInches=existingPdfPage.trimBox[3]/72
 
-            dimensionCurrentPdfPage=(existingPdfPage.trimBox[2]*72,existingPdfPage.trimBox[3]*72)
+            widthMill=widthInches*25.4
+            heightMill=heightInches*25.4
+
+            dimensionCurrentPdfPage=(widthInches*72,heightInches*72)
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 
             font=25
             offset=0.25*font
             top_offset=0
 
-            can.setFillColorRGB(1,0,0,alpha=0.75)
+            can.setFillColorRGB(1,0,0,alpha=0.25)
             #canvas.setStrokeColor(red)
             can.setFont("Helvetica-Bold", font)
 
-            can.drawString(30, 30, "ISSUED FOR CONSTRUCTION")
+            #can.drawString(100, 100, "ISSUED FOR CONSTRUCTION")
+            can.drawString(xPercentOffset*widthMill, yPercentOffset*heightMill, "ISSUED FOR CONSTRUCTION")
             #can.drawString(0,top_offset-font-offset, "BY_____________________")
             #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
             can.save()
             packet.seek(0)
             new_pdf = PdfFileReader(packet)
 
-            existingPdfPage.mergePage(new_pdf.getPage(0))
-            output.addPage(existingPdfPage)
+            # existingPdfPage.mergePage(new_pdf.getPage(0))
+            # output.addPage(existingPdfPage)
 
             if '/Rotate' in page:
                 #print True
@@ -332,15 +341,12 @@ class PDF(PdfFileReader):
     #     outputStream.close()
 
 
-#Select PDF that will be Stamped
-pdf = PDF(open("docs/doc3.pdf", "rb"))
-
 #Blank Cover Page that will be used
 copyCover=PDF(open("blank_page.pdf", "rb"))
 
 #GLOBAL VARIABLE
 output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d33.pdf"
+OUTPUT_FILE_PATH="output/d47.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -354,16 +360,23 @@ key="A"
 scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
 #
-#
+
+#############################################
+#STEP 0) Choose PDF that will be stamped
+#############################################
+
+#Select PDF that will be Stamped
+pdf = PDF(open("docs/doc3.pdf", "rb"))
 
 #############################################
 #STEP 1) List criteria to search for
 #############################################
 
-crit1=pdf.findSamePageSizes("B")
+crit1=pdf.findSamePageSizes("A")
+print crit1
 #crit1=pdf.noFilter()
-crit2=pdf.containsTextReturnList("BECKET")
-
+crit2=pdf.containsTextReturnList("MACHINE SHOP")
+print crit2
 #############################################
 #STEP 2) Filter the two criteria from above with either and or, or all pages
 #############################################
@@ -378,13 +391,13 @@ list=filter.andFilter()
 #############################################
 #STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
 #############################################
-outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
+outputPages=pdf.scaleListOfPagesToCertainSize(list,"A")
 
 #############################################
 #STEP 4) Create a copy cover page with title and description
 #############################################
 coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
-outputPdf=pdf.stampPages(outputPages)
+outputPdf=pdf.stampPages(outputPages,xPercentOffset=0.3,yPercentOffset=0.5)
 
 
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
