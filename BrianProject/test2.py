@@ -45,7 +45,9 @@ class PageFilters():
         list1=self.getlist1()
         list2=self.getlist2()
 
-        newlist=sorted(list(set(list1+list2)))
+        #newlist=sorted(list(set(list1+list2)))
+        newlist=list(sorted(set(list1+list2)))
+        #print type(newlist)
         return newlist
 
 
@@ -277,8 +279,12 @@ class PDF(PdfFileReader):
             packet = StringIO.StringIO()
 
             existingPdfPage=page
-            widthInches=existingPdfPage.trimBox[2]/72
-            heightInches=existingPdfPage.trimBox[3]/72
+
+            widthPoints=existingPdfPage.trimBox[2]
+            heightPoints=existingPdfPage.trimBox[3]
+
+            widthInches=widthPoints/72
+            heightInches=heightPoints/72
 
             widthMill=widthInches*25.4
             heightMill=heightInches*25.4
@@ -294,8 +300,8 @@ class PDF(PdfFileReader):
             top_offset=0
 
             #Dimensions in
-            xcordStampPos=xPercentOffset*widthMill
-            ycordStampPos=yPercentOffset*heightMill
+            xcordStampPos=xPercentOffset*widthPoints
+            ycordStampPos=yPercentOffset*heightPoints
 
             #can.setFillColorRGB(1,0,0,alpha=0.25)
             #canvas.setStrokeColor(red)
@@ -313,7 +319,7 @@ class PDF(PdfFileReader):
                 #Dimensions in points
                 can.drawString(xcordStampPos, ycordStampPos, stampText)
 
-                ycordStampPos=ycordStampPos+fontSize/72+offset
+                ycordStampPos=ycordStampPos+fontSize+offset
 
 
 
@@ -321,8 +327,8 @@ class PDF(PdfFileReader):
             packet.seek(0)
             new_pdf = PdfFileReader(packet)
 
-            existingPdfPage.mergePage(new_pdf.getPage(0))
-            output.addPage(existingPdfPage)
+            # existingPdfPage.mergePage(new_pdf.getPage(0))
+            # output.addPage(existingPdfPage)
 
             if '/Rotate' in page:
                 #print True
@@ -367,7 +373,7 @@ copyCover=PDF(open("blank_page.pdf", "rb"))
 
 #GLOBAL VARIABLE
 output = PdfFileWriter()
-OUTPUT_FILE_PATH="output/d50.pdf"
+OUTPUT_FILE_PATH="output/d6.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -395,9 +401,9 @@ pdf = PDF(open("docs/doc3.pdf", "rb"))
 #STEP 1) List criteria to search for
 #############################################
 
-crit1=pdf.findSamePageSizes("B")
+crit1=pdf.findSamePageSizes("A")
 #crit1=pdf.noFilter()
-crit2=pdf.containsTextReturnList("BECKET")
+crit2=pdf.containsTextReturnList("MACHINE SHOP")
 
 #############################################
 #STEP 2) Filter the two criteria from above with either and or, or all pages
@@ -423,10 +429,45 @@ coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine sho
 stamps=[
     (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
     (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
-    (red,0.25,"Helvetica-Bold",25,"Date"+str(today))
+    (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
     ]
 
-outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.3,yPercentOffset=0.5,offset=30)
+outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.2,yPercentOffset=0.15,offset=0)
+#
+#
+# crit1=pdf.findSamePageSizes("A")
+# #crit1=pdf.noFilter()
+# crit2=pdf.containsTextReturnList("BECKET")
+#
+# #############################################
+# #STEP 2) Filter the two criteria from above with either and or, or all pages
+# #############################################
+#
+# filter=PageFilters(crit1,crit2)
+# #list=filter.andFilter()
+# list=filter.orFilter()
+#
+# #If no filters required use as a list of all pages
+# #listOfAllPages=pdf.returnListOfAllPages()
+#
+# #############################################
+# #STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
+# #############################################
+# outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
+#
+# #############################################
+# #STEP 4) Create a copy cover page with title and description
+# #############################################
+# coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
+#
+# stamps=[
+#     (red,0.25,"Helvetica-Bold",25,"Foreman Copy"),
+#     (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
+#     (red,0.25,"Helvetica-Bold",25,"Date"+str(today))
+#     ]
+#
+# outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.3,yPercentOffset=0.5,offset=30)
+
 
 
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
