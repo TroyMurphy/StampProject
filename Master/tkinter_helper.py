@@ -25,6 +25,7 @@ class TkStampManager():
         self.root = tk.Tk()
         self.active_copy = Copy()
         self.copy_list = copyList
+        self.active_stamps={}
         #must be independent of active_copy filters because
         #these filters are not saved to copy until save is pressed
         
@@ -79,6 +80,7 @@ class TkStampManager():
     def _build_stamp_section(self):
         self.stamp_frame = tk.LabelFrame(master=self.root, text="Stamp Manager",width=500, name="stamp_frame")
         #Build the filters
+        
         for i in range(self.active_copy.count_stamps() ):
             self.active_stamps[i] = (
                                       tk.StringVar(self.root),
@@ -89,7 +91,7 @@ class TkStampManager():
         #v[0] is the variable tied to the optionMenu
         #v[1] is the input entry that must be placed in the adjacent column for info
         for k,v in self.active_stamps.items():
-            option = apply(tk.OptionMenu, (self.stamp_frame, v[0]) + tuple(self.PAGE_FILTERS.values()))
+            option = apply(tk.OptionMenu, (self.stamp_frame, v[0]) + tuple(self.PAGE_STAMPS.values()))
             option.grid(row=k+1, column=0)
             v[1].grid(row=k+1, column=1)
         new_stamp_button = tk.Button(master=self.stamp_frame, text="New Stamp", command=self.new_stamp)
