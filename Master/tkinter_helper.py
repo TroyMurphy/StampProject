@@ -16,9 +16,9 @@ class TkStampManager():
                  "E":(34,44),
                  "F":(28,40)
                  }
-    PAGE_FILTERS={
-                  0:"Text Filter",
-                  1:"Image Filter", 
+    PAGE_STAMPS={
+                  0:"Text Stamp",
+                  1:"Image Stamp", 
                    }
     
     def __init__(self, copyList):
@@ -27,7 +27,6 @@ class TkStampManager():
         self.copy_list = copyList
         #must be independent of active_copy filters because
         #these filters are not saved to copy until save is pressed
-        self.active_filters = {}
         
     def run_mainloop(self):
         self.root.mainloop()
@@ -55,9 +54,8 @@ class TkStampManager():
     def _build_filter_section(self):
         #Generates all entities for the window
         #Targeted to mirror image in TroyProject/docs/excel_copy_screenshot.png
-        self.filter_frame = tk.Frame(master=self.root, name="filter_frame")
+        self.filter_frame = tk.LabelFrame(master=self.root, text="Filter Manager",width=500,name="filter_frame")
         
-        title = tk.Label(master=self.filter_frame,bd=2,text="Filter Manager:")
         condition_1_label = tk.Label(master=self.filter_frame, text="Page Contains Text")
         self.condition_1 = tk.Entry(master=self.filter_frame, name='condition_1_entry')
         self.operator = tk.IntVar()
@@ -69,7 +67,6 @@ class TkStampManager():
         pagesize_option_menu = apply(tk.OptionMenu, (self.filter_frame, self.condition_2) + tuple(self.PAGE_SIZES.values()))
         
         #packs entities into the grid
-        title.grid(row=0, column=0, columnspan=2, sticky=tk.W)
         condition_1_label.grid(row=1, column=0, sticky=tk.W)
         self.condition_1.grid(row=1, column=1)
         and_operator.grid(row=2, column=0)
@@ -80,12 +77,10 @@ class TkStampManager():
         return self.filter_frame
     
     def _build_stamp_section(self):
-        self.stamp_frame = tk.Frame(master=self.root, bd=2, name="stamp_frame")
-        stamp_title = tk.Label(master=self.stamp_frame, text="Stamp Manager")
-        stamp_title.grid(row=0, column=0, sticky=tk.W)
+        self.stamp_frame = tk.LabelFrame(master=self.root, text="Stamp Manager",width=500, name="stamp_frame")
         #Build the filters
         for i in range(self.active_copy.count_stamps() ):
-            self.active_filters[i] = (
+            self.active_stamps[i] = (
                                       tk.StringVar(self.root),
                                       tk.Entry(master=self.stamp_frame)
                                       )
@@ -93,7 +88,7 @@ class TkStampManager():
         #k is the index it will be shown in. Add one to offset title
         #v[0] is the variable tied to the optionMenu
         #v[1] is the input entry that must be placed in the adjacent column for info
-        for k,v in self.active_filters.items():
+        for k,v in self.active_stamps.items():
             option = apply(tk.OptionMenu, (self.stamp_frame, v[0]) + tuple(self.PAGE_FILTERS.values()))
             option.grid(row=k+1, column=0)
             v[1].grid(row=k+1, column=1)
@@ -111,6 +106,13 @@ class TkStampManager():
         self.copy_listbox.grid(row=0, column=0)
         self.printButton.grid(row=1, column=0)
         return self.copy_frame
+    
+    def _generate_filters(self):
+        return self.condition_1, self.condition_2
+    
+    def _generate_stamps(self):
+        return self.active_stamps
+        
     def _submit_function(self):
         print("SUBMIT")
         
@@ -118,8 +120,12 @@ class TkStampManager():
         #get info from current window and generate a copy
         newCopy = Copy()
         return newCopy
+    
     def save_copy(self):
-        print("SAVED")
+        filter1,filter2 = self._generate_filters()
+        stamp_dict = self._generate_stamps()
+        copy = Copy(reader_filestream=self.filepath,)
+        
     def get_filepath(self):
         filename = askopenfilename()
         self.file_path.set(filename)

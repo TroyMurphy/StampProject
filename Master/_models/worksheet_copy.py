@@ -1,6 +1,6 @@
 class Copy(object):
-    def __init__(self, reader=None, filter1=None, filter2=None, condition=None, stamp_dict = {}):
-        self.pdf = reader or None
+    def __init__(self, reader_filestream=None, filter1=None, filter2=None, condition=None, stamp_dict = {}):
+        self.pdf = PDF(open(reader_filestream, 'rb')) or None
         self.filter1 = filter1
         self.filter2 = filter2
         self.condition = condition

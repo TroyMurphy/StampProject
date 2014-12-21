@@ -1,8 +1,6 @@
 from tkinter_helper import TkStampManager
 
 ###VARIABLES
-PDF_FILES = ['test_pdfs/doc3.pdf']
-
 COPIES = []
 
 def main():
