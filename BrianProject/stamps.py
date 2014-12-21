@@ -1,114 +1,104 @@
 ################################################################################
 ################################################################################
-#API ISSUED COPY
+#Regular Issued Drawing
 
-
-#Process Department
-
-#TOOL ROOM
+#FILE COPY
 
 stamps=[
 
-    (red,0.25,"Helvetica-Bold",12,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",12,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",12,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",12,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",12,"WO# "+WONUMBER),
-    (red,0.25,"Helvetica-Bold",15,"CONTROLLED DOCUMENT")
+    (red,0.25,"Helvetica-Bold",22,"FILE COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER)
     ]
 
-#BURN TABLE COPY
+#FOREMAN COPY
 
-stamps=[
-    (red,0.25,"Helvetica-Bold",15,"BURN TABLE COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER),
-    (red,0.25,"Helvetica-Bold",12,"CONTROLLED DOCUMENT")
-    ]
-
-
-#FTI
-stamps=[
-    (red,0.25,"Helvetica-Bold",15,"FTI COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",15,"REFERENCE COPY")
-    ]
-
-#MACHINE SHOP COPY
 
 stamps=[
 
-    (red,0.25,"Helvetica-Bold",15,"MACHINE SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER),
-    (red,0.25,"Helvetica-Bold",12,"CONTROLLED DOCUMENT")
+    (red,0.25,"Helvetica-Bold",22,"FOREMAN COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER)
     ]
 
 #SHOP COPY
 
 stamps=[
 
-    (red,0.25,"Helvetica-Bold",15,"SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",15,"REFERENCE COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER),
+    (red,0.25,"Helvetica-Bold",22,"SHOP COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER)
     ]
 
 
-#FOREMAN COPY
+#BURN TABLE COPY
 
 stamps=[
 
-    (red,0.25,"Helvetica-Bold",15,"FOREMAN COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FILE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FTI COPY"),
-    (red,0.25,"Helvetica-Bold",15,"MACHINE SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",15,"BURN TABLE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"REFERENCE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",15,"QA COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FABRICATION COPY"),
-    (red,0.25,"Helvetica-Bold",15,"VENDOR COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
-    (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER),
-    (red,0.25,"Helvetica-Bold",12,"CONTROLLED DOCUMENT")
+    (red,0.25,"Helvetica-Bold",22,"BURN TABLE COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER)
+    ]
+
+#FTI COPY
+
+
+stamps=[
+
+    (red,0.25,"Helvetica-Bold",22,"FTI COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER)
     ]
 
 
-#
-#
+
+#MACHINE SHOP COPY
+
 
 stamps=[
 
-    (red,0.25,"Helvetica-Bold",15,"FOREMAN COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FILE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FTI COPY"),
-    (red,0.25,"Helvetica-Bold",15,"MACHINE SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",15,"BURN TABLE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"REFERENCE COPY"),
-    (red,0.25,"Helvetica-Bold",15,"SHOP COPY"),
-    (red,0.25,"Helvetica-Bold",15,"QA COPY"),
-    (red,0.25,"Helvetica-Bold",15,"FABRICATION COPY"),
-    (red,0.25,"Helvetica-Bold",15,"VENDOR COPY"),
-    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
-    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
-    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
-    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",22,"MACHINE SHOP COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
+    (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER)
+    ]
+
+
+
+
+stamps=[
+
+    (red,0.25,"Helvetica-Bold",22,"FOREMAN COPY"),
+    (red,0.25,"Helvetica-Bold",22,"FILE COPY"),
+    (red,0.25,"Helvetica-Bold",22,"FTI COPY"),
+    (red,0.25,"Helvetica-Bold",22,"MACHINE SHOP COPY"),
+    (red,0.25,"Helvetica-Bold",22,"BURN TABLE COPY"),
+    (red,0.25,"Helvetica-Bold",22,"REFERENCE COPY"),
+    (red,0.25,"Helvetica-Bold",22,"SHOP COPY"),
+    (red,0.25,"Helvetica-Bold",22,"QA COPY"),
+    (red,0.25,"Helvetica-Bold",22,"FABRICATION COPY"),
+    (red,0.25,"Helvetica-Bold",22,"VENDOR COPY"),
+    (red,0.25,"Helvetica-Bold",9,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",9,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",9,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",9,"(DESTROY PREVIOUS REVISION"),
     (red,0.25,"Helvetica-Bold",10,"WO# "+WONUMBER),
     (red,0.25,"Helvetica-Bold",12,"CONTROLLED DOCUMENT")
     ]
