@@ -9,11 +9,6 @@ from math import sqrt
 from datetime import date
 
 
-
-#PDF = PageObject(PdfFileReader, file("docs/doc3.pdf", 'rb'))
-
-#Brian Changed Pypdf2 generic __repr__
-
 class PageFilters():
     def __init__(self,list1,list2):
         self.list1=list1
@@ -120,20 +115,6 @@ class PDF(PdfFileReader):
                 pass
         return results
 
-    # def samePageSize(self,pageSize):
-    #
-    #     global sizes
-    #     global key
-    #     tolerance=0.5
-    #     j=0
-    #     rect=self.getPage(pageSize).trimBox
-    #
-    #     if abs(min(rect[2:])/72-sizes[key][0])<=tolerance and abs(max(rect[2:])/72-sizes[key][1])<=tolerance:
-    #         #print str(rect[2]/72)+ str(rect[3])+ str(sizes[key][0])+ str(sizes[key][1])
-    #         return True
-    #     else:
-    #         #print str(rect[2]/72)+" "+ str(rect[3]/72)+" "+ str(sizes[key][0])+" "+ str(sizes[key][1])
-    #         return False
 
     def scaleListOfPagesToCertainSize(self,listOfPages,dictkey):
         #returns a list with each entry being a page object
@@ -156,6 +137,10 @@ class PDF(PdfFileReader):
                 scale=self.findScalingFactorForPageIndex(x,dictkey)
                 #print scale
                 page.scaleBy(scale)
+                # Difference between trimbox and media box. Trimbox is original fullsize and mediabox is actual size after scale
+                # print "Media box"+str(round(page.mediaBox[2],3))+" "+str(round(page.mediaBox[3],3))
+                # print "Trimbox "+str(page.trimBox[2])+" "+str(page.trimBox[3])
+                # print "**************"
                 scaledPages.append(page)
             return scaledPages
 
@@ -167,7 +152,7 @@ class PDF(PdfFileReader):
         global scaledPageMin
 
         if abs(scaledPageMax/self.currentPageLandscapeWidth(page)-1)>abs(scaledPageMin/self.currentPageLandscapeHeight(page)-1):
-        #    print self.currentPageLandscapeWidth(page)
+
         #    print scaledPageMax
 
             scaleFactor=float(scaledPageMax)/float(self.currentPageLandscapeWidth(page))
@@ -176,11 +161,12 @@ class PDF(PdfFileReader):
             #print self.currentPageLandscapeWidth(page)
             #print scaledPageMax
             scaleFactor=float(scaledPageMin)/float(self.currentPageLandscapeHeight(page))
-        #print scaleFactor
+        #Test to see what scale factor is
+        # print "Scaled Page Dimensions are "+str(scaledPageMax)+" "+str(scaledPageMin)
+        # print "Actual Page Size is "+str(self.currentPageLandscapeWidth(page))+" "+str(self.currentPageLandscapeHeight(page))
+        # print "Scale Factor is "+str(scaleFactor)
+        # print "************************"
         return scaleFactor
-
-
-
 
 
     def isLandscape(self,page):
@@ -205,19 +191,19 @@ class PDF(PdfFileReader):
 
     def currentPageLandscapeHeight(self,page):
         rect=self.getPage(page-1).trimBox
-        return min(rect[2],rect[3])/72
+        return float(min(rect[2:]))/72
 
     def currentPageLandscapeWidth(self,page):
         rect=self.getPage(page-1).trimBox
-        return max(rect[2],rect[3])/72
+        return float(max(rect[2:]))/72
 
     def currentPagePortraitHeight(self,page):
         rect=self.getPage(page-1).trimBox
-        return max(rect[2],rect[3])/72
+        return float(max(rect[2:]))/72
 
     def currentPagePortraitWidth(self,page):
         rect=self.getPage(page-1).trimBox
-        return min(rect[2],rect[3])/72
+        return float(min(rect[2:]))/72
 
     def getPageRotationFromPageObject(self):
         rotation=self['/Rotate']
@@ -226,31 +212,6 @@ class PDF(PdfFileReader):
     def getPageObjectHeight(self):
         height=self.mediaBox[3]
         return height
-
-    # def createTitlePage(self,title,description):
-    #         global output
-    #         packet = StringIO.StringIO()
-    #         can = canvas.Canvas(packet, pagesize="letter")
-    #         #titlePage=PDF(open("blank_page.pdf", "rb"))
-    #         titleStampPage=self.getPage(0)
-    #         font=25
-    #         offset=0.25*font
-    #         top_offset=0
-    #
-    #         can.setFillColorRGB(1,0,0,alpha=0.75)
-    #         #canvas.setStrokeColor(red)
-    #         can.setFont("Helvetica-Bold", font)
-    #
-    #         can.drawString(40,200, title)
-    #         can.drawString(40,150, description)
-    #         #can.drawString(0,top_offset-2*font-2*offset, "HOLA")
-    #         can.save()
-    #         packet.seek(0)
-    #         new_pdf = PdfFileReader(packet)
-    #
-    #         titleStampPage.mergePage(new_pdf.getPage(0))
-    #         output.addPage(titleStampPage)
-
 
     def createCoverPage(self,title,description):
         global output
@@ -294,8 +255,11 @@ class PDF(PdfFileReader):
 
             existingPdfPage=page
 
-            widthPoints=existingPdfPage.trimBox[2]
-            heightPoints=existingPdfPage.trimBox[3]
+            # widthPoints=existingPdfPage.trimBox[2]
+            # heightPoints=existingPdfPage.trimBox[3]
+
+            widthPoints=float(existingPdfPage.mediaBox[2])
+            heightPoints=float(existingPdfPage.mediaBox[3])
 
             widthInches=widthPoints/72
             heightInches=heightPoints/72
@@ -316,6 +280,11 @@ class PDF(PdfFileReader):
             #Dimensions in
             xcordStampPos=xPercentOffset*widthPoints
             ycordStampPos=yPercentOffset*heightPoints
+
+            # print "Page Dimensions "+str(widthPoints)+" "+str(heightPoints)
+            # print "Stamp Location "+str(xcordStampPos)+" "+str(ycordStampPos)
+            # print "**************"
+
 
             #can.setFillColorRGB(1,0,0,alpha=0.25)
             #canvas.setStrokeColor(red)
@@ -387,8 +356,9 @@ class PDF(PdfFileReader):
 
 #GLOBAL VARIABLE
 output = PdfFileWriter()
+
 INPUT_FILE_PATH="docs/doc3.pdf"
-OUTPUT_FILE_PATH="output/d16.pdf"
+OUTPUT_FILE_PATH="output/d28.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -402,52 +372,51 @@ key="A"
 scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
 today=date.today()
-#
 
 #############################################
 #STEP 0) Choose PDF that will be stamped
 #############################################
-
-#Select PDF that will be Stamped
-#pdf = PDF(open("docs/doc3.pdf", "rb"))
-pdf = PDF(open(INPUT_FILE_PATH, "rb"))
-copyCover=PDF(open("blank_page.pdf", "rb"))
-#############################################
-#STEP 1) List criteria to search for
-#############################################
-
-crit1=pdf.findSamePageSizes("A")
-#crit1=pdf.noFilter()
-crit2=pdf.containsTextReturnList("MACHINE SHOP")
-
-#############################################
-#STEP 2) Filter the two criteria from above with either and or, or all pages
-#############################################
-
-filter=PageFilters(crit1,crit2)
-list=filter.andFilter()
-#list=filter.orFilter()
-
-#If no filters required use as a list of all pages
-#listOfAllPages=pdf.returnListOfAllPages()
-
-#############################################
-#STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
-#############################################
-outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
-
-#############################################
-#STEP 4) Create a copy cover page with title and description
-#############################################
-coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
-
-stamps=[
-    (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
-    (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
-    (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
-    ]
-
-outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=0)
+#
+# #Select PDF that will be Stamped
+# #pdf = PDF(open("docs/doc3.pdf", "rb"))
+# pdf = PDF(open(INPUT_FILE_PATH, "rb"))
+# copyCover=PDF(open("blank_page.pdf", "rb"))
+# #############################################
+# #STEP 1) List criteria to search for
+# #############################################
+#
+# crit1=pdf.findSamePageSizes("A")
+# #crit1=pdf.noFilter()
+# crit2=pdf.containsTextReturnList("MACHINE SHOP")
+#
+# #############################################
+# #STEP 2) Filter the two criteria from above with either and or, or all pages
+# #############################################
+#
+# filter=PageFilters(crit1,crit2)
+# list=filter.andFilter()
+# #list=filter.orFilter()
+#
+# #If no filters required use as a list of all pages
+# #listOfAllPages=pdf.returnListOfAllPages()
+#
+# #############################################
+# #STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
+# #############################################
+# outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
+#
+# #############################################
+# #STEP 4) Create a copy cover page with title and description
+# #############################################
+# coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
+#
+# stamps=[
+#     (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
+#     (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
+#     (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
+#     ]
+#
+# outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=0)
 
 #************************************************************************************************************************************************
 #************************************************************************************************************************************************
@@ -463,10 +432,13 @@ copyCover2=PDF(open("blank_page.pdf", "rb"))
 #STEP 1) List criteria to search for
 #############################################
 
-crit1=pdf2.findSamePageSizes("B")
-print "This is crit1"+str(crit1)
+crit1=pdf2.findSamePageSizes("A")
+
+#print "This is crit1"+str(crit1)
 #crit1=pdf.noFilter()
 crit2=pdf2.containsTextReturnList("MACHINE SHOP")
+#crit2=pdf2.noFilter()
+
 
 #############################################
 #STEP 2) Filter the two criteria from above with either and or, or all pages
@@ -478,23 +450,25 @@ filter2=PageFilters(crit1,crit2)
 
 list3=filter2.orFilter2()
 
-print "this is list 3"+str(list3)
+#print "this is list 3"+str(list3)
 #If no filters required use as a list of all pages
 #listOfAllPages=pdf.returnListOfAllPages()
 
 #############################################
 #STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
 #############################################
-outputPages=pdf2.scaleListOfPagesToCertainSize(list3,"A")
+list4=[2,12]
+
+outputPages=pdf2.scaleListOfPagesToCertainSize(list4,"A")
 
 #############################################
 #STEP 4) Create a copy cover page with title and description
 #############################################
-coverPage=copyCover2.createCoverPage("FOREMAN COPY","This is foreman copy")
+coverPage=copyCover2.createCoverPage("Davids Copy","This is foreman copy")
 
 stamps=[
-    (red,0.25,"Helvetica-Bold",25,"Foreman copy"),
-    (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
+    (red,0.25,"Helvetica-Bold",25,"David Murphy"),
+    (red,0.25,"Helvetica-Bold",15,"Signed"),
     (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
     ]
 
