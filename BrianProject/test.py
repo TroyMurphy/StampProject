@@ -1,10 +1,10 @@
-from Tkinter import *
-from tkFileDialog import *
-root = Tk()
-root.wm_title("Pages to PDF")
+def orFilter(list1,list2):
+    for i in list1:
+        if i
 
-w = Label(root, text="Please choose a .pages file to convert.") 
-fileName = askopenfilename(parent=root)
+list1=[2,3,5,7]
+list2=[1,2,8]
 
-w.pack()
-root.mainloop()
+
+
+orFilter(list1,list2)

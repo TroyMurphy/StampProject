@@ -358,7 +358,7 @@ class PDF(PdfFileReader):
 output = PdfFileWriter()
 
 INPUT_FILE_PATH="docs/doc3.pdf"
-OUTPUT_FILE_PATH="output/d28.pdf"
+OUTPUT_FILE_PATH="output/d32.pdf"
 sizes={
         "None":(0,0),
         "A":(8.5,11),
@@ -371,52 +371,53 @@ sizes={
 key="A"
 scaledPageMax=sizes[key][1]
 scaledPageMin=sizes[key][0]
-today=date.today()
+TODAY=str(date.today())
+WONUMBER=str(16456)
 
 #############################################
 #STEP 0) Choose PDF that will be stamped
 #############################################
 #
-# #Select PDF that will be Stamped
-# #pdf = PDF(open("docs/doc3.pdf", "rb"))
-# pdf = PDF(open(INPUT_FILE_PATH, "rb"))
-# copyCover=PDF(open("blank_page.pdf", "rb"))
-# #############################################
-# #STEP 1) List criteria to search for
-# #############################################
-#
-# crit1=pdf.findSamePageSizes("A")
-# #crit1=pdf.noFilter()
-# crit2=pdf.containsTextReturnList("MACHINE SHOP")
-#
-# #############################################
-# #STEP 2) Filter the two criteria from above with either and or, or all pages
-# #############################################
-#
-# filter=PageFilters(crit1,crit2)
-# list=filter.andFilter()
-# #list=filter.orFilter()
-#
-# #If no filters required use as a list of all pages
-# #listOfAllPages=pdf.returnListOfAllPages()
-#
-# #############################################
-# #STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
-# #############################################
-# outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
-#
-# #############################################
-# #STEP 4) Create a copy cover page with title and description
-# #############################################
-# coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
-#
-# stamps=[
-#     (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
-#     (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
-#     (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
-#     ]
-#
-# outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=0)
+#Select PDF that will be Stamped
+#pdf = PDF(open("docs/doc3.pdf", "rb"))
+pdf = PDF(open(INPUT_FILE_PATH, "rb"))
+copyCover=PDF(open("blank_page.pdf", "rb"))
+#############################################
+#STEP 1) List criteria to search for
+#############################################
+
+crit1=pdf.findSamePageSizes("A")
+#crit1=pdf.noFilter()
+crit2=pdf.containsTextReturnList("MACHINE SHOP")
+
+#############################################
+#STEP 2) Filter the two criteria from above with either and or, or all pages
+#############################################
+
+filter=PageFilters(crit1,crit2)
+list=filter.andFilter()
+#list=filter.orFilter()
+
+#If no filters required use as a list of all pages
+#listOfAllPages=pdf.returnListOfAllPages()
+
+#############################################
+#STEP 3) Scale all pages to a certain size, or none. Use key from sizes such as "A"
+#############################################
+outputPages=pdf.scaleListOfPagesToCertainSize(list,"None")
+
+#############################################
+#STEP 4) Create a copy cover page with title and description
+#############################################
+coverPage=copyCover.createCoverPage("Machine Shop Copy","This is the machine shop")
+
+stamps=[
+    (red,0.25,"Helvetica-Bold",25,"MACHINE SHOP"),
+    (red,0.25,"Helvetica-Bold",25,"Issued For Construction"),
+    (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
+    ]
+
+outputPdf=pdf.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=0)
 
 #************************************************************************************************************************************************
 #************************************************************************************************************************************************
@@ -459,20 +460,27 @@ list3=filter2.orFilter2()
 #############################################
 list4=[2,12]
 
-outputPages=pdf2.scaleListOfPagesToCertainSize(list4,"A")
+outputPages=pdf2.scaleListOfPagesToCertainSize(list4,"None")
 
 #############################################
 #STEP 4) Create a copy cover page with title and description
 #############################################
 coverPage=copyCover2.createCoverPage("Davids Copy","This is foreman copy")
 
+
+
 stamps=[
-    (red,0.25,"Helvetica-Bold",25,"David Murphy"),
-    (red,0.25,"Helvetica-Bold",15,"Signed"),
-    (red,0.25,"Helvetica-Bold",25,"Date "+str(today))
+
+    (red,0.25,"Helvetica-Bold",15,"BURN TABLE COPY"),
+    (red,0.25,"Helvetica-Bold",8,"APPROVED FOR CONSTRUCTION"),
+    (red,0.25,"Helvetica-Bold",8,"BY_______________________"),
+    (red,0.25,"Helvetica-Bold",8,"DATE "+TODAY),
+    (red,0.25,"Helvetica-Bold",8,"(DESTROY PREVIOUS REVISION)"),
+    (red,0.25,"Helvetica-Bold",10,"WO #"+WONUMBER),
+    (red,0.25,"Helvetica-Bold",12,"CONTROLLED DOCUMENT")
     ]
 
-outputPdf=pdf2.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=0)
+outputPdf=pdf2.stampPages(outputPages,stamps,xPercentOffset=0.1,yPercentOffset=0.15,offset=2)
 
 
 
