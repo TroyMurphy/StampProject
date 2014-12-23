@@ -1,8 +1,9 @@
 from reader import StampPDFReader
 
 class Copy(object):
-    def __init__(self, reader_filestream=None, filter1=None, filter2=None, condition=None, stamp_dict = {}):
+    def __init__(self, reader_filestream=None, copy_name=None, filter1=None, filter2=None, condition=None, stamp_dict = {}):
         self.pdf = StampPDFReader(open(str(reader_filestream), 'rb'))
+        self.name = copy_name
         self.filter1 = filter1
         self.filter2 = filter2
         self.condition = condition

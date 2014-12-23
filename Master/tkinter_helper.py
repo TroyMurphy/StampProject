@@ -1,4 +1,4 @@
-from _models.worksheet_copy import Copy
+from _models.copy import Copy
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
 #For 2.7 and 3 consistency
@@ -28,7 +28,10 @@ class TkStampManager():
         #stamp_master allows the new button to be below all entries easily
         self.stamp_frame = None
         #Content to create a new copy instance
-        self.input_filepath = None
+        self.input_filepath = tk.StringVar()
+        self.input_filepath.set("Choose a file")
+        self.filepath_button_text = tk.StringVar()
+        self.filepath_button_text.set("Open")
         self.text_filter_keyphrase = None
         self.page_size_filter = tk.StringVar()
         self.condition1_string = tk.StringVar()
@@ -44,6 +47,16 @@ class TkStampManager():
     ##########################
     def _build_frames(self):
         def _build_left_frame(window):
+            def _build_file_search(window):
+                file_search_frame = tk.LabelFrame(master=window, text="Finder", labelanchor=tk.N)
+                file_search_label = tk.Label(master=file_search_frame, wraplength=400, textvariable=self.input_filepath, justify=tk.LEFT)
+                file_search_button = tk.Button(master=file_search_frame, textvariable=self.filepath_button_text, command=self._file_search)
+                
+                file_search_label.grid(row=0,column=0)
+                file_search_button.grid(row=0,column=1)
+                file_search_frame.columnconfigure(0, minsize=400)
+                file_search_frame.grid(row=0,column=0,sticky=tk.N+tk.W+tk.E)
+                
             def _build_filter_frame(window):
                 filter_frame = tk.LabelFrame(master=window, text="Filter Manager", labelanchor=tk.N)
                 filter1_label = tk.Label(master=filter_frame, text="Page Contains Text:")
@@ -63,7 +76,7 @@ class TkStampManager():
                 filter_frame.columnconfigure(0, minsize=240)
                 filter_frame.columnconfigure(1, minsize=240)
                 #place frame at the top stretched across the cell
-                filter_frame.grid(row=0,column=0,sticky=tk.N+tk.W+tk.E)
+                filter_frame.grid(row=1,column=0,sticky=tk.N+tk.W+tk.E)
                 
             def _build_stamp_frame(window):
                 stamp_master = tk.LabelFrame(master=window, text="Stamp Manager", labelanchor=tk.N)
@@ -85,8 +98,9 @@ class TkStampManager():
                 self.stamp_frame.grid(row=0, column=0)
                 new_stamp_button.grid(row=1, column=0)
                 
-                stamp_master.grid(row=1,column=0, sticky=tk.N+tk.W+tk.E)
-                    
+                stamp_master.grid(row=2,column=0, sticky=tk.N+tk.W+tk.E)
+            
+            _build_file_search(window)      
             _build_filter_frame(window)
             _build_stamp_frame(window)
 
@@ -113,6 +127,10 @@ class TkStampManager():
         
         submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy)
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
+    
+    def _file_search(self):
+        self.input_filepath.set(askopenfilename())
+        self.filepath_button_text.set("Change")
         
     def _new_stamp_function(self):
         next_stamp_key = len(self.stamp_dict)
