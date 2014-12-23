@@ -5,6 +5,10 @@ __pycache__/
 # C extensions
 *.so
 
+#pip installs
+PyPDF2/
+reportlab/
+
 # Distribution / packaging
 .Python
 env/
