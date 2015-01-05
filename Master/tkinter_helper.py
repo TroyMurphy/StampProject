@@ -1,4 +1,5 @@
 from _models.pdf_copy import StampPDFCopy
+from _models.reader import StampPDFReader
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
 #For 2.7 and 3 consistency
@@ -10,15 +11,10 @@ except ImportError:
 DEFAULT_STAMP_NUM = 1
 WORLD_COORDINATES = "1200x810"
 LEFT_FRAME_WIDTH = 480
+BUTTON_PADDING = 20
+
 class TkStampManager():
-    PAGE_SIZES={
-                 "8.5 x 11":("A",(8.5,11)),
-                 "11 x 17":("B",(11,17)),
-                 "17 x 22":("C",(17,22)),
-                 "22 x 34":("D",(22,34)),
-                 "34 x 44":("E",(34,44)),
-                 "28 x 40":("F",(28,40))
-                 }
+    PAGE_SIZES= StampPDFCopy.PAGE_SIZES
     PAGE_STAMP_TYPES= Stamp.TYPES
     
     def __init__(self, copyList):
@@ -32,6 +28,7 @@ class TkStampManager():
         self.copy_name = tk.StringVar()
         self.input_filepath = tk.StringVar()
         self.input_filepath.set("Choose a file")
+        self.output_filepath = tk.StringVar()
         self.filepath_button_text = tk.StringVar()
         self.filepath_button_text.set("Open")
         self.text_filter_keyphrase = None
@@ -111,11 +108,14 @@ class TkStampManager():
 
         def _build_center_frame(window):
             def _build_copy_selection(window):
-                selection_checkbuttons = tk.Frame(master=window, background="ivory")
+                selection_checkbuttons = tk.Frame(master=window, background="ivory", name='checkbutton_frame')
+                rowindex = 0
                 for c in self.created_copies_list:
-                    insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.get_shouldPrint(), indicatoron=0)
-                    insert_checkbox.pack(tk.TOP)
-                selection_checkbuttons.grid(row=0,column=0)
+                    insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
+                    insert_checkbox.grid(row=rowindex, sticky=tk.N+tk.W+tk.E)
+                    rowindex += 1
+                selection_checkbuttons.grid(row=0,column=0, sticky=tk.N+tk.W+tk.E)
+            _build_copy_selection(window)
         def _build_right_frame(window):
             def _build_file_search(window):
                 file_search_frame = tk.LabelFrame(master=window, text="Finder", labelanchor=tk.N)
@@ -127,17 +127,22 @@ class TkStampManager():
                 file_search_frame.columnconfigure(0, minsize=400)
                 file_search_frame.grid(row=0,column=0,sticky=tk.N+tk.W+tk.E)
                 
-            _build_file_search(window)
+            def _build_final_submit_button(window):
+                submit_button = tk.Button(master=window, text="Print Selected Copies To File", pady=BUTTON_PADDING, command=self._final_submit_func)
+                submit_button.grid(row=1, sticky=tk.N+tk.W+tk.E)
             
-        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=800, padx=5, pady=5)
+            _build_file_search(window)
+            _build_final_submit_button(window)
+            
+        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=800, padx=5, pady=5, name="left_frame")
         frame_left.grid_propagate(0)
         frame_left.grid(row=0,column=0)
         
-        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=800, padx=5, pady=5,)
+        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=800, padx=5, pady=5, name="center_frame")
         frame_center.grid_propagate(0)
         frame_center.grid(row=0,column=1)
         
-        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=800, padx=5, pady=5)
+        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=800, padx=5, pady=5, name="right_frame")
         frame_right.grid_propagate(0)
         frame_right.grid(row=0,column=2)
     
@@ -145,7 +150,7 @@ class TkStampManager():
         _build_center_frame(frame_center)
         _build_right_frame(frame_right)
         
-        submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy)
+        submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy, background="blue", pady=BUTTON_PADDING)
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
     
     def _file_search(self):
@@ -165,17 +170,32 @@ class TkStampManager():
         pass
         
     def _submit_copy(self):
-        print("Submit Copy")
-        copy = StampPDFCopy(
-                    copy_name=self.copy_name,
-                    text_filter_content=self.text_filter_keyphrase,
-                    size_filter_content=self.page_size_filter,
-                    condition = self.condition_string,
-                    stamp_dict=self.stamp_dict,
-                    )
-        return copy
+        if (self.condition_string.get() is not None and self.copy_name.get() is not ""):
+            if self.condition_string=="all" or (self.page_size_filter is not None and self.text_filter_keyphrase !=""):
+                c = StampPDFCopy(
+                            copy_name=str(self.copy_name.get()),
+                            text_filter_content=self.text_filter_keyphrase,
+                            size_filter_content=self.page_size_filter,
+                            condition = self.condition_string,
+                            stamp_dict=self.stamp_dict,
+                            )
+            else:
+                print("Conditions or All Filter Required")
+            self.created_copies_list.append(c)
+            print("Copy Created")
+            #insert into checkbutton frame in center for final selection
+            checkbutton_frame = self.root.nametowidget("center_frame.checkbutton_frame")
+            insert_checkbox = tk.Checkbutton(master=checkbutton_frame, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
+            insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.N+tk.W+tk.E)
+            
+            return c
+        print ("{} is None".format("condition" if self.condition_string.get() is None else "name"))
+        return False
     
-    
+    def _final_submit_func(self):
+        pdf_in = StampPDFReader(self.input_filepath)
+        pdf_out = StampPDFWriter()
+        selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
     
     
     

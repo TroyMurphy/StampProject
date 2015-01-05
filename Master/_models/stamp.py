@@ -4,10 +4,12 @@ except:
     from Tkinter import StringVar
 
 class Stamp(object):
-    TYPES = {
-             "Text Stamp":0,
-             "Image Stamp":1, 
-             }
+    TEXT_INDEX=0
+    IMAGE_INDEX=1
+    TYPES = [
+             "Text Stamp",
+             "Image Stamp", 
+             ]
     def __init__(self, type=None, content=None):
         self.type = type or StringVar()
         self.content = content or ""

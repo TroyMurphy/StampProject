@@ -5,3 +5,9 @@ class StampPDFReader(pypdf2.PdfFileReader):
     
     def getPagesOfSize(self, pageSize):
         return []
+    
+    
+class StampPDFWriter(pypdf2.PdfFileWriter):
+    
+    def insert_title_page(self, title_text):
+        return 0
