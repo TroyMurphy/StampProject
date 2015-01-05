@@ -2347,7 +2347,7 @@ class PageObject(DictionaryObject):
         :return: a unicode string object.
         """
         text = u_("")
-        content = self["/Contents"].getOb*ject()
+        content = self["/Contents"].getObject()
         if not isinstance(content, ContentStream):
             content = ContentStream(content, self.pdf)
         # Note: we check all strings are TextStringObjects.  ByteStringObjects
