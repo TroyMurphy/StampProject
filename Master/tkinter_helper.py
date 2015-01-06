@@ -17,7 +17,7 @@ class TkStampManager():
     PAGE_SIZES= StampPDFCopy.PAGE_SIZES
     PAGE_STAMP_TYPES= Stamp.TYPES
     
-    def __init__(self, copyList):
+    def __init__(self, copyListFunc):
         self.root = tk.Tk()
         self.root.geometry(WORLD_COORDINATES)
         self.root.grid_propagate(0)
@@ -31,13 +31,13 @@ class TkStampManager():
         self.output_filepath = tk.StringVar()
         self.filepath_button_text = tk.StringVar()
         self.filepath_button_text.set("Open")
-        self.text_filter_keyphrase = None
+        self.text_filter_keyphrase = tk.StringVar()
         self.page_size_filter = tk.StringVar()
         self.condition_string = tk.StringVar()
         #self.condition_string.trace('w', self.condition_update_function) # To disable filters on selection of all
         self.stamp_dict = {}
         
-        self.created_copies_list = copyList
+        self.created_copies_list = copyListFunc()
         self._build_frames()
     
     def run_mainloop(self):
@@ -171,12 +171,12 @@ class TkStampManager():
         
     def _submit_copy(self):
         if (self.condition_string.get() is not None and self.copy_name.get() is not ""):
-            if self.condition_string=="all" or (self.page_size_filter is not None and self.text_filter_keyphrase !=""):
+            if self.condition_string=="all" or (self.page_size_filter.get()!="" and self.text_filter_keyphrase.get() !=""):
                 c = StampPDFCopy(
                             copy_name=str(self.copy_name.get()),
-                            text_filter_content=self.text_filter_keyphrase,
-                            size_filter_content=self.page_size_filter,
-                            condition = self.condition_string,
+                            text_filter_content=str(self.text_filter_keyphrase.get()),
+                            size_filter_content=str(self.page_size_filter.get()),
+                            condition = str(self.condition_string.get()),
                             stamp_dict=self.stamp_dict,
                             )
             else:
