@@ -1,7 +1,7 @@
 try:
-    from tkinter import StringVar
+    import tkinter as tk
 except:
-    from Tkinter import StringVar
+    import Tkinter as tk
 
 class Stamp(object):
     TEXT_INDEX=0
@@ -10,12 +10,12 @@ class Stamp(object):
              "Text Stamp",
              "Image Stamp", 
              ]
-    def __init__(self, type=None, content=None):
-        self.type = type or StringVar()
-        self.content = content or ""
+    def __init__(self):
+        self.type = tk.StringVar()
+        self.content = ""
         
-    def set_type(self, option):
-        self.type = self.TYPES[option]
+    def set_type(self, type_index):
+        self.type.set(self.TYPES[type_index])
     
     def set_content(self, content):
         self.content = content

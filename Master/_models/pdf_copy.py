@@ -1,4 +1,5 @@
 import copy
+from multiprocessing import Condition
 
 try:
     from tkinter import IntVar
@@ -18,17 +19,31 @@ class StampPDFCopy(object):
              }
     
     def __init__(self, copy_name=None, text_filter_content=None, 
-                 size_filter_content=None, condition=None, stamp_dict = {}):
+                 size_filter_content=None, condition=None, stamp_dict=None):
         self.display_name = copy_name.upper()
         self.text_filter_content = text_filter_content
         self.size_filter_content = size_filter_content
         self.condition = condition
-        self.stamp_dict = stamp_dict
         self.shouldPrint = IntVar()
-      
+        if type(stamp_dict)==dict:
+            self.stamp_dict = stamp_dict
+        elif type(stamp_dict)==tuple:
+            init_stamps(stamp_dict)
+        else:
+            stamp_dict={}
         #deepcopied list of pypdf page objects from reader, is filtered by apply filters func
         self.valid_pages = [] 
-
+        
+    def init_stamps(self, stamp_objects):
+        #must initialize an instance with empty stringvar objects to call this function
+        if text_filter is not None:
+            self.text_filter_content.set(text_filter)
+        if size_filter is not None:
+            self.size_filter_content.set(size_filter)
+        self.condition.set(condition)
+        for i in range(len(stamp_objects)):
+            self.stamp_dict[i] = stamp_objects[i]
+        
     def get_text_filter(self):
         return self.text_filter_content
     def get_size_filter(self):
