@@ -150,7 +150,7 @@ class TkStampManager():
         _build_center_frame(frame_center)
         _build_right_frame(frame_right)
         
-        submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy, background="blue", pady=BUTTON_PADDING)
+        submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy, pady=BUTTON_PADDING)
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
     
     def _file_search(self):
