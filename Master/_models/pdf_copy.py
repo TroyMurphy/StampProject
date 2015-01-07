@@ -62,6 +62,7 @@ class StampPDFCopy(object):
     
     def add_reader(self, reader):
         self.reader = reader
+        self.stamp_pdf()
     
     def test_page_text_filter(self):
         words = [w.strip() for w in self.text_filter_content.split(",")]
@@ -98,5 +99,11 @@ class StampPDFCopy(object):
     def get_pages(self):
         return self.valid_pages
     
-    def stamp_pdf(self, pdf_reader):
-        pass
+    def stamp_pdf(self):
+        #will stamp every page on reader with stamp.
+        #Should only stamp valid pages.
+        for stamp in self.get_stamp_dict().values():
+            #TODO: SET OFFSETS HERE!
+            for page in self.reader:
+                stamp_pdf = stamp.generate_pdf_page(page.trimBox[2]*PIXELS_PER_INCH,page.trimBox[3]*PIXELS_PER_INCH)
+                page = page.mergePage(stamp_pdf.getPage(0))
