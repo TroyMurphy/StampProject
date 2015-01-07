@@ -2,6 +2,7 @@ from _models.pdf_copy import StampPDFCopy
 from _models.reader import StampPDFReader
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
+from test.test_index import minsize
 #For 2.7 and 3 consistency
 try:
     import tkinter as tk
@@ -34,6 +35,7 @@ class TkStampManager():
         self.text_filter_keyphrase = tk.StringVar()
         self.page_size_filter = tk.StringVar()
         self.condition_string = tk.StringVar()
+        self.scale_output_to = tk.StringVar()
         #self.condition_string.trace('w', self.condition_update_function) # To disable filters on selection of all
         self.stamp_dict = {}
         
@@ -101,11 +103,18 @@ class TkStampManager():
                 new_stamp_button.grid(row=1, column=0)
                 
                 stamp_master.grid(row=2,column=0, sticky=tk.N+tk.W+tk.E)
+            def _build_scale_frame(window):
+                scale_frame = tk.LabelFrame(master=window, text="Scale To", labelanchor=tk.N)
+                scale_option_menu = tk.OptionMenu(scale_frame, self.scale_output_to, *self.PAGE_SIZES.keys())
+                scale_option_menu.grid(sticky=tk.N+tk.W+tk.E)
+                scale_frame.columnconfigure(0, minsize=LEFT_FRAME_WIDTH/2)
+                scale_frame.grid(row=3,column=0)
             
             _build_name_frame(window)
             _build_filter_frame(window)
             _build_stamp_frame(window)
-
+            _build_scale_frame(window)
+            
         def _build_center_frame(window):
             def _build_copy_selection(window):
                 selection_checkbuttons = tk.Frame(master=window, background="ivory", name='checkbutton_frame')
@@ -114,7 +123,7 @@ class TkStampManager():
                     insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
                     insert_checkbox.grid(row=rowindex, sticky=tk.N+tk.W+tk.E)
                     rowindex += 1
-                selection_checkbuttons.grid(row=0,column=0, sticky=tk.N+tk.W+tk.E)
+                selection_checkbuttons.grid(row=0,column=0, sticky=tk.W)
             _build_copy_selection(window)
         def _build_right_frame(window):
             def _build_file_search(window):
@@ -178,6 +187,7 @@ class TkStampManager():
                             size_filter_content=str(self.page_size_filter.get()),
                             condition = str(self.condition_string.get()),
                             stamp_dict=self.stamp_dict,
+                            scale_output_to = self.scale_output_to.get()
                             )
             else:
                 print("Conditions or All Filter Required")

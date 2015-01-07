@@ -19,7 +19,7 @@ class StampPDFCopy(object):
              }
     
     def __init__(self, copy_name=None, text_filter_content=None, 
-                 size_filter_content=None, condition=None, stamp_dict=None):
+                 size_filter_content=None, condition=None, stamp_dict=None, scale_output_to=None):
         self.display_name = copy_name.upper()
         self.text_filter_content = text_filter_content
         self.size_filter_content = size_filter_content
@@ -32,7 +32,9 @@ class StampPDFCopy(object):
         else:
             stamp_dict={}
         #deepcopied list of pypdf page objects from reader, is filtered by apply filters func
-        self.valid_pages = [] 
+        self.valid_pages = []
+        if scale_output_to is not None:
+            self.scale_output_to=scale_output_to
         
     def init_stamps(self, stamp_objects):
         #must initialize an instance with empty stringvar objects to call this function
