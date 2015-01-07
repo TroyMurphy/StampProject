@@ -1,5 +1,5 @@
 import copy
-from multiprocessing import Condition
+from collections import OrderedDict
 
 try:
     from tkinter import IntVar
@@ -9,14 +9,14 @@ except:
 class StampPDFCopy(object):
     SIZE_TOLERANCE = 0.5
 
-    PAGE_SIZES={
-             "8.5 x 11":("A",(8.5,11)),
-             "11 x 17":("B",(11,17)),
-             "17 x 22":("C",(17,22)),
-             "22 x 34":("D",(22,34)),
-             "34 x 44":("E",(34,44)),
-             "28 x 40":("F",(28,40))
-             }
+    PAGE_SIZES= OrderedDict([
+             ("8.5 x 11",("A",(8.5,11))),
+             ("11 x 17",("B",(11,17))),
+             ("17 x 22",("C",(17,22))),
+             ("22 x 34",("D",(22,34))),
+             ("34 x 44",("E",(34,44))),
+             ("28 x 40",("F",(28,40)))
+             ])
     
     def __init__(self, copy_name=None, text_filter_content=None, 
                  size_filter_content=None, condition=None, stamp_dict=None, scale_output_to=None):
@@ -33,8 +33,7 @@ class StampPDFCopy(object):
             stamp_dict={}
         #deepcopied list of pypdf page objects from reader, is filtered by apply filters func
         self.valid_pages = []
-        if scale_output_to is not None:
-            self.scale_output_to=scale_output_to
+        self.scale_output_to=scale_output_to
         
     def init_stamps(self, stamp_objects):
         #must initialize an instance with empty stringvar objects to call this function
@@ -59,11 +58,19 @@ class StampPDFCopy(object):
     def get_shouldPrint(self):
         return self.shouldPrint.get()
     
+    def create_output_pages(self, filereader, filewriter):
+        self.set_valid_pages(filereader)
+        filewriter.addBlankPage()
+        for p in self.valid_pages:
+            filewriter.addPage(p)
+        
+    
     def set_valid_pages(self, filereader):
         for page in filereader.pages:
             self.valid_pages.append(copy.deepcopy(page))
         self.apply_filters()
         
+    
     def str_rep(self):
         outputstring=""
         outputstring += self.get_name()
@@ -79,6 +86,7 @@ class StampPDFCopy(object):
     
     def apply_filters(self):
         if self.condition=="all":
+            #keep all pages
             return 0
         if self.condition=="and":
             for page in self.valid_pages:

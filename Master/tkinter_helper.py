@@ -1,8 +1,8 @@
 from _models.pdf_copy import StampPDFCopy
-from _models.reader import StampPDFReader
+from _models.reader import StampPDFReader, StampPDFWriter
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
-from test.test_index import minsize
+from datetime import datetime
 #For 2.7 and 3 consistency
 try:
     import tkinter as tk
@@ -14,6 +14,7 @@ WORLD_COORDINATES = "1200x810"
 LEFT_FRAME_WIDTH = 480
 BUTTON_PADDING = 20
 LABEL_FRAME_PADDING = 5
+DEFAULT_OUTPUT_PATH = lambda:"~/Downloads/COPYSET_"+datetime.now().strftime("%y/%m/%d/%H:%M:%S")
 
 class TkStampManager():
     PAGE_SIZES= StampPDFCopy.PAGE_SIZES
@@ -118,11 +119,11 @@ class TkStampManager():
             
         def _build_center_frame(window):
             def _build_copy_selection(window):
-                selection_checkbuttons = tk.Frame(master=window, background="ivory", name='checkbutton_frame')
+                selection_checkbuttons = tk.Frame(master=window, bg="grey", name='checkbutton_frame')
                 rowindex = 0
                 for c in self.created_copies_list:
-                    insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
-                    insert_checkbox.grid(row=rowindex, sticky=tk.W)
+                    insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.shouldPrint, indicatoron=0, justify=tk.CENTER)
+                    insert_checkbox.grid(row=rowindex, sticky=tk.W+tk.E)
                     rowindex += 1
                 
                 selection_checkbuttons.columnconfigure(0,minsize=LEFT_FRAME_WIDTH/2)    
@@ -140,8 +141,8 @@ class TkStampManager():
                 file_search_frame.grid(row=0,column=0,sticky=tk.N+tk.W+tk.E)
                 
             def _build_final_submit_button(window):
-                submit_button = tk.Button(master=window, text="Print Selected Copies To File", pady=BUTTON_PADDING, command=self._final_submit_func)
-                submit_button.grid(row=1, sticky=tk.N+tk.W+tk.E)
+                submit_button = tk.Button(master=window, text="Print Selected Copies To File", command=self._final_submit_func)
+                submit_button.grid(row=1, sticky=tk.N+tk.W+tk.E,pady=BUTTON_PADDING,)
             
             _build_file_search(window)
             _build_final_submit_button(window)
@@ -198,19 +199,25 @@ class TkStampManager():
             print("Copy Created")
             #insert into checkbutton frame in center for final selection
             checkbutton_frame = self.root.nametowidget("center_frame.checkbutton_frame")
-            insert_checkbox = tk.Checkbutton(master=checkbutton_frame, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
-            insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.W)
+            insert_checkbox = tk.Checkbutton(master=checkbutton_frame, text=c.get_name(), variable=c.shouldPrint, indicatoron=0, justify=tk.CENTER)
+            insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.W+tk.E)
             
             return c
         print ("{} is None".format("condition" if self.condition_string.get() is None else "name"))
         return False
     
     def _final_submit_func(self):
-        pdf_in = StampPDFReader(self.input_filepath)
+        #at the end create filereader and filewriter
+        pdf_in = StampPDFReader(file(self.input_filepath.get(), 'rb'))
         pdf_out = StampPDFWriter()
+        #Have each selected copy generate, stamp, and then add its pages to the filewriter object
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
-    
-    
+        for stamp_copy in selected_copies:
+            stamp_copy.create_output_pages(pdf_in, pdf_out)
+        #write the pdf_out document to file
+        outputStream = file(filepath, "wb")
+        pdf_out.write(outputStream)
+        outputStream.close()
     
     
         

@@ -22,7 +22,7 @@ def generate_base_copy_instances():
                         )
     foreman_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "FOREMAN COPY")}
     foreman_copy = StampPDFCopy(
-                            copy_name= "SHOP",
+                            copy_name= "FOREMAN",
                             text_filter_content="",
                             size_filter_content="",
                             condition = "all",
