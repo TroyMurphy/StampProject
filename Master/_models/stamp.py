@@ -10,9 +10,11 @@ class Stamp(object):
              "Text Stamp",
              "Image Stamp", 
              ]
-    def __init__(self):
+    def __init__(self, kind=None, content=None):
         self.type = tk.StringVar()
-        self.content = ""
+        if kind is not None:
+            self.type.set(kind)
+        self.content = content or ""
         
     def set_type(self, type_index):
         self.type.set(self.TYPES[type_index])
