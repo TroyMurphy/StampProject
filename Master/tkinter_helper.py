@@ -13,6 +13,7 @@ DEFAULT_STAMP_NUM = 1
 WORLD_COORDINATES = "1200x810"
 LEFT_FRAME_WIDTH = 480
 BUTTON_PADDING = 20
+LABEL_FRAME_PADDING = 5
 
 class TkStampManager():
     PAGE_SIZES= StampPDFCopy.PAGE_SIZES
@@ -50,14 +51,14 @@ class TkStampManager():
     def _build_frames(self):
         def _build_left_frame(window):
             def _build_name_frame(window):
-                name_frame = tk.LabelFrame(master=window, text="Copy Name", labelanchor=tk.N)
+                name_frame = tk.LabelFrame(master=window, text="Copy Name", labelanchor=tk.N, pady=LABEL_FRAME_PADDING)
                 name_entry = tk.Entry(master=name_frame, textvariable=self.copy_name)
                 name_entry.grid()
                 name_frame.columnconfigure(0, minsize=LEFT_FRAME_WIDTH)
                 name_frame.grid(row=0,column=0)
                 
             def _build_filter_frame(window):
-                filter_frame = tk.LabelFrame(master=window, text="Filter Manager", labelanchor=tk.N)
+                filter_frame = tk.LabelFrame(master=window, text="Filter Manager", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
                 filter1_label = tk.Label(master=filter_frame, text="Page Contains Text:")
                 filter1_entry = tk.Entry(master=filter_frame, textvariable=self.text_filter_keyphrase)
                 condition_frame = tk.Frame(master=filter_frame)
@@ -80,10 +81,10 @@ class TkStampManager():
                 filter_frame.columnconfigure(1, minsize=LEFT_FRAME_WIDTH/2)
                 
                 #place frame at the top stretched across the cell
-                filter_frame.grid(row=1,column=0,sticky=tk.N+tk.W+tk.E)
+                filter_frame.grid(row=1,column=0,sticky=tk.N+tk.W+tk.E, pady=LABEL_FRAME_PADDING)
                 
             def _build_stamp_frame(window):
-                stamp_master = tk.LabelFrame(master=window, text="Stamp Manager", labelanchor=tk.N)
+                stamp_master = tk.LabelFrame(master=window, text="Stamp Manager", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
                 self.stamp_frame = tk.Frame(master=stamp_master)
                 for i in range(DEFAULT_STAMP_NUM):
                     self.stamp_dict[i] = Stamp()
@@ -102,13 +103,13 @@ class TkStampManager():
                 self.stamp_frame.grid(row=0, column=0)
                 new_stamp_button.grid(row=1, column=0)
                 
-                stamp_master.grid(row=2,column=0, sticky=tk.N+tk.W+tk.E)
+                stamp_master.grid(row=2,column=0, sticky=tk.N+tk.W+tk.E, pady=LABEL_FRAME_PADDING)
             def _build_scale_frame(window):
-                scale_frame = tk.LabelFrame(master=window, text="Scale To", labelanchor=tk.N)
+                scale_frame = tk.LabelFrame(master=window, text="Scale To", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
                 scale_option_menu = tk.OptionMenu(scale_frame, self.scale_output_to, *self.PAGE_SIZES.keys())
                 scale_option_menu.grid(sticky=tk.N+tk.W+tk.E)
-                scale_frame.columnconfigure(0, minsize=LEFT_FRAME_WIDTH/2)
-                scale_frame.grid(row=3,column=0)
+                scale_frame.columnconfigure(0, minsize=LEFT_FRAME_WIDTH)
+                scale_frame.grid(row=3,column=0, pady=LABEL_FRAME_PADDING)
             
             _build_name_frame(window)
             _build_filter_frame(window)
@@ -121,13 +122,15 @@ class TkStampManager():
                 rowindex = 0
                 for c in self.created_copies_list:
                     insert_checkbox = tk.Checkbutton(master=selection_checkbuttons, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
-                    insert_checkbox.grid(row=rowindex, sticky=tk.N+tk.W+tk.E)
+                    insert_checkbox.grid(row=rowindex, sticky=tk.W)
                     rowindex += 1
-                selection_checkbuttons.grid(row=0,column=0, sticky=tk.W)
+                
+                selection_checkbuttons.columnconfigure(0,minsize=LEFT_FRAME_WIDTH/2)    
+                selection_checkbuttons.grid(row=0,column=0, sticky=tk.N+tk.W+tk.E)
             _build_copy_selection(window)
         def _build_right_frame(window):
             def _build_file_search(window):
-                file_search_frame = tk.LabelFrame(master=window, text="Finder", labelanchor=tk.N)
+                file_search_frame = tk.LabelFrame(master=window, text="Finder", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
                 file_search_label = tk.Label(master=file_search_frame, wraplength=400, textvariable=self.input_filepath, justify=tk.LEFT)
                 file_search_button = tk.Button(master=file_search_frame, textvariable=self.filepath_button_text, command=self._file_search)
                 
@@ -143,15 +146,15 @@ class TkStampManager():
             _build_file_search(window)
             _build_final_submit_button(window)
             
-        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=800, padx=5, pady=5, name="left_frame")
+        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=800,bg="grey", padx=5, pady=5, name="left_frame")
         frame_left.grid_propagate(0)
         frame_left.grid(row=0,column=0)
         
-        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=800, padx=5, pady=5, name="center_frame")
+        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=800, bg="grey",padx=5, pady=5, name="center_frame")
         frame_center.grid_propagate(0)
         frame_center.grid(row=0,column=1)
         
-        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=800, padx=5, pady=5, name="right_frame")
+        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=800,bg="grey", padx=5, pady=5, name="right_frame")
         frame_right.grid_propagate(0)
         frame_right.grid(row=0,column=2)
     
@@ -196,7 +199,7 @@ class TkStampManager():
             #insert into checkbutton frame in center for final selection
             checkbutton_frame = self.root.nametowidget("center_frame.checkbutton_frame")
             insert_checkbox = tk.Checkbutton(master=checkbutton_frame, text=c.get_name(), variable=c.shouldPrint, indicatoron=1)
-            insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.N+tk.W+tk.E)
+            insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.W)
             
             return c
         print ("{} is None".format("condition" if self.condition_string.get() is None else "name"))
