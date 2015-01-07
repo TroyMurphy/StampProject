@@ -1,8 +1,9 @@
 from _models.pdf_copy import StampPDFCopy
-from _models.reader import StampPDFReader, StampPDFWriter
+from PyPDF2 import PdfFileReader, PdfFileWriter
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
 from datetime import datetime
+import copy
 #For 2.7 and 3 consistency
 try:
     import tkinter as tk
@@ -10,11 +11,12 @@ except ImportError:
     import Tkinter as tk
 
 DEFAULT_STAMP_NUM = 1
-WORLD_COORDINATES = "1200x810"
+WORLD_COORDINATES = "1200x480"
 LEFT_FRAME_WIDTH = 480
 BUTTON_PADDING = 20
 LABEL_FRAME_PADDING = 5
-DEFAULT_OUTPUT_PATH = lambda:"~/Downloads/COPYSET_"+datetime.now().strftime("%y/%m/%d/%H:%M:%S")
+#DEFAULT_OUTPUT_NAME = lambda:"output.pdf"
+DEFAULT_OUTPUT_NAME = lambda:"COPYSET_"+datetime.now().strftime("%y_%m_%d_%H-%M-%S")+".pdf"
 
 class TkStampManager():
     PAGE_SIZES= StampPDFCopy.PAGE_SIZES
@@ -32,8 +34,11 @@ class TkStampManager():
         self.input_filepath = tk.StringVar()
         self.input_filepath.set("Choose a file")
         self.output_filepath = tk.StringVar()
-        self.filepath_button_text = tk.StringVar()
-        self.filepath_button_text.set("Open")
+        self.output_filepath.set("Choose a file or set Input for default")
+        self.in_filepath_button_text = tk.StringVar()
+        self.out_filepath_button_text = tk.StringVar()
+        self.in_filepath_button_text.set("Open")
+        self.out_filepath_button_text.set("Open")
         self.text_filter_keyphrase = tk.StringVar()
         self.page_size_filter = tk.StringVar()
         self.condition_string = tk.StringVar()
@@ -132,11 +137,16 @@ class TkStampManager():
         def _build_right_frame(window):
             def _build_file_search(window):
                 file_search_frame = tk.LabelFrame(master=window, text="Finder", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
-                file_search_label = tk.Label(master=file_search_frame, wraplength=400, textvariable=self.input_filepath, justify=tk.LEFT)
-                file_search_button = tk.Button(master=file_search_frame, textvariable=self.filepath_button_text, command=self._file_search)
+                infile_search_label = tk.Label(master=file_search_frame, wraplength=400, textvariable=self.input_filepath, justify=tk.LEFT)
+                infile_search_button = tk.Button(master=file_search_frame, textvariable=self.in_filepath_button_text, command=self._infile_search)
+                outfile_search_label = tk.Label(master=file_search_frame, wraplength=400, textvariable=self.output_filepath, justify=tk.LEFT)
+                outfile_search_button = tk.Button(master=file_search_frame, textvariable=self.out_filepath_button_text, command=self._outfile_search)
                 
-                file_search_label.grid(row=0,column=0)
-                file_search_button.grid(row=0,column=1)
+                infile_search_label.grid(row=0,column=0)
+                infile_search_button.grid(row=0,column=1)
+                outfile_search_label.grid(row=1)
+                outfile_search_button.grid(row=1,column=1)
+                
                 file_search_frame.columnconfigure(0, minsize=400)
                 file_search_frame.grid(row=0,column=0,sticky=tk.N+tk.W+tk.E)
                 
@@ -166,9 +176,18 @@ class TkStampManager():
         submit_button = tk.Button(master=frame_left, text="CREATE COPY", command = self._submit_copy, pady=BUTTON_PADDING)
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
     
-    def _file_search(self):
+    def _infile_search(self):
         self.input_filepath.set(askopenfilename())
-        self.filepath_button_text.set("Change")
+        self.in_filepath_button_text.set("Change")
+        self.output_filepath.set(
+                              self.input_filepath.get().rsplit('/',1)[0]+'/'+DEFAULT_OUTPUT_NAME()
+                              )
+        self.out_filepath_button_text.set("Change")
+        
+    def _outfile_search(self):
+        self.output_filepath.set(askopenfilename())
+        self.out_filepath_button_text.set("Change")
+    
         
     def _new_stamp_function(self):
         next_stamp_key = len(self.stamp_dict)
@@ -207,17 +226,34 @@ class TkStampManager():
         return False
     
     def _final_submit_func(self):
-        #at the end create filereader and filewriter
-        pdf_in = StampPDFReader(file(self.input_filepath.get(), 'rb'))
-        pdf_out = StampPDFWriter()
-        #Have each selected copy generate, stamp, and then add its pages to the filewriter object
+        input_filename = self.input_filepath.get()
+        
+        infile = file(input_filename, 'rb')
+        writer = PdfFileWriter()
+        
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
-        for stamp_copy in selected_copies:
-            stamp_copy.create_output_pages(pdf_in, pdf_out)
-        #write the pdf_out document to file
-        outputStream = file(filepath, "wb")
-        pdf_out.write(outputStream)
-        outputStream.close()
-    
-    
+        for c in selected_copies:
+            c.add_reader(PdfFileReader(infile))
+            writer = c.add_valid_pages(writer)
+        
+        output_filename = self.output_filepath.get()
+        outfile = file(output_filename, 'wb')
+        print("Successfully output file")
+        writer.write(outfile)
+        infile.close()
+        outfile.close()
+        
+        
+        #Have each selected copy generate, stamp, and then add its pages to the filewriter object
+        #=======================================================================
+        # selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
+        # for stamp_copy in selected_copies:
+        #     copied_reader = copy.deepcopy(reader)
+        #     stamp_copy.bind_pages(copied_reader)
+        #     stamp_copy.apply_filters()
+        #     for p in stamp_copy.get_filtered_pages():
+        #         writer.addPage(p) 
+        #=======================================================================
+
+
         

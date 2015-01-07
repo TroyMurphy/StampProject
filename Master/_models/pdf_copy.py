@@ -6,6 +6,8 @@ try:
 except:
     from Tkinter import IntVar
 
+PIXELS_PER_INCH = 72
+
 class StampPDFCopy(object):
     SIZE_TOLERANCE = 0.5
 
@@ -58,44 +60,43 @@ class StampPDFCopy(object):
     def get_shouldPrint(self):
         return self.shouldPrint.get()
     
-    def create_output_pages(self, filereader, filewriter):
-        self.set_valid_pages(filereader)
-        filewriter.addBlankPage()
-        for p in self.valid_pages:
-            filewriter.addPage(p)
-        
-    
-    def set_valid_pages(self, filereader):
-        for page in filereader.pages:
-            self.valid_pages.append(copy.deepcopy(page))
-        self.apply_filters()
-        
-    
-    def str_rep(self):
-        outputstring=""
-        outputstring += self.get_name()
-        return outputstring
+    def add_reader(self, reader):
+        self.reader = reader
     
     def test_page_text_filter(self):
-        return self.text_filter_content in page.extractText()
+        words = [w.strip() for w in self.text_filter_content.split(",")]
+        document_text = page.extractText()
+        for w in words:
+            if w in document_text():
+                return True
+        return False
 
     def test_page_size_filter(self, page):
         #72 points to an inch
-        return abs(min(rect[2:])/72-self.get_size_filter[1][0])<=self.SIZE_TOLERANCE and \
-            abs(max(rect[2:])/72-self.get_size_filter[1][1])<=self.SIZE_TOLERANCE
+        return abs(min(rect[2:])/PEXELS_PER_INCH -self.get_size_filter[1][0])<=self.SIZE_TOLERANCE and \
+            abs(max(rect[2:])/PIXELS_PER_INCH-self.get_size_filter[1][1])<=self.SIZE_TOLERANCE
     
-    def apply_filters(self):
-        if self.condition=="all":
-            #keep all pages
+    def add_valid_pages(self, writer):
+        if self.reader is None:
+            #raise exception
             return 0
-        if self.condition=="and":
-            for page in self.valid_pages:
-                if (not self.test_page_text_filter(page)) or (not self.test_page_size_filter(page)):
-                    self.valid_pages.remove(page)   
+        
+        if self.condition=="all":
+            #add all pages, no filter to increase speed up
+            for page in self.reader.pages:
+                writer.addPage(page)
+        elif self.condition=="and":
+            for page in self.reader.pages:
+                if (self.test_page_text_filter(page)) and (self.test_page_size_filter(page)):
+                    writer.addPage(page)   
         elif self.condition=="or":
             for page in self.valid_pages:
-                if (not self.test_page_text_filter(page)) and (not self.test_page_size_filter(page)):
-                    self.valid_pages.remove(page)
-        
+                if (self.test_page_text_filter(page)) or (self.test_page_size_filter(page)):
+                    writer.addPage(page)
+        return writer
+    
+    def get_pages(self):
+        return self.valid_pages
+    
     def stamp_pdf(self, pdf_reader):
         pass
