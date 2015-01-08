@@ -234,7 +234,6 @@ class TkStampManager():
         
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
         for c in selected_copies:
-            global writer
             c.add_reader(StampPDFReader(infile))
             writer = c.add_valid_pages(writer)
         
