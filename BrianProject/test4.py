@@ -261,9 +261,10 @@ class PDF(PdfFileReader):
             widthMill=widthInches*25.4
             heightMill=heightInches*25.4
 
+            #//reply why do you recalculate this?
             widthPoints=widthInches*72
             heightPoints=widthInches*72
-
+            #// and not use it here?
             dimensionCurrentPdfPage=(widthInches*72,heightInches*72)
             can = canvas.Canvas(packet, dimensionCurrentPdfPage)
 

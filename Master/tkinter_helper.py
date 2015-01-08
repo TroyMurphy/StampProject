@@ -234,13 +234,15 @@ class TkStampManager():
         
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
         for c in selected_copies:
+            global writer
             c.add_reader(StampPDFReader(infile))
             writer = c.add_valid_pages(writer)
         
         output_filename = self.output_filepath.get()
         outfile = file(output_filename, 'wb')
-        print("Successfully output file")
+        print("Writing File....")
         writer.write(outfile)
+        print("Successfully output file")
         infile.close()
         outfile.close()
         

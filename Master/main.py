@@ -26,7 +26,7 @@ def generate_base_copy_instances():
                             text_filter_content="",
                             size_filter_content="",
                             condition = "all",
-                            stamp_dict=shop_copy_stamps
+                            stamp_dict=foreman_copy_stamps
                         )
     machine_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "MACHINE COPY")}
     machine_copy = StampPDFCopy(
@@ -50,7 +50,7 @@ def generate_base_copy_instances():
                             text_filter_content="bend, form, fti",
                             size_filter_content="8.5 x 11",
                             condition = "and",
-                            stamp_dict=shop_copy_stamps
+                            stamp_dict=bend_copy_stamps
                         )
     file_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "FILE COPY")}
     file_copy = StampPDFCopy(
@@ -58,7 +58,7 @@ def generate_base_copy_instances():
                             text_filter_content="",
                             size_filter_content="",
                             condition = "all",
-                            stamp_dict=shop_copy_stamps,
+                            stamp_dict=file_copy_stamps,
                             scale_output_to ="8.5 x 11"
                         )
    

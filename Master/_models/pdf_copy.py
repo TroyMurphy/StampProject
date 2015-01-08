@@ -1,5 +1,10 @@
-import copy
+import copy, operator, StringIO
+from PyPDF2 import PdfFileReader
 from collections import OrderedDict
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter, legal, elevenSeventeen, landscape,portrait
+from reportlab.lib.colors import PCMYKColor, PCMYKColorSep, Color, black, blue, red
+from reportlab.lib.units import inch
 
 try:
     from tkinter import IntVar
@@ -18,8 +23,7 @@ class StampPDFCopy(object):
              ("22 x 34",("D",(22,34))),
              ("34 x 44",("E",(34,44))),
              ("28 x 40",("F",(28,40)))
-             ])
-    
+             ])    
     def __init__(self, copy_name=None, text_filter_content=None, 
                  size_filter_content=None, condition=None, stamp_dict=None, scale_output_to=None):
         self.display_name = copy_name.upper()
@@ -80,23 +84,28 @@ class StampPDFCopy(object):
         if self.reader is None:
             #raise exception
             return 0
-        
-        if self.condition=="all":
+        progress_end = self.reader.getNumPages()
+        progress_start = 1
+        self.addCoverPage(writer)
+        #just as efficient as commented section. and is 
+        if self.condition=="all" or eval(str([self.condition](self.test_page_text_filter(page))) +
+                                         str(self.condition) +
+                                         str(self.test_page_size_filter(page))):
             #add all pages, no filter to increase speed up
             for page in self.reader.pages:
-                returnpage = self.stamp_page(page)
-                writer.addPage(returnpage)
-        elif self.condition=="and":
-            for page in self.reader.pages:
-                if (self.test_page_text_filter(page)) and (self.test_page_size_filter(page)):
-                    returnpage = self.stamp_page(page)
-                    writer.addPage(returnpage)   
-        elif self.condition=="or":
-            for page in self.reader_pages:
-                if (self.test_page_text_filter(page)) or (self.test_page_size_filter(page)):
-                    returnpage = self.stamp_page(page)
-                    writer.addPage(returnpage)  
-        return writer
+                return_page = self.stamp_page(page)
+                writer.addPage(return_page)
+                print("%d of %d" % (progress_start,progress_end) )
+                progress_start +=1
+            return writer
+        #=======================================================================
+        # To demonstrate how duplicate code can be removed
+        # with no loss of speed
+        # elif self.condition == and
+        #    ......
+        # elif self.condition == or
+        #     ......
+        #=======================================================================
     
     def get_pages(self):
         return self.valid_pages
@@ -107,6 +116,21 @@ class StampPDFCopy(object):
         for idx,stamp in self.get_stamp_dict().items():
             #Add each stamp one canvas at a time.
             #TODO: optimize this step
-            page = stamp.stamp_page(page, idx)
-            print type(page)
+            page = stamp.stampContent(page, idx)
         return page
+    
+    def addCoverPage(self, writer):
+        blank_page = writer.addBlankPage(width=612, height=792)
+        stamped_page = self.stampPageTitle(blank_page)
+        blank_page.mergePage(stamped_page)
+
+    def stampPageTitle(self, page):
+        packet = StringIO.StringIO()
+        main_canvas = canvas.Canvas(packet, (float(page.mediaBox[2]), float(page.mediaBox[3])))
+        main_canvas.setFillColorRGB(0,0,0,alpha=1)
+        main_canvas.setFont("Helvetica-Bold", 50)
+        main_canvas.drawString(3*inch, 8*inch, self.display_name)
+        main_canvas.save()
+
+        stamped_pdf= PdfFileReader(packet)
+        return stamped_pdf.getPage(0)

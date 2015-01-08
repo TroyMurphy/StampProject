@@ -23,7 +23,7 @@ class Stamp(object):
             self.kind.set(kind)
         self.content = content or ""
         #TODO: Make these options later
-        self.font = 15
+        self.font = 20
         self.offset=0.25*self.font
         
     def set_type(self, type_index):
@@ -38,22 +38,31 @@ class Stamp(object):
     def get_type(self):
         return self.kind
     
-    def stamp_page(self, page, index):
+    def stampContent(self, page, index):
+        #returns an iterable of stamped page objects to write to file.
         if self.kind.get() == self.TYPES[self.TEXT_INDEX]:
             packet = StringIO.StringIO()
-            width = page.trimBox[2]
-            height= page.trimBox[3]
             
-            main_canvas = canvas.Canvas(packet, (width, height))
-            main_canvas.setFillColorRGB(1,0,0,alpha=0.25)
+            widthPoints=float(page.mediaBox[2])
+            heightPoints=float(page.mediaBox[3])
+            
+            main_canvas = canvas.Canvas(packet, (widthPoints, heightPoints))
+            main_canvas.setFillColorRGB(1,0,0,alpha=0.5)
             main_canvas.setFont("Helvetica-Bold", self.font)
             main_canvas.drawString(50, 150*(index+1), self.content)
             main_canvas.save()
             
             stamped_pdf = PdfFileReader(packet)
             stamped_page = stamped_pdf.getPage(0)
-            stamped_page.rotateClockwise(page.get('/Rotate'))
-            page.mergePage(stamped_page)
+                
+            rotation_angle = page.get('/Rotate', 0)
+            #stamped_page.rotateClockwise(page.get('/Rotate'))
+            page.mergeRotatedTranslatedPage(
+                page2=stamped_page,
+                rotation=rotation_angle,
+                tx=stamped_page.mediaBox.getWidth() / 2,
+                ty=stamped_page.mediaBox.getWidth() / 2
+                )
             return page
             
             
