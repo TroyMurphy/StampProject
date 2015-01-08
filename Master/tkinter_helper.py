@@ -4,7 +4,7 @@ from PyPDF2 import PdfFileReader, PdfFileWriter
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
 from datetime import datetime
-import copy
+import copy, tkMessageBox
 #For 2.7 and 3 consistency
 try:
     import tkinter as tk
@@ -156,16 +156,8 @@ class TkStampManager():
                 submit_button = tk.Button(master=window, text="Print Selected Copies To File", command=self._final_submit_func)
                 submit_button.grid(row=1, sticky=tk.N+tk.W+tk.E,pady=BUTTON_PADDING,)
             
-            def _build_progress_window(window):
-                progress_bar = tk.LabelFrame(master=window, text="Progress",labelanchor=tk.N)
-                tk.Label(master=progress_bar, textvariable=self.progress_count).grid(row=0,column=0,sticky=tk.NE)
-                tk.Label(master=progress_bar, text="of").grid(row=0,column=1,sticky=tk.N)
-                tk.Label(master=progress_bar, textvariable=self.progress_total).grid(row=0,column=2,sticky=tk.NW)
-                progress_bar.grid(row=2,column=0,sticky=tk.N+tk.W+tk.E,pady=LABEL_FRAME_PADDING)
-            
             _build_file_search(window)
             _build_final_submit_button(window)
-            #_build_progress_window(window)
             
         frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=450,bg="grey", padx=5, pady=5, name="left_frame")
         frame_left.grid_propagate(0)
@@ -187,8 +179,6 @@ class TkStampManager():
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
     
     def _infile_search(self):
-        self.progress_count.set("0")
-        self.progress_total.set("0")
         self.input_filepath.set(askopenfilename())
         self.in_filepath_button_text.set("Change")
         self.output_filepath.set(
@@ -238,24 +228,40 @@ class TkStampManager():
         return False
     
     def _final_submit_func(self):
-        
+        def check_selection(list):
+            if len(list)<1:
+                tkMessageBox.showwarning("No Selection","You have not selected any copies")
+                return 0
+            return 1
+        def check_outfile(filename):
+            try:
+                outfile= file(output_filename, 'wb')
+            except:
+                tkMessageBox.showerror("Bad Filepath", "Output file selection does not exist")
+                return 0
+            
+            return outfile
         infile = file(self.input_filepath.get(), 'rb')
         writer = PdfFileWriter()
         
-        selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
+        output_filename = self.output_filepath.get()
+        outfile = check_outfile(output_filename)
+        if outfile==0:
+            return 0
         
+        selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
+        if check_selection(selected_copies)==0:
+            return 0
         for c in selected_copies:
             c.add_reader(StampPDFReader(infile))
             writer = c.add_valid_pages(writer)
                                                                
-        output_filename = self.output_filepath.get()
-        outfile = file(output_filename, 'wb')
+        
         print("Writing File....")
         writer.write(outfile)
         print("Successfully output file")
         infile.close()
         outfile.close()
-        
         
         #Have each selected copy generate, stamp, and then add its pages to the filewriter object
         #=======================================================================

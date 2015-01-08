@@ -1,4 +1,5 @@
 import copy, operator, StringIO
+from _models.stamp import Stamp
 from PyPDF2 import PdfFileReader
 from collections import OrderedDict
 from reportlab.pdfgen import canvas
@@ -96,9 +97,9 @@ class StampPDFCopy(object):
                                          str(self.test_page_size_filter(page))):
                 return_page = self.stamp_page(page)
                 writer.addPage(return_page)
-                print("Added %d of %d" % (progress_start, progress_end))
+                print("Added %d of %d" % (progress_count, progress_end))
             else:
-                print("Omitted %d of %d" % (progress_start, progress_end))
+                print("Omitted %d of %d" % (progress_count, progress_end))
             progress_count+=1
         return writer
         #=======================================================================
@@ -137,3 +138,58 @@ class StampPDFCopy(object):
 
         stamped_pdf= PdfFileReader(packet)
         return stamped_pdf.getPage(0)
+    
+def generate_base_copy_instances():
+   #return a list of copies. Pass this function to prevent calling StringVars/IntVars before tk.Tk()
+    shop_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "SHOP COPY")}
+    shop_copy = StampPDFCopy(
+                            copy_name= "SHOP",
+                            text_filter_content="",
+                            size_filter_content="",
+                            condition = "all",
+                            stamp_dict=shop_copy_stamps
+                        )
+    foreman_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "FOREMAN COPY")}
+    foreman_copy = StampPDFCopy(
+                            copy_name= "FOREMAN",
+                            text_filter_content="",
+                            size_filter_content="",
+                            condition = "all",
+                            stamp_dict=foreman_copy_stamps
+                        )
+    machine_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "MACHINE COPY")}
+    machine_copy = StampPDFCopy(
+                            copy_name= "MACHINE",
+                            text_filter_content="machine, shop",
+                            size_filter_content="8.5 x 11",
+                            condition = "and",
+                            stamp_dict=machine_copy_stamps
+                        )
+    burn_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "BURN TABLE COPY")}
+    burn_copy = StampPDFCopy(
+                            copy_name= "BURN TABLE",
+                            text_filter_content="burn, dxf, table",
+                            size_filter_content="8.5 x 11",
+                            condition = "and",
+                            stamp_dict=burn_copy_stamps
+                        )
+    bend_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "BEND COPY")}
+    bend_copy = StampPDFCopy(
+                            copy_name= "BEND",
+                            text_filter_content="bend, form, fti",
+                            size_filter_content="8.5 x 11",
+                            condition = "and",
+                            stamp_dict=bend_copy_stamps
+                        )
+    file_copy_stamps = {0 : Stamp(Stamp.TYPES[Stamp.TEXT_INDEX], "FILE COPY")}
+    file_copy = StampPDFCopy(
+                            copy_name= "FILE",
+                            text_filter_content="",
+                            size_filter_content="",
+                            condition = "all",
+                            stamp_dict=file_copy_stamps,
+                            scale_output_to ="8.5 x 11"
+                        )
+   
+    return [shop_copy, foreman_copy, machine_copy, burn_copy, bend_copy, file_copy]
+
