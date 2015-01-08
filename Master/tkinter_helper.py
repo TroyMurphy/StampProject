@@ -239,17 +239,13 @@ class TkStampManager():
     
     def _final_submit_func(self):
         
-        input_filename = self.input_filepath.get()
-        
-        infile = file(input_filename, 'rb')
+        infile = file(self.input_filepath.get(), 'rb')
         writer = PdfFileWriter()
         
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
         
-        self.progress_count.set("0")
         for c in selected_copies:
             c.add_reader(StampPDFReader(infile))
-            labelSet=[]
             writer = c.add_valid_pages(writer)
                                                                
         output_filename = self.output_filepath.get()
