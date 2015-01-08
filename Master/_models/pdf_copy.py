@@ -85,21 +85,24 @@ class StampPDFCopy(object):
         if self.condition=="all":
             #add all pages, no filter to increase speed up
             for page in self.reader.pages:
+                self.stamp_page(page)
                 writer.addPage(page)
         elif self.condition=="and":
             for page in self.reader.pages:
                 if (self.test_page_text_filter(page)) and (self.test_page_size_filter(page)):
+                    self.stamp_page(page)
                     writer.addPage(page)   
         elif self.condition=="or":
-            for page in self.valid_pages:
+            for page in self.reader_pages:
                 if (self.test_page_text_filter(page)) or (self.test_page_size_filter(page)):
+                    self.stamp_page(page)
                     writer.addPage(page)
         return writer
     
     def get_pages(self):
         return self.valid_pages
     
-    def stamp_pdf(self):
+    def stamp_page(self):
         #will stamp every page on reader with stamp.
         #Should only stamp valid pages.
         for stamp in self.get_stamp_dict().values():
