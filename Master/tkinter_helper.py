@@ -32,23 +32,21 @@ class TkStampManager():
         self.stamp_frame = None
         #Content to create a new copy instance
         self.copy_name = tk.StringVar()
-        self.input_filepath = tk.StringVar()
-        self.input_filepath.set("Choose a file")
-        self.output_filepath = tk.StringVar()
-        self.output_filepath.set("Choose a file or set Input for default")
-        self.in_filepath_button_text = tk.StringVar()
-        self.out_filepath_button_text = tk.StringVar()
-        self.in_filepath_button_text.set("Open")
-        self.out_filepath_button_text.set("Open")
-        self.text_filter_keyphrase = tk.StringVar()
         self.page_size_filter = tk.StringVar()
         self.condition_string = tk.StringVar()
+        self.text_filter_keyphrase = tk.StringVar()
         self.scale_output_to = tk.StringVar()
-        self.progress_count = tk.StringVar()
-        self.progress_count.set(0)
-        self.progress_total = tk.StringVar()
-        self.progress_total.set(0)
-        #self.condition_string.trace('w', self.condition_update_function) # To disable filters on selection of all
+        #Buttons to set reader writer
+        self.input_filepath = tk.StringVar()
+        self.output_filepath = tk.StringVar()
+        self.in_filepath_button_text = tk.StringVar()
+        self.out_filepath_button_text = tk.StringVar()
+
+        self.out_filepath_button_text.set("Open")
+        self.in_filepath_button_text.set("Open")
+        self.input_filepath.set("Choose a file")
+        self.output_filepath.set("Choose a file or set Input for default")
+        
         self.stamp_dict = {}
         self.created_copies_list = copyListFunc()
         self._build_frames()
