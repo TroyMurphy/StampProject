@@ -12,7 +12,7 @@ except ImportError:
     import Tkinter as tk
 
 DEFAULT_STAMP_NUM = 1
-WORLD_COORDINATES = "1200x480"
+WORLD_COORDINATES = "1200x550"
 LEFT_FRAME_WIDTH = 480
 BUTTON_PADDING = 20
 LABEL_FRAME_PADDING = 5
@@ -44,9 +44,12 @@ class TkStampManager():
         self.page_size_filter = tk.StringVar()
         self.condition_string = tk.StringVar()
         self.scale_output_to = tk.StringVar()
+        self.progress_count = tk.StringVar()
+        self.progress_count.set(0)
+        self.progress_total = tk.StringVar()
+        self.progress_total.set(0)
         #self.condition_string.trace('w', self.condition_update_function) # To disable filters on selection of all
         self.stamp_dict = {}
-        
         self.created_copies_list = copyListFunc()
         self._build_frames()
     
@@ -155,18 +158,26 @@ class TkStampManager():
                 submit_button = tk.Button(master=window, text="Print Selected Copies To File", command=self._final_submit_func)
                 submit_button.grid(row=1, sticky=tk.N+tk.W+tk.E,pady=BUTTON_PADDING,)
             
+            def _build_progress_window(window):
+                progress_bar = tk.LabelFrame(master=window, text="Progress",labelanchor=tk.N)
+                tk.Label(master=progress_bar, textvariable=self.progress_count).grid(row=0,column=0,sticky=tk.NE)
+                tk.Label(master=progress_bar, text="of").grid(row=0,column=1,sticky=tk.N)
+                tk.Label(master=progress_bar, textvariable=self.progress_total).grid(row=0,column=2,sticky=tk.NW)
+                progress_bar.grid(row=2,column=0,sticky=tk.N+tk.W+tk.E,pady=LABEL_FRAME_PADDING)
+            
             _build_file_search(window)
             _build_final_submit_button(window)
+            #_build_progress_window(window)
             
-        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=800,bg="grey", padx=5, pady=5, name="left_frame")
+        frame_left = tk.LabelFrame(master=self.root, text="Build New Copy", labelanchor=tk.N, width=500, height=450,bg="grey", padx=5, pady=5, name="left_frame")
         frame_left.grid_propagate(0)
         frame_left.grid(row=0,column=0)
         
-        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=800, bg="grey",padx=5, pady=5, name="center_frame")
+        frame_center=tk.LabelFrame(master=self.root, text="Copy Selection", labelanchor=tk.N, width=200, height=450, bg="grey",padx=5, pady=5, name="center_frame")
         frame_center.grid_propagate(0)
         frame_center.grid(row=0,column=1)
         
-        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=800,bg="grey", padx=5, pady=5, name="right_frame")
+        frame_right = tk.LabelFrame(master=self.root, text="Selected Copy Summary",labelanchor=tk.N, width=500, height=450,bg="grey", padx=5, pady=5, name="right_frame")
         frame_right.grid_propagate(0)
         frame_right.grid(row=0,column=2)
     
@@ -178,6 +189,8 @@ class TkStampManager():
         submit_button.grid(row=10, column=0, sticky=tk.W+tk.E)
     
     def _infile_search(self):
+        self.progress_count.set("0")
+        self.progress_total.set("0")
         self.input_filepath.set(askopenfilename())
         self.in_filepath_button_text.set("Change")
         self.output_filepath.set(
@@ -233,15 +246,14 @@ class TkStampManager():
         infile = file(input_filename, 'rb')
         writer = PdfFileWriter()
         
-        progress_reader = PdfFileReader(infile)
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
-        progress_blocks = progress_reader.getNumPages() * len(selected_copies)
-        self._make_progress_bar(progress_blocks)
         
+        self.progress_count.set("0")
         for c in selected_copies:
             c.add_reader(StampPDFReader(infile))
+            labelSet=[]
             writer = c.add_valid_pages(writer)
-        
+                                                               
         output_filename = self.output_filepath.get()
         outfile = file(output_filename, 'wb')
         print("Writing File....")
@@ -261,13 +273,3 @@ class TkStampManager():
         #     for p in stamp_copy.get_filtered_pages():
         #         writer.addPage(p) 
         #=======================================================================
-
-    def _make_progress_bar(self, numBlocks):
-        progress_bar_frame = tk.LabelFrame(master=self.root.nametowidget('right_frame'), text="Progress")
-        label_width = progress_bar_frame.winfo_width()//numBlocks
-        for i in range(numBlocks):
-            tk.Label(master=progress_bar_frame,name="pb_"+str(i), bg="white").grid(row=0,column=i, padx=2)
-            progress_bar_frame.columnconfigure(i, minsize=label_width)
-        
-        progress_bar_frame.grid(row=2, column=0, sticky=tk.N+tk.W+tk.E)
-        

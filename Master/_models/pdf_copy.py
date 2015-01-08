@@ -71,32 +71,36 @@ class StampPDFCopy(object):
         words = [w.strip() for w in self.text_filter_content.split(",")]
         document_text = page.extractText()
         for w in words:
-            if w in document_text():
+            if w in document_text:
                 return True
         return False
 
     def test_page_size_filter(self, page):
-        #72 points to an inch
-        return abs(min(rect[2:])/PEXELS_PER_INCH -self.get_size_filter[1][0])<=self.SIZE_TOLERANCE and \
-            abs(max(rect[2:])/PIXELS_PER_INCH-self.get_size_filter[1][1])<=self.SIZE_TOLERANCE
+        return all([
+                   abs(min(page.trimBox[2:])/PIXELS_PER_INCH -self.get_size_filter()[1][0])<=self.SIZE_TOLERANCE , 
+                   abs(max(page.trimBox[2:])/PIXELS_PER_INCH-self.get_size_filter()[1][1])<=self.SIZE_TOLERANCE
+                   ])
     
     def add_valid_pages(self, writer):
         if self.reader is None:
             #raise exception
             return 0
+        print("Creating {}".format(self.get_name()))
         progress_end = self.reader.getNumPages()
-        progress_start = 1
+        progress_count = 1
         self.addCoverPage(writer)
         #just as efficient as commented section. and is 
         for page in self.reader.pages:
-            if self.condition=="all" or eval(str([self.condition](self.test_page_text_filter(page))) +
-                                         str(self.condition) +
+            if (self.condition=="all") or eval(str(self.test_page_text_filter(page)) +
+                                         " " + self.get_condition() + " " +
                                          str(self.test_page_size_filter(page))):
                 return_page = self.stamp_page(page)
                 writer.addPage(return_page)
-                print("%d of %d" % (progress_start,progress_end) )
-                progress_start +=1
-            return writer
+                print("Added %d of %d" % (progress_start, progress_end))
+            else:
+                print("Omitted %d of %d" % (progress_start, progress_end))
+            progress_count+=1
+        return writer
         #=======================================================================
         # To demonstrate how duplicate code can be removed
         # with no loss of speed
@@ -122,7 +126,7 @@ class StampPDFCopy(object):
         blank_page = writer.addBlankPage(width=612, height=792)
         stamped_page = self.stampPageTitle(blank_page)
         blank_page.mergePage(stamped_page)
-
+        print("Cover Page Added")
     def stampPageTitle(self, page):
         packet = StringIO.StringIO()
         main_canvas = canvas.Canvas(packet, (float(page.mediaBox[2]), float(page.mediaBox[3])))
