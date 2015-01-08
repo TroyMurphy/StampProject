@@ -38,7 +38,7 @@ class PageFilters():
                 j+=1
         mylist=list(set(results))
 
-        return sorted(mylist)
+        return sorted(mylist)    
 
     def orFilter(self):
         list1=self.getlist1()

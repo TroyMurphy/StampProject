@@ -62,7 +62,6 @@ class StampPDFCopy(object):
     
     def add_reader(self, reader):
         self.reader = reader
-        self.stamp_pdf()
     
     def test_page_text_filter(self):
         words = [w.strip() for w in self.text_filter_content.split(",")]
@@ -85,28 +84,29 @@ class StampPDFCopy(object):
         if self.condition=="all":
             #add all pages, no filter to increase speed up
             for page in self.reader.pages:
-                self.stamp_page(page)
-                writer.addPage(page)
+                returnpage = self.stamp_page(page)
+                writer.addPage(returnpage)
         elif self.condition=="and":
             for page in self.reader.pages:
                 if (self.test_page_text_filter(page)) and (self.test_page_size_filter(page)):
-                    self.stamp_page(page)
-                    writer.addPage(page)   
+                    returnpage = self.stamp_page(page)
+                    writer.addPage(returnpage)   
         elif self.condition=="or":
             for page in self.reader_pages:
                 if (self.test_page_text_filter(page)) or (self.test_page_size_filter(page)):
-                    self.stamp_page(page)
-                    writer.addPage(page)
+                    returnpage = self.stamp_page(page)
+                    writer.addPage(returnpage)  
         return writer
     
     def get_pages(self):
         return self.valid_pages
     
-    def stamp_page(self):
+    def stamp_page(self, page):
         #will stamp every page on reader with stamp.
         #Should only stamp valid pages.
-        for stamp in self.get_stamp_dict().values():
-            #TODO: SET OFFSETS HERE!
-            for page in self.reader:
-                stamp_pdf = stamp.generate_pdf_page(page.trimBox[2]*PIXELS_PER_INCH,page.trimBox[3]*PIXELS_PER_INCH)
-                page = page.mergePage(stamp_pdf.getPage(0))
+        for idx,stamp in self.get_stamp_dict().items():
+            #Add each stamp one canvas at a time.
+            #TODO: optimize this step
+            page = stamp.stamp_page(page, idx)
+            print type(page)
+        return page

@@ -1,4 +1,5 @@
 from _models.pdf_copy import StampPDFCopy
+from _models.reader import StampPDFReader, StampPDFWriter
 from PyPDF2 import PdfFileReader, PdfFileWriter
 from _models.stamp import Stamp
 from tkFileDialog import askopenfilename
@@ -233,7 +234,7 @@ class TkStampManager():
         
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
         for c in selected_copies:
-            c.add_reader(PdfFileReader(infile))
+            c.add_reader(StampPDFReader(infile))
             writer = c.add_valid_pages(writer)
         
         output_filename = self.output_filepath.get()
