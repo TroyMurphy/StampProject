@@ -227,12 +227,17 @@ class TkStampManager():
         return False
     
     def _final_submit_func(self):
+        
         input_filename = self.input_filepath.get()
         
         infile = file(input_filename, 'rb')
         writer = PdfFileWriter()
         
+        progress_reader = PdfFileReader(infile)
         selected_copies = [c for c in self.created_copies_list if c.get_shouldPrint()]
+        progress_blocks = progress_reader.getNumPages() * len(selected_copies)
+        self._make_progress_bar(progress_blocks)
+        
         for c in selected_copies:
             c.add_reader(StampPDFReader(infile))
             writer = c.add_valid_pages(writer)
@@ -257,5 +262,12 @@ class TkStampManager():
         #         writer.addPage(p) 
         #=======================================================================
 
-
+    def _make_progress_bar(self, numBlocks):
+        progress_bar_frame = tk.LabelFrame(master=self.root.nametowidget('right_frame'), text="Progress")
+        label_width = progress_bar_frame.winfo_width()//numBlocks
+        for i in range(numBlocks):
+            tk.Label(master=progress_bar_frame,name="pb_"+str(i), bg="white").grid(row=0,column=i, padx=2)
+            progress_bar_frame.columnconfigure(i, minsize=label_width)
+        
+        progress_bar_frame.grid(row=2, column=0, sticky=tk.N+tk.W+tk.E)
         

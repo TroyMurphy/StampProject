@@ -67,7 +67,7 @@ class StampPDFCopy(object):
     def add_reader(self, reader):
         self.reader = reader
     
-    def test_page_text_filter(self):
+    def test_page_text_filter(self, page):
         words = [w.strip() for w in self.text_filter_content.split(",")]
         document_text = page.extractText()
         for w in words:
@@ -88,11 +88,10 @@ class StampPDFCopy(object):
         progress_start = 1
         self.addCoverPage(writer)
         #just as efficient as commented section. and is 
-        if self.condition=="all" or eval(str([self.condition](self.test_page_text_filter(page))) +
+        for page in self.reader.pages:
+            if self.condition=="all" or eval(str([self.condition](self.test_page_text_filter(page))) +
                                          str(self.condition) +
                                          str(self.test_page_size_filter(page))):
-            #add all pages, no filter to increase speed up
-            for page in self.reader.pages:
                 return_page = self.stamp_page(page)
                 writer.addPage(return_page)
                 print("%d of %d" % (progress_start,progress_end) )
