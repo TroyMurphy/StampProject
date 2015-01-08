@@ -51,7 +51,7 @@ output.addPage(page)
 
 
 # finally, write "output" to a real file
-outputStream = file("output/out24.pdf", "wb")
+outputStream = file("output/out.pdf", "wb")
 output.write(outputStream)
 outputStream.close()
 
