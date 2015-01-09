@@ -96,6 +96,8 @@ class StampPDFCopy(object):
                                          " " + self.get_condition() + " " +
                                          str(self.test_page_size_filter(page))):
                 return_page = self.stamp_page(page)
+                if self.scale_output_to is not None:
+                    return_page = self.scalePage(return_page)
                 writer.addPage(return_page)
                 print("Added %d of %d" % (progress_count, progress_end))
             else:
@@ -138,6 +140,14 @@ class StampPDFCopy(object):
 
         stamped_pdf= PdfFileReader(packet)
         return stamped_pdf.getPage(0)
+    
+    def scalePage(self, page):
+        orig_dimensions = page.mediaBox[2:]
+        scale_dimensions = (self.PAGE_SIZES[self.scale_output_to][1][0]*PIXELS_PER_INCH,self.PAGE_SIZES[self.scale_output_to][1][1]*PIXELS_PER_INCH)
+        max_dim_idx = orig_dimensions.index(max(orig_dimensions))
+        min_dim_idx = int(not(max_dim_idx))
+        page.scaleTo(scale_dimensions[min_dim_idx],scale_dimensions[max_dim_idx])
+        return page
     
 def generate_base_copy_instances():
    #return a list of copies. Pass this function to prevent calling StringVars/IntVars before tk.Tk()
@@ -192,4 +202,5 @@ def generate_base_copy_instances():
                         )
    
     return [shop_copy, foreman_copy, machine_copy, burn_copy, bend_copy, file_copy]
+
 
