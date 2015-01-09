@@ -21,7 +21,9 @@ class Stamp(object):
         self.kind = tk.StringVar()
         if kind is not None:
             self.kind.set(kind)
-        self.content = content or ""
+        self.content = tk.StringVar()
+        if content is not None:
+            self.content.set(content)
         #TODO: Make these options later
         self.font = 20
         self.offset=0.25*self.font
@@ -30,10 +32,12 @@ class Stamp(object):
         self.kind.set(self.TYPES[type_index])
     
     def set_content(self, content):
-        self.content = content
+        self.content.set(content)
         
-    def get_content(self):
+    def get_content_var(self):
         return self.content
+    def get_content(self):
+        return self.content.get()
 
     def get_type(self):
         return self.kind
@@ -49,7 +53,7 @@ class Stamp(object):
             main_canvas = canvas.Canvas(packet, (widthPoints, heightPoints))
             main_canvas.setFillColorRGB(1,0,0,alpha=0.5)
             main_canvas.setFont("Helvetica-Bold", self.font)
-            main_canvas.drawString(50, 150*(index+1), self.content)
+            main_canvas.drawString(50, 150*(index+1), self.get_content())
             main_canvas.save()
             
             stamped_pdf = PdfFileReader(packet)

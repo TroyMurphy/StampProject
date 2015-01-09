@@ -96,7 +96,7 @@ class StampPDFCopy(object):
                                          " " + self.get_condition() + " " +
                                          str(self.test_page_size_filter(page))):
                 return_page = self.stamp_page(page)
-                if self.scale_output_to is not None:
+                if self.scale_output_to not in (None,""):
                     return_page = self.scalePage(return_page)
                 writer.addPage(return_page)
                 print("Added %d of %d" % (progress_count, progress_end))

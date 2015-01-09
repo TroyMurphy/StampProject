@@ -18,6 +18,8 @@ BUTTON_PADDING = 20
 LABEL_FRAME_PADDING = 5
 #DEFAULT_OUTPUT_NAME = lambda:"output.pdf"
 DEFAULT_OUTPUT_NAME = lambda:"COPYSET_"+datetime.now().strftime("%y_%m_%d_%H-%M-%S")+".pdf"
+INPUT_MESSAGE = "Choose a file"
+OUTPUT_MESSAGE = "Choose an output destination folder (default set by input)"
 
 class TkStampManager():
     PAGE_SIZES= StampPDFCopy.PAGE_SIZES
@@ -44,8 +46,8 @@ class TkStampManager():
 
         self.out_filepath_button_text.set("Open")
         self.in_filepath_button_text.set("Open")
-        self.input_filepath.set("Choose a file")
-        self.output_filepath.set("Choose a file or set Input for default")
+        self.input_filepath.set(INPUT_MESSAGE)
+        self.output_filepath.set(OUTPUT_MESSAGE)
         
         self.stamp_dict = {}
         self.created_copies_list = copyListFunc()
@@ -67,12 +69,12 @@ class TkStampManager():
                 
             def _build_filter_frame(window):
                 filter_frame = tk.LabelFrame(master=window, text="Filter Manager", labelanchor=tk.N,pady=LABEL_FRAME_PADDING)
-                filter1_label = tk.Label(master=filter_frame, text="Page Contains Text:")
+                filter1_label = tk.Label(master=filter_frame, text="Page Contains Text \n(separate keywords with comma):")
                 filter1_entry = tk.Entry(master=filter_frame, textvariable=self.text_filter_keyphrase)
                 condition_frame = tk.Frame(master=filter_frame)
-                radiobutton_and = tk.Radiobutton(master=condition_frame, variable=self.condition_string, value="and",text="OR")
+                radiobutton_and = tk.Radiobutton(master=condition_frame, variable=self.condition_string, value="and",text="AND")
                 radiobutton_all = tk.Radiobutton(master=condition_frame, variable=self.condition_string, value="all", text="ALL")
-                radiobutton_or = tk.Radiobutton(master=condition_frame, variable=self.condition_string, value="or", text="AND")
+                radiobutton_or = tk.Radiobutton(master=condition_frame, variable=self.condition_string, value="or", text="OR")
                 filter2_label = tk.Label(master=filter_frame, text="Page is Size:")
                 filter2_options = tk.OptionMenu(filter_frame, self.page_size_filter, *self.PAGE_SIZES.keys())
             
@@ -99,7 +101,7 @@ class TkStampManager():
             
                 for k in self.stamp_dict.keys():
                     stamp_type_optionmenu = tk.OptionMenu(self.stamp_frame, self.stamp_dict[k].get_type(), *self.PAGE_STAMP_TYPES)
-                    stamp_content_entry = tk.Entry(master=self.stamp_frame, text="", textvariable=self.stamp_dict[k].get_content())
+                    stamp_content_entry = tk.Entry(master=self.stamp_frame, text="", textvariable=self.stamp_dict[k].get_content_var())
                     
                     stamp_type_optionmenu.grid(row=k, column=0, sticky=tk.W+tk.E)
                     stamp_content_entry.grid(row=k, column=1)
@@ -187,7 +189,7 @@ class TkStampManager():
         self.out_filepath_button_text.set("Change")
         
     def _outfile_search(self):
-        self.output_filepath.set(askopenfilename())
+        self.output_filepath.set(askopenfilename() or OUTPUT_MESSAGE)
         self.out_filepath_button_text.set("Change")
     
         
@@ -195,7 +197,7 @@ class TkStampManager():
         next_stamp_key = len(self.stamp_dict)
         self.stamp_dict[next_stamp_key] = Stamp()
         stamp_type_optionmenu = tk.OptionMenu(self.stamp_frame, self.stamp_dict[next_stamp_key].get_type(), *self.PAGE_STAMP_TYPES)
-        stamp_content_entry = tk.Entry(master=self.stamp_frame, text="", textvariable=self.stamp_dict[next_stamp_key].get_content())
+        stamp_content_entry = tk.Entry(master=self.stamp_frame, text="", textvariable=self.stamp_dict[next_stamp_key].get_content_var())
             
         stamp_type_optionmenu.grid(row=next_stamp_key, column=0, sticky=tk.W+tk.E)
         stamp_content_entry.grid(row=next_stamp_key, column=1)
@@ -205,7 +207,8 @@ class TkStampManager():
         
     def _submit_copy(self):
         if (self.condition_string.get() is not None and self.copy_name.get() is not ""):
-            if self.condition_string=="all" or (self.page_size_filter.get()!="" and self.text_filter_keyphrase.get() !=""):
+            
+            if (self.condition_string=="all") or ((self.page_size_filter.get() not in (None,"")) or (self.text_filter_keyphrase.get() not in (None,""))):
                 c = StampPDFCopy(
                             copy_name=str(self.copy_name.get()),
                             text_filter_content=str(self.text_filter_keyphrase.get()),
@@ -216,6 +219,8 @@ class TkStampManager():
                             )
             else:
                 print("Conditions or All Filter Required")
+                tkMessageBox.showerror("Cannot Create Copy", "At least one condition must be set if condition is not all")
+                return 0
             self.created_copies_list.append(c)
             print("Copy Created")
             #insert into checkbutton frame in center for final selection
@@ -224,7 +229,8 @@ class TkStampManager():
             insert_checkbox.grid(row=len(self.created_copies_list),sticky=tk.W+tk.E)
             
             return c
-        print ("{} is None".format("condition" if self.condition_string.get() is None else "name"))
+        tkMessageBox.showerror("Cannot Create Copy","{} is required, but empty".format("Condition" if self.condition_string.get() is None else "Name"))
+        
         return False
     
     def _final_submit_func(self):
@@ -239,9 +245,22 @@ class TkStampManager():
             except:
                 tkMessageBox.showerror("Bad Filepath", "Output file selection does not exist")
                 return 0
-            
             return outfile
-        infile = file(self.input_filepath.get(), 'rb')
+        def test_pdf(filename):
+            try:
+                infile= file(self.input_filepath.get(), 'rb')
+                PdfFileReader(infile)
+                
+            except:
+                tkMessageBox.showerror("Not PDF", "Cannot create PDF file from input document")
+                return 0
+            return infile
+            
+        input_filename = self.input_filepath.get()
+        infile = test_pdf(input_filename)
+        if infile==0:
+            return 0
+        
         writer = PdfFileWriter()
         
         output_filename = self.output_filepath.get()
